@@ -5,7 +5,7 @@
 - [~] Task: Confirm the permitted Microsoft 365 environment and governance envelope
     - [ ] Verify Teams Approvals availability, standard connector licensing, DLP policy, and Dataverse provisioning state
     - [ ] Confirm the pilot data classification, retention expectation, and authorised workflow owners
-    - [x] Record external blockers without embedding tenant identifiers or credentials
+    - [x] Record external blockers without embedding tenant identifiers or credentials [d502a49]
 - [ ] Task: Define the solution contract and configuration schema
     - [ ] Write validation fixtures for request, outcome, and approver configuration records
     - [ ] Define required fields, statuses, immutable audit fields, and owner permissions
