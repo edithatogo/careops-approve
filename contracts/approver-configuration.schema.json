@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careops.example/schemas/approver-configuration.schema.json",
+  "title": "CareOps approver configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["configurationVersion", "effectiveFrom", "ownerGroup", "primaryApprover", "status"],
+  "properties": {
+    "configurationVersion": { "type": "string", "minLength": 1, "maxLength": 100 },
+    "effectiveFrom": { "type": "string", "format": "date-time" },
+    "ownerGroup": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "primaryApprover": { "$ref": "#/$defs/identity" },
+    "fallbackApprover": { "$ref": "#/$defs/identity" },
+    "status": { "enum": ["Active", "Inactive"] }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["displayName", "email"],
+      "properties": {
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "email": { "type": "string", "format": "email", "maxLength": 320 }
+      }
+    }
+  }
+}

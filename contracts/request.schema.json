@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careops.example/schemas/request.schema.json",
+  "title": "CareOps approval request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["requestId", "title", "description", "requester", "submittedAt", "status", "assignedApprover"],
+  "properties": {
+    "requestId": { "type": "string", "pattern": "^CA-[0-9A-Z-]{8,64}$" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "description": { "type": "string", "minLength": 1, "maxLength": 10000 },
+    "supportingUrl": { "type": "string", "format": "uri", "maxLength": 2048 },
+    "requester": { "$ref": "#/$defs/identity" },
+    "submittedAt": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["Submitted", "Pending", "Approved", "Rejected", "Failed", "Cancelled"] },
+    "assignedApprover": { "$ref": "#/$defs/identity" },
+    "approverConfigurationVersion": { "type": "string", "minLength": 1, "maxLength": 100 }
+  },
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["displayName", "email"],
+      "properties": {
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "email": { "type": "string", "format": "email", "maxLength": 320 }
+      }
+    }
+  }
+}

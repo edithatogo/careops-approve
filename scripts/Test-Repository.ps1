@@ -22,6 +22,14 @@ $required = @(
     'docs/repository-topology.md',
     'docs/tenant-fit-checklist.md',
     'docs/low-privilege-architecture.md',
+    'contracts/request.schema.json',
+    'contracts/decision.schema.json',
+    'contracts/approver-configuration.schema.json',
+    'contracts/README.md',
+    'contracts/fixtures/request.valid.json',
+    'contracts/fixtures/decision.valid.json',
+    'contracts/fixtures/approver-configuration.valid.json',
+    'scripts/Test-Contracts.ps1',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -87,5 +95,7 @@ foreach ($file in $trackedFiles) {
         }
     }
 }
+
+& (Join-Path $root 'scripts/Test-Contracts.ps1')
 
 Write-Output 'Repository validation passed.'

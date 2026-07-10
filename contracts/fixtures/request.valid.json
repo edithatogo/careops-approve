@@ -1,0 +1,11 @@
+{
+  "requestId": "CA-20260710-AB12CD34",
+  "title": "Approve pilot communications",
+  "description": "Review the proposed pilot communications pack.",
+  "supportingUrl": "https://contoso.example/pilot-pack",
+  "requester": { "displayName": "Requester", "email": "requester@example.invalid" },
+  "submittedAt": "2026-07-10T00:00:00Z",
+  "status": "Submitted",
+  "assignedApprover": { "displayName": "Primary Approver", "email": "approver@example.invalid" },
+  "approverConfigurationVersion": "2026-07-10T00:00:00Z"
+}

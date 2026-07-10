@@ -1,0 +1,8 @@
+{
+  "requestId": "CA-20260710-AB12CD34",
+  "outcome": "Rejected",
+  "comment": "Please revise the attachment before resubmitting.",
+  "decidedBy": { "displayName": "Primary Approver", "email": "approver@example.invalid" },
+  "decidedAt": "2026-07-10T01:00:00Z",
+  "approvalResponseId": "approval-response-example"
+}

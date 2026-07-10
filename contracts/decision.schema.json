@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careops.example/schemas/decision.schema.json",
+  "title": "CareOps approval decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["requestId", "outcome", "decidedBy", "decidedAt"],
+  "properties": {
+    "requestId": { "type": "string", "pattern": "^CA-[0-9A-Z-]{8,64}$" },
+    "outcome": { "enum": ["Approved", "Rejected", "Cancelled", "Failed"] },
+    "comment": { "type": "string", "maxLength": 5000 },
+    "decidedBy": { "$ref": "#/$defs/identity" },
+    "decidedAt": { "type": "string", "format": "date-time" },
+    "approvalResponseId": { "type": "string", "minLength": 1, "maxLength": 200 }
+  },
+  "allOf": [
+    { "if": { "properties": { "outcome": { "const": "Rejected" } } }, "then": { "required": ["comment"], "properties": { "comment": { "minLength": 1 } } } }
+  ],
+  "$defs": {
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["displayName", "email"],
+      "properties": {
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "email": { "type": "string", "format": "email", "maxLength": 320 }
+      }
+    }
+  }
+}

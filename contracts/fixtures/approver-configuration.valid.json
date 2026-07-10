@@ -1,0 +1,8 @@
+{
+  "configurationVersion": "2026-07-10T00:00:00Z",
+  "effectiveFrom": "2026-07-10T00:00:00Z",
+  "ownerGroup": "CareOps workflow owners",
+  "primaryApprover": { "displayName": "Primary Approver", "email": "approver@example.invalid" },
+  "fallbackApprover": { "displayName": "Fallback Approver", "email": "fallback@example.invalid" },
+  "status": "Active"
+}
