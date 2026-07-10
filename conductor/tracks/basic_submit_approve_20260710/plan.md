@@ -73,9 +73,9 @@
 
 ## Phase 4: Administration, Deployment, and Pilot
 
-- [ ] Task: Implement controlled approver administration
-    - [ ] Write permission and prospective-change validation scenarios
-    - [ ] Provide an owner procedure to add, replace, deactivate, and reorder approvers
+- [~] Task: Implement controlled approver administration
+    - [x] Write permission and prospective-change validation scenarios [189ee11]
+    - [x] Provide an owner procedure to add, replace, deactivate, and reorder approvers [189ee11]
     - [ ] Verify existing approvals remain assigned to their original approver
 - [ ] Task: Complete deployment and support runbooks
     - [ ] Document prerequisites, connection ownership, deployment, rollback, and recovery
