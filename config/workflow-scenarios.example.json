@@ -1,0 +1,15 @@
+{
+  "submissionScenarios": [
+    { "name": "valid submission", "title": "Review request", "description": "Request details", "expected": "accepted" },
+    { "name": "missing title", "title": "", "description": "Request details", "expected": "rejected" },
+    { "name": "missing description", "title": "Review request", "description": "", "expected": "rejected" },
+    { "name": "accepted initial state", "title": "Review request", "description": "Request details", "expectedStatus": "Submitted", "expected": "accepted" }
+  ],
+  "routingScenarios": [
+    { "name": "active primary", "primary": "primary@example.invalid", "fallback": "fallback@example.invalid", "primaryStatus": "Active", "expected": "primary@example.invalid" },
+    { "name": "inactive primary uses fallback", "primary": "primary@example.invalid", "fallback": "fallback@example.invalid", "primaryStatus": "Inactive", "expected": "fallback@example.invalid" },
+    { "name": "duplicate active primary fails", "primary": "primary@example.invalid", "fallback": "fallback@example.invalid", "duplicateActive": true, "expected": "configuration-error" },
+    { "name": "empty configuration fails", "primary": "", "fallback": "", "expected": "configuration-error" },
+    { "name": "inactive without fallback fails", "primary": "primary@example.invalid", "fallback": "", "primaryStatus": "Inactive", "expected": "configuration-error" }
+  ]
+}
