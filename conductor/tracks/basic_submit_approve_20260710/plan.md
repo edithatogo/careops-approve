@@ -2,10 +2,10 @@
 
 ## Phase 1: Tenant Fit and Solution Contract
 
-- [ ] Task: Confirm the permitted Microsoft 365 environment and governance envelope
+- [~] Task: Confirm the permitted Microsoft 365 environment and governance envelope
     - [ ] Verify Teams Approvals availability, standard connector licensing, DLP policy, and Dataverse provisioning state
     - [ ] Confirm the pilot data classification, retention expectation, and authorised workflow owners
-    - [ ] Record external blockers without embedding tenant identifiers or credentials
+    - [x] Record external blockers without embedding tenant identifiers or credentials
 - [ ] Task: Define the solution contract and configuration schema
     - [ ] Write validation fixtures for request, outcome, and approver configuration records
     - [ ] Define required fields, statuses, immutable audit fields, and owner permissions

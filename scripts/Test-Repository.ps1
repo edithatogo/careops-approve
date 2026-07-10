@@ -20,6 +20,7 @@ $required = @(
     'docs/alm.md',
     'docs/technology-radar.md',
     'docs/repository-topology.md',
+    'docs/tenant-fit-checklist.md',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
