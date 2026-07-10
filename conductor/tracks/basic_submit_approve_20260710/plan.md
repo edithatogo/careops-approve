@@ -10,10 +10,10 @@
     - [x] Write validation fixtures for request, outcome, and approver configuration records [92dd5a7]
     - [x] Define required fields, statuses, immutable audit fields, and owner permissions [92dd5a7]
     - [x] Define prospective approver-change behaviour and failure handling [92dd5a7]
-- [ ] Task: Evaluate Microsoft kits and frontier capabilities
-    - [ ] Assess Business Approvals Kit dependencies, licensing, DLP compatibility, and proportionality for the basic workflow
-    - [ ] Assess Microsoft Graph Approvals APIs and Power Apps Test Engine preview in an isolated environment
-    - [ ] Record adopt, trial, watch, or reject decisions with stable fallbacks and review dates
+- [x] Task: Evaluate Microsoft kits and frontier capabilities [6a1effe]
+    - [x] Assess Business Approvals Kit dependencies, licensing, DLP compatibility, and proportionality for the basic workflow [6a1effe]
+    - [x] Assess Microsoft Graph Approvals APIs and Power Apps Test Engine preview against the low-privilege boundary; defer isolated tenant trials [6a1effe]
+    - [x] Record adopt, trial, watch, or reject decisions with stable fallbacks and review dates [6a1effe]
 - [~] Task: Constrain the MVP to low-privilege Microsoft 365 surfaces [1b98799]
     - [x] Confirm no existing local Teams app or Agents Toolkit project is available to repurpose [1b98799]
     - [x] Confirm Agents Toolkit custom app upload is disabled for the account [1b98799]
