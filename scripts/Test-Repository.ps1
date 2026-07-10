@@ -38,6 +38,9 @@ $required = @(
     'docs/pipelines.md',
     'scripts/Test-SolutionSource.ps1',
     'scripts/Test-WorkflowContracts.ps1',
+    'config/sharepoint-lists.example.json',
+    'docs/sharepoint-data-contracts.md',
+    'scripts/Test-SharePointContracts.ps1',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -107,5 +110,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-Contracts.ps1')
 & (Join-Path $root 'scripts/Test-SolutionSource.ps1')
 & (Join-Path $root 'scripts/Test-WorkflowContracts.ps1')
+& (Join-Path $root 'scripts/Test-SharePointContracts.ps1')
 
 Write-Output 'Repository validation passed.'

@@ -1,0 +1,49 @@
+{
+  "siteUrl": "provided by approved tenant configuration",
+  "lists": [
+    {
+      "name": "CareOps_Submissions",
+      "purpose": "Requester-submitted records and immutable routing snapshot",
+      "permissions": { "requesters": "create-and-read-own", "owners": "full-control", "approvers": "read-assigned" },
+      "fields": [
+        { "name": "RequestId", "type": "text", "required": true, "immutableAfterCreate": true },
+        { "name": "Title", "type": "text", "required": true },
+        { "name": "Description", "type": "multiline-text", "required": true },
+        { "name": "SupportingUrl", "type": "url", "required": false },
+        { "name": "RequesterEmail", "type": "text", "required": true, "immutableAfterCreate": true },
+        { "name": "SubmittedAt", "type": "date-time", "required": true, "immutableAfterCreate": true },
+        { "name": "Status", "type": "choice", "required": true, "choices": ["Submitted", "Pending", "Approved", "Rejected", "Failed", "Cancelled"] },
+        { "name": "AssignedApproverEmail", "type": "text", "required": true, "immutableAfterCreate": true },
+        { "name": "ApproverConfigurationVersion", "type": "text", "required": true, "immutableAfterCreate": true }
+      ]
+    },
+    {
+      "name": "CareOps_Decisions",
+      "purpose": "One final decision record per request",
+      "permissions": { "requesters": "read-related", "owners": "full-control", "approvers": "create-assigned" },
+      "fields": [
+        { "name": "RequestId", "type": "text", "required": true, "immutableAfterCreate": true },
+        { "name": "Outcome", "type": "choice", "required": true, "choices": ["Approved", "Rejected", "Cancelled", "Failed"] },
+        { "name": "Comment", "type": "multiline-text", "required": false },
+        { "name": "DecidedByEmail", "type": "text", "required": true, "immutableAfterCreate": true },
+        { "name": "DecidedAt", "type": "date-time", "required": true, "immutableAfterCreate": true },
+        { "name": "ApprovalResponseId", "type": "text", "required": true, "immutableAfterCreate": true }
+      ],
+      "rules": ["one-final-record-per-request", "rejected-requires-comment"]
+    },
+    {
+      "name": "CareOps_ApproverConfiguration",
+      "purpose": "Owner-managed active primary and optional fallback approver",
+      "permissions": { "requesters": "no-access", "owners": "full-control", "approvers": "no-access" },
+      "fields": [
+        { "name": "ConfigurationVersion", "type": "text", "required": true, "immutableAfterCreate": true },
+        { "name": "EffectiveFrom", "type": "date-time", "required": true, "immutableAfterCreate": true },
+        { "name": "OwnerGroup", "type": "text", "required": true },
+        { "name": "PrimaryApproverEmail", "type": "text", "required": true },
+        { "name": "FallbackApproverEmail", "type": "text", "required": false },
+        { "name": "Status", "type": "choice", "required": true, "choices": ["Active", "Inactive"] }
+      ],
+      "rules": ["at-most-one-active-configuration", "active-requires-primary", "changes-affect-new-submissions-only"]
+    }
+  ]
+}
