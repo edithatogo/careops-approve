@@ -22,6 +22,7 @@ $required = @(
     'docs/repository-topology.md',
     'docs/tenant-fit-checklist.md',
     'docs/low-privilege-architecture.md',
+    'docs/frontier-capability-assessment.md',
     'contracts/request.schema.json',
     'contracts/decision.schema.json',
     'contracts/approver-configuration.schema.json',
