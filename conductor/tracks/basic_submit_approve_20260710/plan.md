@@ -25,10 +25,10 @@
 
 ## Phase 2: Source-Controlled Power Platform Foundation
 
-- [ ] Task: Establish solution-aware source artifacts
-    - [ ] Write checks for expected solution structure, connection references, and environment variables
-    - [ ] Create or import the unpacked CareOps Approve solution structure
-    - [ ] Document export, unpack, pack, and validation commands
+- [x] Task: Establish solution-aware source artifacts [12768ff]
+    - [x] Write checks for expected solution structure, connection references, and environment variables [12768ff]
+    - [x] Create the tenant-neutral unpacked CareOps Approve solution structure [12768ff]
+    - [x] Document export, unpack, pack, and validation commands [12768ff]
 - [ ] Task: Establish GitHub and GitHub Enterprise ALM automation
     - [ ] Add Microsoft Power Platform GitHub Actions for validation, packing, checker analysis, and protected deployment
     - [ ] Configure Dependabot monitoring for action updates and require review before adopting new major versions
