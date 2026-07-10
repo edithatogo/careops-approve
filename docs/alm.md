@@ -75,3 +75,10 @@ tracked explicitly; deployment must not piggyback on personal-host secrets.
 - Production deployment requires explicit approval and immutable build artifacts.
 - Preview features are isolated from the stable release path.
 - Rollback means redeploying the last validated managed solution, not editing production.
+
+Dependabot groups GitHub Actions patch and minor updates into reviewable pull
+requests. Major action updates are intentionally not grouped and require an
+explicit pull request review because action major versions can change runner,
+permission, or input contracts. `scripts/Test-WorkflowContracts.ps1` verifies
+that the repository retains the pack, checker, protected deployment, and
+non-destructive publication boundaries.
