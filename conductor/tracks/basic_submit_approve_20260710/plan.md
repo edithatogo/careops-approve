@@ -42,10 +42,10 @@
     - [ ] Obtain an approved GHE runner or hosted-runner entitlement for repository-native validation
     - [ ] Verify equivalent repository rules, Actions policy, environments, and protected secrets on both hosts
     - [ ] Verify branches and tags continue to publish to both remotes without destructive mirror deletion
-- [ ] Task: Establish governed Power Platform Pipelines promotion
-    - [ ] Define development, test or pilot, and production stages with environment-specific deployment settings
-    - [ ] Prefer service-principal delegated deployment and protected environment approvals where tenant policy permits
-    - [ ] Document the fallback GitHub Actions deployment path when Pipelines cannot be provisioned
+- [x] Task: Establish governed Power Platform Pipelines promotion [5ba68df]
+    - [x] Define development, test or pilot, and production stages with environment-specific deployment settings [5ba68df]
+    - [x] Prefer service-principal delegated deployment and protected environment approvals where tenant policy permits [5ba68df]
+    - [x] Document the fallback GitHub Actions deployment path when Pipelines cannot be provisioned [5ba68df]
 - [ ] Task: Create SharePoint data contracts
     - [ ] Write checks for submission, outcome, and approver configuration list definitions
     - [ ] Define least-privilege list permissions and owner configuration access
