@@ -25,8 +25,13 @@
 - [ ] Task: Establish GitHub and GitHub Enterprise ALM automation
     - [ ] Add Microsoft Power Platform GitHub Actions for validation, packing, checker analysis, and protected deployment
     - [ ] Configure Dependabot monitoring for action updates and require review before adopting new major versions
-    - [ ] Configure a GitHub Enterprise secondary remote and approved runner after the endpoint is supplied
-    - [ ] Verify branches and tags publish to both remotes without destructive mirror deletion
+    - [x] Configure dual GitHub CLI authentication for `nswhealth.ghe.com` and `github.com`
+    - [x] Configure NSW Health GHE as `origin` and the private personal repository as `github`
+    - [x] Set `main` to track GHE `origin/main` and publish current branches and tags to both hosts
+    - [x] Document host inference, explicit host targeting, token precedence, and Git credential routing
+    - [x] Document non-Git controls and the governed future transition to personal-primary authority
+    - [ ] Verify equivalent repository rules, Actions policy, environments, and protected secrets on both hosts
+    - [ ] Verify branches and tags continue to publish to both remotes without destructive mirror deletion
 - [ ] Task: Establish governed Power Platform Pipelines promotion
     - [ ] Define development, test or pilot, and production stages with environment-specific deployment settings
     - [ ] Prefer service-principal delegated deployment and protected environment approvals where tenant policy permits

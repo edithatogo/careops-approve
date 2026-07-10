@@ -17,6 +17,7 @@ $required = @(
     'conductor/tracks/basic_submit_approve_20260710/metadata.json',
     'docs/alm.md',
     'docs/technology-radar.md',
+    'docs/repository-topology.md',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -24,6 +25,22 @@ $required = @(
 
 $missing = $required | Where-Object {
     -not (Test-Path -LiteralPath (Join-Path $root $_))
+}
+
+$expectedRemotes = @{
+    origin = 'https://nswhealth.ghe.com/60217257/careops-approve.git'
+    github = 'https://github.com/edithatogo/careops-approve.git'
+}
+foreach ($remote in $expectedRemotes.GetEnumerator()) {
+    $actual = git -C $root remote get-url $remote.Key 2>$null
+    if ($LASTEXITCODE -ne 0 -or $actual -ne $remote.Value) {
+        throw "Remote '$($remote.Key)' must be '$($remote.Value)'."
+    }
+}
+
+$upstream = git -C $root rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>$null
+if ($LASTEXITCODE -ne 0 -or $upstream -ne 'origin/main') {
+    throw "The current branch must track origin/main; found '$upstream'."
 }
 if ($missing) {
     throw "Missing required files: $($missing -join ', ')"

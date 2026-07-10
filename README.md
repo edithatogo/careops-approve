@@ -26,7 +26,14 @@ stable.
 
 ## Repository publication
 
-The authoritative GitHub.com remote is
-`https://github.com/edithatogo/careops-approve.git`. A second GitHub Enterprise
-remote is supported by the repository tooling but cannot be activated until its
-hostname and repository URL are supplied and reachable from an approved runner.
+The current authoritative remote is the private NSW Health GHE repository:
+`https://nswhealth.ghe.com/60217257/careops-approve`. The private personal mirror is
+`https://github.com/edithatogo/careops-approve`.
+
+Local remote names are deliberately role-based:
+
+- `origin`: current NSW Health GHE authority and upstream for `main`.
+- `github`: private personal mirror and intended future authority after organisational exit.
+
+See [repository topology](docs/repository-topology.md) for authentication, publishing,
+and authority-transition procedures.

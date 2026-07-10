@@ -47,17 +47,21 @@ CoE Starter Kit merely to run the workflow.
 
 ## Repository topology
 
-- `origin`: private GitHub.com repository under `edithatogo`.
-- `ghe`: approved GitHub Enterprise repository, once supplied.
+- `origin`: current authoritative NSW Health GHE repository owned by managed user
+  `60217257` at `nswhealth.ghe.com`.
+- `github`: private personal mirror owned by `edithatogo` at `github.com`.
 
-GitHub Enterprise is a secondary publication target. The push procedure publishes
-branches and tags without `--mirror` deletion semantics. Repository settings,
-secrets, environments, issues, and Actions history are not Git objects and require
-separate enterprise configuration.
+The push procedure publishes branches and tags without `--mirror` deletion semantics.
+Repository settings, secrets, environments, issues, Actions history, and protection
+rules are not Git objects and must be configured and evidenced independently on each host.
 
-On GitHub Enterprise Server, use a self-hosted runner and ensure Microsoft actions
-are either permitted from GitHub.com or mirrored into the enterprise. Do not assume
-GitHub-hosted runners or Marketplace access are available.
+GitHub CLI stores and selects authentication per host. Commands run in this checkout
+normally infer GHE from `origin`; host-ambiguous commands must use `--hostname`, a
+fully qualified repository, `GH_HOST`, or `GH_REPO`. See `repository-topology.md`.
+
+NSW Health uses a `ghe.com` managed-user platform. Do not apply on-premises GitHub
+Enterprise Server assumptions such as mandatory self-hosted runners unless live host
+policy requires them.
 
 ## Release controls
 

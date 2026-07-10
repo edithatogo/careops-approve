@@ -65,6 +65,10 @@ configuration.
   target environments are available.
 - Maintain GitHub.com and GitHub Enterprise copies without embedding enterprise
   credentials or endpoint secrets in the repository.
+- Treat NSW Health GHE as the current authority and the private `edithatogo`
+  GitHub.com repository as a continuity mirror until a governed future transition.
+- Support simultaneous GitHub CLI authentication to `nswhealth.ghe.com` and
+  `github.com`, with explicit host selection for commands lacking repository context.
 - Evaluate Microsoft Business Approvals Kit and preview capabilities against explicit
   adoption gates; do not make a preview feature mandatory for the MVP.
 
@@ -84,6 +88,12 @@ configuration.
 11. The repository documents and tests the procedure for publishing branches and tags
     to both GitHub.com and an approved GitHub Enterprise repository.
 12. Every preview or frontier feature has a dated status, fallback, and adoption decision.
+13. `gh auth status` confirms healthy, distinct active identities for both hosts without
+    exposing tokens.
+14. `origin/main` is the active upstream on GHE and `github` receives branches and tags
+    through non-destructive publication.
+15. Documentation identifies which repository controls do not mirror through Git and
+    defines a governed procedure for eventually making GitHub.com authoritative.
 
 ## Out of Scope
 

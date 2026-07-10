@@ -18,8 +18,12 @@
 - Unpacked solution artifacts stored as text in Git.
 - Environment-specific values represented by connection references and environment
   variables rather than hard-coded tenant identifiers.
-- GitHub.com as the current authoritative remote and GitHub Enterprise as a
-  controlled secondary mirror once its endpoint and runner connectivity are approved.
+- NSW Health GHE (`nswhealth.ghe.com`) as the current authoritative remote using the
+  managed identity `60217257`.
+- Private GitHub.com repository under `edithatogo` as the continuity mirror and
+  intended future authority after a governed organisational transition.
+- Host-specific GitHub CLI authentication and Git credential routing; automation
+  must explicitly select its host and must not rely on a global token override.
 
 ## Microsoft Kits and Accelerators
 

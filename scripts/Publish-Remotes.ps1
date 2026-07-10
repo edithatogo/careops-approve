@@ -1,7 +1,7 @@
 [CmdletBinding(SupportsShouldProcess)]
 param(
-    [string]$GitHubRemote = 'origin',
-    [string]$GheRemote = 'ghe'
+    [string]$PrimaryRemote = 'origin',
+    [string]$PersonalMirrorRemote = 'github'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -11,7 +11,7 @@ if ($LASTEXITCODE -ne 0) {
     throw 'Unable to enumerate Git remotes.'
 }
 
-foreach ($remote in @($GitHubRemote, $GheRemote)) {
+foreach ($remote in @($PrimaryRemote, $PersonalMirrorRemote)) {
     if ($remote -notin $remotes) {
         throw "Required remote '$remote' is not configured."
     }
@@ -25,7 +25,7 @@ if ($status) {
     throw 'Refusing to publish with uncommitted changes.'
 }
 
-foreach ($remote in @($GitHubRemote, $GheRemote)) {
+foreach ($remote in @($PrimaryRemote, $PersonalMirrorRemote)) {
     if ($PSCmdlet.ShouldProcess($remote, 'push all branches and tags')) {
         git -C $root push $remote --all
         if ($LASTEXITCODE -ne 0) {
