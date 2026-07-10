@@ -44,6 +44,8 @@ $required = @(
     'config/workflow-scenarios.example.json',
     'scripts/Test-WorkflowScenarios.ps1',
     'docs/workflow-implementation.md',
+    'flows/submit-and-route.contract.json',
+    'scripts/Test-FlowBlueprint.ps1',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -115,5 +117,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-WorkflowContracts.ps1')
 & (Join-Path $root 'scripts/Test-SharePointContracts.ps1')
 & (Join-Path $root 'scripts/Test-WorkflowScenarios.ps1')
+& (Join-Path $root 'scripts/Test-FlowBlueprint.ps1')
 
 Write-Output 'Repository validation passed.'

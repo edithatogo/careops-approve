@@ -14,3 +14,8 @@ The first flow implementation must preserve the tested contract in
 The eventual Teams-accessible trigger and Power Automate actions remain tenant
 artifacts. This repository currently provides the contract, scenarios, and
 validation gate without embedding a SharePoint site, connection ID, or identity.
+
+`flows/submit-and-route.contract.json` is the build blueprint for those actions.
+It must be translated into a solution-aware cloud flow only after the tenant
+owner confirms the permitted Forms, SharePoint, Power Automate, and Teams
+Approvals surfaces.
