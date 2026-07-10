@@ -14,12 +14,12 @@
     - [ ] Assess Business Approvals Kit dependencies, licensing, DLP compatibility, and proportionality for the basic workflow
     - [ ] Assess Microsoft Graph Approvals APIs and Power Apps Test Engine preview in an isolated environment
     - [ ] Record adopt, trial, watch, or reject decisions with stable fallbacks and review dates
-- [ ] Task: Constrain the MVP to low-privilege Microsoft 365 surfaces
-    - [x] Confirm no existing local Teams app or Agents Toolkit project is available to repurpose
-    - [x] Confirm Agents Toolkit custom app upload is disabled for the account
-    - [x] Select native Teams Approvals plus standard Forms, SharePoint, and Power Automate as the MVP path
-    - [x] Record that custom Entra/Graph app registration and tenant-admin rights are out of scope
-    - [x] Record WAM failure, `WamDefaultSet: NO`, and `AzureAdPrt: NO` as workstation constraints
+- [~] Task: Constrain the MVP to low-privilege Microsoft 365 surfaces [1b98799]
+    - [x] Confirm no existing local Teams app or Agents Toolkit project is available to repurpose [1b98799]
+    - [x] Confirm Agents Toolkit custom app upload is disabled for the account [1b98799]
+    - [x] Select native Teams Approvals plus standard Forms, SharePoint, and Power Automate as the MVP path [1b98799]
+    - [x] Record that custom Entra/Graph app registration and tenant-admin rights are out of scope [1b98799]
+    - [x] Record WAM failure, `WamDefaultSet: NO`, and `AzureAdPrt: NO` as workstation constraints [1b98799]
     - [ ] Confirm the native Approvals, Forms, SharePoint, and standard connector path with a tenant owner
 - [ ] Task: Conductor - User Manual Verification 'Tenant Fit and Solution Contract' (Protocol in workflow.md)
 
