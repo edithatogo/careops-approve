@@ -17,7 +17,7 @@ jobs:
 
       - name: Validate repository contracts
         shell: pwsh
-        run: ./scripts/Test-Repository.ps1
+        run: ./scripts/Test-Repository.ps1 -SkipRemoteTopology
 
   power-platform-package:
     runs-on: windows-latest

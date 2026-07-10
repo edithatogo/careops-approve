@@ -66,6 +66,10 @@ The script requires a clean worktree and publishes all local branches and tags t
 `origin` first, then `github`. It does not use `git push --mirror`, force-push, or
 remote ref deletion.
 
+CI uses `Test-Repository.ps1 -SkipRemoteTopology` because an Actions checkout has
+only its host-local `origin`. The default local invocation retains strict checks for
+both remotes and the `origin/main` upstream.
+
 ## Controls that do not mirror with Git
 
 Maintain a separate checklist for each host covering:

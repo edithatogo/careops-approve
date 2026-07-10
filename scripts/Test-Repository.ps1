@@ -1,5 +1,7 @@
 [CmdletBinding()]
-param()
+param(
+    [switch]$SkipRemoteTopology
+)
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
@@ -27,20 +29,22 @@ $missing = $required | Where-Object {
     -not (Test-Path -LiteralPath (Join-Path $root $_))
 }
 
-$expectedRemotes = @{
-    origin = 'https://nswhealth.ghe.com/60217257/careops-approve.git'
-    github = 'https://github.com/edithatogo/careops-approve.git'
-}
-foreach ($remote in $expectedRemotes.GetEnumerator()) {
-    $actual = git -C $root remote get-url $remote.Key 2>$null
-    if ($LASTEXITCODE -ne 0 -or $actual -ne $remote.Value) {
-        throw "Remote '$($remote.Key)' must be '$($remote.Value)'."
+if (-not $SkipRemoteTopology) {
+    $expectedRemotes = @{
+        origin = 'https://nswhealth.ghe.com/60217257/careops-approve.git'
+        github = 'https://github.com/edithatogo/careops-approve.git'
     }
-}
+    foreach ($remote in $expectedRemotes.GetEnumerator()) {
+        $actual = git -C $root remote get-url $remote.Key 2>$null
+        if ($LASTEXITCODE -ne 0 -or $actual -ne $remote.Value) {
+            throw "Remote '$($remote.Key)' must be '$($remote.Value)'."
+        }
+    }
 
-$upstream = git -C $root rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>$null
-if ($LASTEXITCODE -ne 0 -or $upstream -ne 'origin/main') {
-    throw "The current branch must track origin/main; found '$upstream'."
+    $upstream = git -C $root rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>$null
+    if ($LASTEXITCODE -ne 0 -or $upstream -ne 'origin/main') {
+        throw "The current branch must track origin/main; found '$upstream'."
+    }
 }
 if ($missing) {
     throw "Missing required files: $($missing -join ', ')"

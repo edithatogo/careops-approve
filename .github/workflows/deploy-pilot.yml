@@ -27,7 +27,7 @@ jobs:
 
       - name: Validate repository contracts
         shell: pwsh
-        run: ./scripts/Test-Repository.ps1
+        run: ./scripts/Test-Repository.ps1 -SkipRemoteTopology
 
       - name: Install Microsoft Power Platform tools
         uses: microsoft/powerplatform-actions/actions-install@v1
