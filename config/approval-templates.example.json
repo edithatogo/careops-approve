@@ -1,0 +1,37 @@
+{
+  "status": "blueprint",
+  "templates": [
+    {
+      "templateId": "tesl-review",
+      "displayName": "TESL review",
+      "source": "tesl-email",
+      "requiredFields": ["teslId", "teslTitle", "teslStatus", "teslSummary"],
+      "stages": [
+        { "id": "primary", "assignedToRole": "primaryApprover", "timeoutDays": 14 },
+        { "id": "edms-escalation", "assignedToRole": "edmsEscalationApprover" }
+      ],
+      "delegation": {
+        "allowedRoles": ["executiveAssistant", "medicalWorkforceManager"],
+        "requiresVerbalDelegationRecord": true,
+        "requiredRecordFields": ["delegator", "delegationReason", "delegatedAt"],
+        "ownerNotification": true
+      }
+    },
+    {
+      "templateId": "edms-escalation",
+      "displayName": "EDMS escalation",
+      "source": "manual-or-tesl-escalation",
+      "requiredFields": ["requestId", "escalationReason", "sourceLink"],
+      "stages": [
+        { "id": "edms", "assignedToRole": "edmsEscalationApprover" }
+      ],
+      "delegation": {
+        "allowedRoles": ["executiveAssistant", "medicalWorkforceManager"],
+        "requiresVerbalDelegationRecord": true,
+        "requiredRecordFields": ["delegator", "delegationReason", "delegatedAt"],
+        "ownerNotification": true
+      }
+    }
+  ],
+  "tenantConfiguration": "not stored in source control"
+}

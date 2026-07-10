@@ -2,6 +2,8 @@
   "name": "CareOps TESL Email to Approval",
   "status": "blueprint",
   "surfaces": ["Office 365 Outlook", "SharePoint", "Power Automate", "Teams Approvals"],
+  "templateRef": "config/approval-templates.example.json",
+  "roleAssignments": "config/role-assignments.example.json",
   "trigger": {
     "type": "outlook-email-arrival",
     "operation": "When a new email arrives (V3)",
@@ -11,12 +13,17 @@
   "steps": [
     { "id": "match-tesl-email", "type": "subject-sender-folder-filter", "onFailure": "ignore-non-tesl-email" },
     { "id": "parse-tesl-details", "type": "alias-aware-header-and-body-parser", "mapping": "config/tesl-email-mapping.example.json", "onFailure": "preserve-and-alert-owner" },
+    { "id": "load-template", "type": "resolve-template-by-source-and-category", "onFailure": "preserve-and-alert-owner" },
     { "id": "validate-tesl-details", "type": "require-tesl-id-title-status-summary", "onFailure": "preserve-and-alert-owner" },
     { "id": "load-configuration", "type": "sharepoint-read-active-approver", "onFailure": "preserve-and-alert-owner" },
     { "id": "generate-request-id", "type": "idempotent-request-id" },
     { "id": "create-submission", "type": "sharepoint-create-item", "status": "Submitted", "immutable": ["requestId", "assignedApproverEmail", "approverConfigurationVersion", "sourceMessageId", "teslId"] },
     { "id": "create-approval", "type": "native-teams-approval", "responses": ["Approve", "Reject"], "assignedTo": "resolved-primary-or-fallback", "title": "TESL: teslTitle", "details": ["teslId", "teslStatus", "teslCategory", "teslOwner", "teslDueDate", "teslPriority", "teslSummary", "teslLink", "email.webLink"] },
-    { "id": "wait-for-decision", "type": "start-and-wait-for-an-approval" },
+    { "id": "wait-for-decision", "type": "wait-for-approval-or-14-day-timeout" },
+    { "id": "check-still-pending", "type": "re-read-submission-and-approval-status" },
+    { "id": "create-edms-escalation", "type": "native-teams-approval", "when": "still-pending-after-14-days", "assignedTo": "edmsEscalationApprover", "title": "EDMS escalation: teslTitle", "details": ["requestId", "teslId", "escalationReason", "sourceLink"] },
+    { "id": "wait-for-edms-decision", "type": "start-and-wait-for-an-approval", "when": "edms-escalation-created" },
+    { "id": "record-verbal-delegation", "type": "sharepoint-create-delegation-record", "when": "urgent-delegate-responds", "required": ["delegator", "delegate", "delegationReason", "delegatedAt", "requestId"], "notify": "workflowOwner" },
     { "id": "persist-outcome", "type": "sharepoint-create-decision", "immutable": ["requestId", "approvalId", "assignedApproverEmail", "outcome", "decidedAt"] },
     { "id": "notify-requester", "type": "outlook-send-email", "contains": ["requestId", "teslId", "outcome", "decisionComment", "approvalLink"] },
     { "id": "finalize", "type": "decision-persistence", "onDuplicate": "retain-first-final-outcome" }
@@ -26,7 +33,9 @@
     "invalid-tesl-details-preserves-email-and-alerts-owner",
     "invalid-configuration-preserves-submission-and-alerts-owner",
     "connector-failure-preserves-request-and-reports-actionable-error",
-    "duplicate-message-does-not-create-second-approval"
+    "duplicate-message-does-not-create-second-approval",
+    "pending-approval-escalates-to-edms-after-14-days",
+    "urgent-delegation-requires-auditable-verbal-delegation-record"
   ],
   "tenantConfiguration": "not stored in source control"
 }

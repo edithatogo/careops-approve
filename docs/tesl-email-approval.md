@@ -16,6 +16,11 @@ This repository therefore provides a tenant-neutral implementation boundary:
 - [`flows/tesl-email-to-approval.contract.json`](../flows/tesl-email-to-approval.contract.json)
   maps the process to Office 365 Outlook, SharePoint, Power Automate, and Teams
   Approvals actions.
+- [`config/approval-templates.example.json`](../config/approval-templates.example.json)
+  defines TESL and EDMS escalation templates.
+- [`config/role-assignments.example.json`](../config/role-assignments.example.json)
+  defines submitter, editor, normal approver, and urgent delegated-approver
+  roles without committing tenant UPNs.
 
 ## Intended flow
 
@@ -32,6 +37,17 @@ This repository therefore provides a tenant-neutral implementation boundary:
    the source email.
 7. The decision, comments, approver, timestamps, and request ID are persisted;
    the requester and TESL owner are notified.
+8. If the primary approval remains pending for 14 days, the flow escalates to
+   the EDMS approver and records the escalation stage.
+
+## Urgent verbal delegation
+
+Natalie Degidio and Kathryn Meharg are represented as the executive-assistant
+and medical-workforce-manager delegate roles. They may respond in an urgent
+case only when the delegated approval record captures the delegator, delegate,
+request ID, reason, and time, and notifies the workflow owner. This is an audit
+and routing control; it does not silently reassign an existing approval or
+create unrestricted approval authority.
 
 ## Tenant setup still required
 
@@ -43,6 +59,9 @@ committed here:
 - the actual TESL field syntax if it differs from the alias examples;
 - SharePoint site/list connection references;
 - the active CareOps approver configuration;
+- the exact approved UPNs for the executive assistant, medical workforce
+  manager, and EDMS escalation approver;
+- the authorised workflow editors/co-owners and their connection ownership;
 - the approved Power Automate environment and connection owners.
 
 The flow must be built or imported only after these values are confirmed by the

@@ -48,6 +48,8 @@ $required = @(
     'scripts/Test-FlowBlueprint.ps1',
     'flows/tesl-email-to-approval.contract.json',
     'config/tesl-email-mapping.example.json',
+    'config/approval-templates.example.json',
+    'config/role-assignments.example.json',
     'workflows/tesl-email-to-approval.bpmn',
     'scripts/Test-TeslApprovalArtifacts.ps1',
     'docs/tesl-email-approval.md',

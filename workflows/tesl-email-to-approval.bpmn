@@ -20,6 +20,15 @@
     <serviceTask id="Task_Create_Submission" name="Create immutable SharePoint submission" />
     <serviceTask id="Task_Create_Approval" name="Create Teams Approvals request" />
     <userTask id="Task_Decide" name="Approve or reject TESL request" />
+    <boundaryEvent id="Boundary_14_Days" name="14-day pending timeout" attachedToRef="Task_Decide" cancelActivity="true">
+      <timerEventDefinition>
+        <timeDuration> P14D </timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <serviceTask id="Task_Cancel_Initial" name="Cancel pending primary approval" />
+    <serviceTask id="Task_Create_EDMS" name="Create EDMS escalation approval" />
+    <userTask id="Task_EDMS_Decide" name="EDMS approve or reject escalated request" />
+    <serviceTask id="Task_Record_Delegation" name="Record verbal delegation when urgent delegate responds" />
     <serviceTask id="Task_Persist_Decision" name="Persist decision and immutable audit fields" />
     <serviceTask id="Task_Notify" name="Notify requester and TESL owner" />
     <endEvent id="End_Complete" name="TESL approval complete" />
@@ -36,7 +45,12 @@
     <sequenceFlow id="Flow_Resolve_Create" sourceRef="Task_Resolve_Approver" targetRef="Task_Create_Submission" />
     <sequenceFlow id="Flow_Submission_Approval" sourceRef="Task_Create_Submission" targetRef="Task_Create_Approval" />
     <sequenceFlow id="Flow_Approval_Decision" sourceRef="Task_Create_Approval" targetRef="Task_Decide" />
-    <sequenceFlow id="Flow_Decision_Persist" sourceRef="Task_Decide" targetRef="Task_Persist_Decision" />
+    <sequenceFlow id="Flow_Decision_Delegation" sourceRef="Task_Decide" targetRef="Task_Record_Delegation" />
+    <sequenceFlow id="Flow_Decision_Persist" sourceRef="Task_Record_Delegation" targetRef="Task_Persist_Decision" />
+    <sequenceFlow id="Flow_Timeout_Cancel" sourceRef="Boundary_14_Days" targetRef="Task_Cancel_Initial" />
+    <sequenceFlow id="Flow_Cancel_EDMS" sourceRef="Task_Cancel_Initial" targetRef="Task_Create_EDMS" />
+    <sequenceFlow id="Flow_EDMS_Decision" sourceRef="Task_Create_EDMS" targetRef="Task_EDMS_Decide" />
+    <sequenceFlow id="Flow_EDMS_Delegation" sourceRef="Task_EDMS_Decide" targetRef="Task_Record_Delegation" />
     <sequenceFlow id="Flow_Persist_Notify" sourceRef="Task_Persist_Decision" targetRef="Task_Notify" />
     <sequenceFlow id="Flow_Notify_End" sourceRef="Task_Notify" targetRef="End_Complete" />
   </process>

@@ -1,0 +1,24 @@
+{
+  "status": "blueprint",
+  "roles": {
+    "workflowOwner": { "displayName": "Tenant-provided workflow owner", "upn": "tenant-provided-upn" },
+    "requester": { "displayName": "Any authorised requester", "upn": "tenant-provided-upn" },
+    "executiveAssistant": { "displayName": "Natalie Degidio", "upn": "tenant-provided-upn" },
+    "medicalWorkforceManager": { "displayName": "Kathryn Meharg", "upn": "tenant-provided-upn" },
+    "primaryApprover": { "displayName": "Configured primary approver", "upn": "tenant-provided-upn" },
+    "edmsEscalationApprover": { "displayName": "Elaine Pretorius", "upn": "tenant-provided-upn" }
+  },
+  "permissions": {
+    "submitters": ["requester", "executiveAssistant", "medicalWorkforceManager"],
+    "workflowEditors": ["workflowOwner", "executiveAssistant", "medicalWorkforceManager"],
+    "normalApprovers": ["primaryApprover", "edmsEscalationApprover"],
+    "urgentDelegatedApprovers": ["executiveAssistant", "medicalWorkforceManager"]
+  },
+  "delegationPolicy": {
+    "mode": "recorded-verbal-delegation-only",
+    "requiredFields": ["delegator", "delegate", "delegationReason", "delegatedAt", "requestId"],
+    "requiresOwnerNotification": true,
+    "doesNotReassignExistingApproval": true
+  },
+  "tenantConfiguration": "Replace role references with approved UPNs in the tenant; do not commit personal email addresses."
+}
