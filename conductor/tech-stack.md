@@ -3,9 +3,15 @@
 ## Microsoft 365 Runtime
 
 - Microsoft Teams Approvals app for approver interaction.
+- Microsoft Forms or an equivalent standard Teams entry surface for submission.
 - Power Automate cloud flow using standard connectors.
 - SharePoint Online lists for submissions, approval outcomes, and approver configuration.
 - Microsoft Entra ID user identities for requesters, owners, and approvers.
+
+The MVP does not create a custom Teams app, Microsoft 365 agent, Entra app registration,
+Graph application, bot, or custom connector. The Agents Toolkit CLI is a local
+diagnostic/package tool only until tenant custom-app upload and any required consent
+are separately approved.
 
 ## Solution and Source Control
 
@@ -51,9 +57,24 @@
 - Automated checks for required flow actions, connection references, and configuration.
 - Manual end-to-end tests in a non-production Microsoft 365 environment.
 
+## Local Tooling Baseline
+
+- nvm-managed Node.js 22.23.1 with npm 10.9.8.
+- Microsoft 365 Agents Toolkit CLI 1.1.11 (`atk`); `atk doctor` runs successfully
+  with warnings that custom app upload is disabled, Azure Functions Core Tools is
+  absent, and a local certificate is absent.
+- MicrosoftTeams PowerShell module 7.8.0 installed for the current user.
+- `Connect-MicrosoftTeams -AccountId` attempted delegated WAM authentication but
+  failed with a WAM internal error; `dsregcmd` reports `WamDefaultSet: NO` and
+  `AzureAdPrt: NO`.
+- These local authentication facts do not imply tenant admin access and are not
+  sufficient to deploy or install a custom app.
+
 ## Constraints
 
 - No premium or custom connectors in the MVP.
+- No custom Teams app, agent, Entra app registration, Graph application permission,
+  or tenant-wide admin dependency in the MVP.
 - No hard-coded user object IDs or email addresses in flow logic.
 - No external data stores or public endpoints.
 - Deployment remains subject to tenant app, environment, DLP, retention, and licensing policy.

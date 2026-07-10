@@ -54,6 +54,8 @@ configuration.
 
 - Use Microsoft 365 standard connectors only.
 - Use named Microsoft Entra identities and least-privilege access.
+- Do not require a custom Teams app, Microsoft 365 agent, Entra app registration,
+  Graph application permission, tenant-wide admin role, or custom app upload.
 - Do not store secrets or fixed personal identifiers in source control.
 - Work through supported Teams approval surfaces on desktop, web, and mobile.
 - Keep the interaction suitable for a two-person pilot while allowing later roster growth.
@@ -71,6 +73,9 @@ configuration.
   `github.com`, with explicit host selection for commands lacking repository context.
 - Evaluate Microsoft Business Approvals Kit and preview capabilities against explicit
   adoption gates; do not make a preview feature mandatory for the MVP.
+- The implementation must repurpose the native Teams Approvals experience and use
+  standard Forms, SharePoint, and Power Automate surfaces unless a later scope change
+  is explicitly approved.
 
 ## Acceptance Criteria
 
@@ -99,6 +104,10 @@ configuration.
     evidence rather than an equivalent enterprise control.
 17. Power Platform deployment cannot proceed from the personal mirror using NSW Health
     credentials unless that execution path is explicitly approved and protected.
+18. The MVP can be configured without registering or deploying a custom Entra-backed
+    Teams app.
+19. The design records the WAM/PRT workstation limitation and provides a delegated,
+    standard-connector fallback where tenant policy permits.
 
 ## Out of Scope
 

@@ -8,6 +8,10 @@ named approvers.
 The initial implementation is planned under
 [`conductor/tracks/basic_submit_approve_20260710/`](conductor/tracks/basic_submit_approve_20260710/).
 
+The MVP deliberately repurposes Microsoft’s native Teams Approvals surface with
+standard Forms, SharePoint, and Power Automate capabilities. It is not a custom
+Teams app, agent, Entra app, or tenant-admin deployment.
+
 The engineering baseline is solution-aware Power Platform ALM with Microsoft
 Power Platform GitHub Actions, Power Platform Pipelines, and a controlled
 technology-radar process for preview features. See [ALM strategy](docs/alm.md)

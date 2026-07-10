@@ -17,10 +17,18 @@ tenant exports belong in this file.
 - [x] GHE hosted runners are disabled for this repository and no repository runner is assigned.
 - [x] Personal GitHub validation passes against the same commit; this is supporting evidence,
       not equivalent GHE-native control.
+- [x] Agents Toolkit CLI 1.1.11 is installed and `atk doctor` can run locally.
+- [x] `atk doctor` reports custom app upload is disabled for the tenant account.
+- [x] MicrosoftTeams PowerShell 7.8.0 is installed for the current user.
+- [x] Delegated Teams PowerShell WAM authentication was attempted and failed with a WAM
+      internal error; the workstation reports `WamDefaultSet: NO` and `AzureAdPrt: NO`.
+- [x] No existing local Teams app manifest or Agents Toolkit project was found to repurpose.
 
 ## Tenant administrator evidence required
 
 - [ ] Teams Approvals app is enabled for the pilot users and permitted by app policy.
+- [ ] Microsoft Forms is enabled for the pilot users, or an equivalent standard Teams
+      submission surface is approved.
 - [ ] Power Automate licensing covers the standard Approvals and Microsoft 365 connectors.
 - [ ] The target Power Platform environment has Dataverse provisioned if required by the
       selected Approvals or Business Approvals Kit path.
