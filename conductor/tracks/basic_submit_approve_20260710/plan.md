@@ -59,7 +59,7 @@
     - [x] Define the tenant-neutral submit, persist, acknowledge, and failure-path blueprint [85fedee]
     - [ ] Create the Teams-accessible submission trigger and persistence actions
     - [ ] Confirm requester acknowledgement contains request ID and resolved approver
-    - [x] Add TESL email intake, field mapping, BPMN 2.0 process, and Teams approval blueprint [pending]
+    - [x] Add TESL email intake, field mapping, BPMN 2.0 process, and Teams approval blueprint [727eff3]
 - [~] Task: Implement configurable approver resolution
     - [x] Write tests for primary approver, fallback, inactive entries, duplicate entries, and empty configuration [d204290]
     - [x] Define the tenant-neutral configuration lookup and routing failure blueprint [85fedee]
@@ -70,7 +70,7 @@
     - [ ] Create the Approve/Reject request and require rejection comments
     - [ ] Persist the immutable assigned approver and final outcome
     - [ ] Notify the requester of the decision or actionable failure
-    - [x] Surface TESL details, source email link, and immutable TESL metadata in the approval blueprint [pending]
+    - [x] Surface TESL details, source email link, and immutable TESL metadata in the approval blueprint [727eff3]
 - [ ] Task: Conductor - User Manual Verification 'Submit and Approve Flow' (Protocol in workflow.md)
 
 ## Phase 4: Administration, Deployment, and Pilot
