@@ -12,12 +12,18 @@ concurrency:
 
 jobs:
   deploy:
-    if: ${{ hashFiles('src/solutions/CareOpsApprove/Other/Solution.xml') != '' }}
     runs-on: windows-latest
     environment: pilot
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Require solution source
+        shell: pwsh
+        run: |
+          if (-not (Test-Path 'src/solutions/CareOpsApprove/Other/Solution.xml')) {
+            throw 'CareOpsApprove solution source has not been harvested yet.'
+          }
 
       - name: Validate repository contracts
         shell: pwsh
