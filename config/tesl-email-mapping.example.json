@@ -1,0 +1,28 @@
+{
+  "status": "blueprint",
+  "source": {
+    "connector": "Office 365 Outlook",
+    "trigger": "When a new email arrives (V3)",
+    "mailbox": "tenant-provided mailbox or folder",
+    "folder": "tenant-provided TESL folder",
+    "tenantConfiguration": "not stored in source control"
+  },
+  "match": {
+    "subjectContains": ["TESL"],
+    "senderAllowList": [],
+    "requireStructuredMarker": false
+  },
+  "fields": {
+    "teslId": { "aliases": ["TESL-ID", "TESL ID", "teslId"], "required": true },
+    "teslTitle": { "aliases": ["TESL-Title", "TESL Title", "teslTitle"], "fallback": "email.subject", "required": true },
+    "teslStatus": { "aliases": ["TESL-Status", "TESL Status", "teslStatus"], "fallback": "New", "required": true },
+    "teslCategory": { "aliases": ["TESL-Category", "TESL Category", "teslCategory"], "fallback": "Unclassified" },
+    "teslOwner": { "aliases": ["TESL-Owner", "TESL Owner", "teslOwner"] },
+    "teslDueDate": { "aliases": ["TESL-Due-Date", "TESL Due Date", "teslDueDate"] },
+    "teslPriority": { "aliases": ["TESL-Priority", "TESL Priority", "teslPriority"], "fallback": "Medium" },
+    "teslSummary": { "aliases": ["TESL-Summary", "TESL Summary", "teslSummary"], "fallback": "email.bodyPreview", "required": true },
+    "teslLink": { "aliases": ["TESL-Link", "TESL Link", "teslLink"], "fallback": "email.webLink" }
+  },
+  "preservedEmailMetadata": ["messageId", "internetMessageId", "receivedAt", "from", "subject", "webLink"],
+  "unknownFields": "preserve-in-rawTeslDetails"
+}

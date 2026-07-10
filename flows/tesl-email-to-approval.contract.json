@@ -1,0 +1,32 @@
+{
+  "name": "CareOps TESL Email to Approval",
+  "status": "blueprint",
+  "surfaces": ["Office 365 Outlook", "SharePoint", "Power Automate", "Teams Approvals"],
+  "trigger": {
+    "type": "outlook-email-arrival",
+    "operation": "When a new email arrives (V3)",
+    "configuration": "tenant-provided mailbox, folder, sender allow-list, and subject marker",
+    "inputs": ["messageId", "from", "receivedAt", "subject", "bodyPreview", "webLink", "attachments"]
+  },
+  "steps": [
+    { "id": "match-tesl-email", "type": "subject-sender-folder-filter", "onFailure": "ignore-non-tesl-email" },
+    { "id": "parse-tesl-details", "type": "alias-aware-header-and-body-parser", "mapping": "config/tesl-email-mapping.example.json", "onFailure": "preserve-and-alert-owner" },
+    { "id": "validate-tesl-details", "type": "require-tesl-id-title-status-summary", "onFailure": "preserve-and-alert-owner" },
+    { "id": "load-configuration", "type": "sharepoint-read-active-approver", "onFailure": "preserve-and-alert-owner" },
+    { "id": "generate-request-id", "type": "idempotent-request-id" },
+    { "id": "create-submission", "type": "sharepoint-create-item", "status": "Submitted", "immutable": ["requestId", "assignedApproverEmail", "approverConfigurationVersion", "sourceMessageId", "teslId"] },
+    { "id": "create-approval", "type": "native-teams-approval", "responses": ["Approve", "Reject"], "assignedTo": "resolved-primary-or-fallback", "title": "TESL: teslTitle", "details": ["teslId", "teslStatus", "teslCategory", "teslOwner", "teslDueDate", "teslPriority", "teslSummary", "teslLink", "email.webLink"] },
+    { "id": "wait-for-decision", "type": "start-and-wait-for-an-approval" },
+    { "id": "persist-outcome", "type": "sharepoint-create-decision", "immutable": ["requestId", "approvalId", "assignedApproverEmail", "outcome", "decidedAt"] },
+    { "id": "notify-requester", "type": "outlook-send-email", "contains": ["requestId", "teslId", "outcome", "decisionComment", "approvalLink"] },
+    { "id": "finalize", "type": "decision-persistence", "onDuplicate": "retain-first-final-outcome" }
+  ],
+  "failurePaths": [
+    "non-tesl-email-is-ignored",
+    "invalid-tesl-details-preserves-email-and-alerts-owner",
+    "invalid-configuration-preserves-submission-and-alerts-owner",
+    "connector-failure-preserves-request-and-reports-actionable-error",
+    "duplicate-message-does-not-create-second-approval"
+  ],
+  "tenantConfiguration": "not stored in source control"
+}

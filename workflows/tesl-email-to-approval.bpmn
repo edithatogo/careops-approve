@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             id="Definitions_TESL_Email_Approval"
+             targetNamespace="https://careops.example.invalid/bpmn/tesl-email-approval">
+  <message id="Message_TESL_Email" name="TESL email received" />
+  <process id="Process_TESL_Email_Approval" name="TESL email to CareOps approval" isExecutable="false">
+    <startEvent id="Start_TESL_Email" name="TESL email received">
+      <messageEventDefinition messageRef="Message_TESL_Email" />
+    </startEvent>
+    <serviceTask id="Task_Match_Email" name="Match TESL mailbox, folder, sender, and subject" />
+    <exclusiveGateway id="Gateway_Is_TESL" name="TESL email?" />
+    <endEvent id="End_Ignore_Email" name="Ignore non-TESL email" />
+    <serviceTask id="Task_Parse_TESL" name="Parse TESL details using configured aliases" />
+    <serviceTask id="Task_Validate_TESL" name="Validate TESL ID, title, status, and summary" />
+    <exclusiveGateway id="Gateway_Valid_TESL" name="TESL details valid?" />
+    <serviceTask id="Task_Preserve_Alert" name="Preserve source and alert workflow owner" />
+    <endEvent id="End_Invalid_TESL" name="TESL validation failure" />
+    <serviceTask id="Task_Resolve_Approver" name="Resolve active CareOps approver" />
+    <serviceTask id="Task_Create_Submission" name="Create immutable SharePoint submission" />
+    <serviceTask id="Task_Create_Approval" name="Create Teams Approvals request" />
+    <userTask id="Task_Decide" name="Approve or reject TESL request" />
+    <serviceTask id="Task_Persist_Decision" name="Persist decision and immutable audit fields" />
+    <serviceTask id="Task_Notify" name="Notify requester and TESL owner" />
+    <endEvent id="End_Complete" name="TESL approval complete" />
+
+    <sequenceFlow id="Flow_Start_Match" sourceRef="Start_TESL_Email" targetRef="Task_Match_Email" />
+    <sequenceFlow id="Flow_Match_Gateway" sourceRef="Task_Match_Email" targetRef="Gateway_Is_TESL" />
+    <sequenceFlow id="Flow_Non_TESL" name="No" sourceRef="Gateway_Is_TESL" targetRef="End_Ignore_Email" />
+    <sequenceFlow id="Flow_Is_TESL" name="Yes" sourceRef="Gateway_Is_TESL" targetRef="Task_Parse_TESL" />
+    <sequenceFlow id="Flow_Parse_Validate" sourceRef="Task_Parse_TESL" targetRef="Task_Validate_TESL" />
+    <sequenceFlow id="Flow_Validate_Gateway" sourceRef="Task_Validate_TESL" targetRef="Gateway_Valid_TESL" />
+    <sequenceFlow id="Flow_Invalid_TESL" name="No" sourceRef="Gateway_Valid_TESL" targetRef="Task_Preserve_Alert" />
+    <sequenceFlow id="Flow_Invalid_End" sourceRef="Task_Preserve_Alert" targetRef="End_Invalid_TESL" />
+    <sequenceFlow id="Flow_Valid_TESL" name="Yes" sourceRef="Gateway_Valid_TESL" targetRef="Task_Resolve_Approver" />
+    <sequenceFlow id="Flow_Resolve_Create" sourceRef="Task_Resolve_Approver" targetRef="Task_Create_Submission" />
+    <sequenceFlow id="Flow_Submission_Approval" sourceRef="Task_Create_Submission" targetRef="Task_Create_Approval" />
+    <sequenceFlow id="Flow_Approval_Decision" sourceRef="Task_Create_Approval" targetRef="Task_Decide" />
+    <sequenceFlow id="Flow_Decision_Persist" sourceRef="Task_Decide" targetRef="Task_Persist_Decision" />
+    <sequenceFlow id="Flow_Persist_Notify" sourceRef="Task_Persist_Decision" targetRef="Task_Notify" />
+    <sequenceFlow id="Flow_Notify_End" sourceRef="Task_Notify" targetRef="End_Complete" />
+  </process>
+</definitions>

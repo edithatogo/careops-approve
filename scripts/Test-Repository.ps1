@@ -46,6 +46,11 @@ $required = @(
     'docs/workflow-implementation.md',
     'flows/submit-and-route.contract.json',
     'scripts/Test-FlowBlueprint.ps1',
+    'flows/tesl-email-to-approval.contract.json',
+    'config/tesl-email-mapping.example.json',
+    'workflows/tesl-email-to-approval.bpmn',
+    'scripts/Test-TeslApprovalArtifacts.ps1',
+    'docs/tesl-email-approval.md',
     'config/decision-scenarios.example.json',
     'scripts/Test-DecisionScenarios.ps1',
     'config/administration-scenarios.example.json',
@@ -123,6 +128,7 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-SharePointContracts.ps1')
 & (Join-Path $root 'scripts/Test-WorkflowScenarios.ps1')
 & (Join-Path $root 'scripts/Test-FlowBlueprint.ps1')
+& (Join-Path $root 'scripts/Test-TeslApprovalArtifacts.ps1')
 & (Join-Path $root 'scripts/Test-DecisionScenarios.ps1')
 & (Join-Path $root 'scripts/Test-AdministrationScenarios.ps1')
 

@@ -1,11 +1,11 @@
 {
   "name": "CareOps Submit and Route",
   "status": "blueprint",
-  "surfaces": ["Microsoft Forms", "SharePoint", "Power Automate", "Teams Approvals"],
+  "surfaces": ["Microsoft Forms", "Office 365 Outlook", "SharePoint", "Power Automate", "Teams Approvals"],
   "trigger": {
     "type": "forms-response",
     "configuration": "tenant-provided form identifier",
-    "inputs": ["title", "description", "supportingUrl", "requesterEmail"]
+    "inputs": ["title", "description", "supportingUrl", "requesterEmail", "sourceMessageId", "teslDetails"]
   },
   "steps": [
     { "id": "validate-input", "type": "validation", "onFailure": "acknowledge-invalid-submission" },

@@ -24,6 +24,11 @@ and [technology radar](docs/technology-radar.md).
 3. The approver receives an Approve/Reject request in Microsoft Teams.
 4. The outcome, comments, timestamps, requester, and approver are recorded.
 
+TESL emails can enter the same approval path through the source-controlled
+[TESL email-to-approval blueprint](docs/tesl-email-approval.md), which includes
+a BPMN 2.0 process, configurable TESL field mapping, and a Power Automate flow
+contract. Tenant mailbox and field syntax remain deployment configuration.
+
 Changing the approver configuration affects new requests. Existing requests keep
 the approver assigned when they were submitted so their audit history remains
 stable.
