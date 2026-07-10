@@ -29,9 +29,9 @@
     - [x] Write checks for expected solution structure, connection references, and environment variables [12768ff]
     - [x] Create the tenant-neutral unpacked CareOps Approve solution structure [12768ff]
     - [x] Document export, unpack, pack, and validation commands [12768ff]
-- [ ] Task: Establish GitHub and GitHub Enterprise ALM automation
-    - [ ] Add Microsoft Power Platform GitHub Actions for validation, packing, checker analysis, and protected deployment
-    - [ ] Configure Dependabot monitoring for action updates and require review before adopting new major versions
+- [x] Task: Establish GitHub and GitHub Enterprise ALM automation [3ab2fdb]
+    - [x] Add Microsoft Power Platform GitHub Actions for validation, packing, checker analysis, and protected deployment [3ab2fdb]
+    - [x] Configure Dependabot monitoring for action updates and require review before adopting new major versions [3ab2fdb]
     - [x] Configure dual GitHub CLI authentication for `nswhealth.ghe.com` and `github.com`
     - [x] Configure NSW Health GHE as `origin` and the private personal repository as `github`
     - [x] Set `main` to track GHE `origin/main` and publish current branches and tags to both hosts
