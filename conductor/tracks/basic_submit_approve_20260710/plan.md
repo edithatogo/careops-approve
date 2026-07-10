@@ -56,10 +56,12 @@
 
 - [~] Task: Implement validated request submission
     - [x] Write tests for required fields, unique IDs, initial status, and invalid submissions [d204290]
+    - [x] Define the tenant-neutral submit, persist, acknowledge, and failure-path blueprint [85fedee]
     - [ ] Create the Teams-accessible submission trigger and persistence actions
     - [ ] Confirm requester acknowledgement contains request ID and resolved approver
 - [~] Task: Implement configurable approver resolution
     - [x] Write tests for primary approver, fallback, inactive entries, duplicate entries, and empty configuration [d204290]
+    - [x] Define the tenant-neutral configuration lookup and routing failure blueprint [85fedee]
     - [ ] Resolve approvers from configuration rather than hard-coded identities
     - [ ] Alert owners and preserve the request when configuration is invalid
 - [ ] Task: Implement Teams approval and finalization
