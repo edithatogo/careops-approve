@@ -48,6 +48,9 @@ $required = @(
     'scripts/Test-FlowBlueprint.ps1',
     'config/decision-scenarios.example.json',
     'scripts/Test-DecisionScenarios.ps1',
+    'config/administration-scenarios.example.json',
+    'scripts/Test-AdministrationScenarios.ps1',
+    'docs/approver-administration.md',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -121,5 +124,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-WorkflowScenarios.ps1')
 & (Join-Path $root 'scripts/Test-FlowBlueprint.ps1')
 & (Join-Path $root 'scripts/Test-DecisionScenarios.ps1')
+& (Join-Path $root 'scripts/Test-AdministrationScenarios.ps1')
 
 Write-Output 'Repository validation passed.'

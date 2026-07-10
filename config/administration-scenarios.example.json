@@ -1,0 +1,11 @@
+{
+  "scenarios": [
+    { "name": "owner adds primary", "actor": "owner", "operation": "add", "expected": "allowed" },
+    { "name": "owner replaces primary prospectively", "actor": "owner", "operation": "replace", "expected": "new-submissions-only" },
+    { "name": "owner deactivates approver", "actor": "owner", "operation": "deactivate", "expected": "allowed-if-valid-successor" },
+    { "name": "owner reorders roster", "actor": "owner", "operation": "reorder", "expected": "new-submissions-only" },
+    { "name": "requester cannot edit roster", "actor": "requester", "operation": "replace", "expected": "forbidden" },
+    { "name": "approver cannot edit roster", "actor": "approver", "operation": "deactivate", "expected": "forbidden" },
+    { "name": "existing assignment is retained", "actor": "owner", "operation": "replace", "existingAssignment": "old@example.invalid", "expected": "retain-existing" }
+  ]
+}
