@@ -1,0 +1,8 @@
+{
+  "track_id": "basic_submit_approve_20260710",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-07-10T01:03:58Z",
+  "updated_at": "2026-07-10T01:03:58Z",
+  "description": "Build a configurable basic submit and approve workflow in Microsoft Teams"
+}

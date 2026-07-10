@@ -1,0 +1,19 @@
+# Local Power Platform exports and unpacked build output
+out/
+dist/
+tmp/
+*.zip
+
+# Local environment and authentication material
+.env
+.env.*
+!.env.example
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+node_modules/
+
+# Power Platform authentication profiles
+.pac/
