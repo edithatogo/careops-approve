@@ -16,7 +16,7 @@ jobs:
     environment: pilot
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Require solution source
         shell: pwsh

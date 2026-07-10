@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Validate repository contracts
         shell: pwsh
@@ -23,7 +23,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Install Microsoft Power Platform tools
         if: ${{ hashFiles('src/solutions/CareOpsApprove/Other/Solution.xml') != '' }}
