@@ -35,6 +35,7 @@ $required = @(
     'src/solutions/CareOpsApprove/Other/Customizations.xml',
     'config/solution-contract.example.json',
     'docs/solution-source.md',
+    'docs/pipelines.md',
     'scripts/Test-SolutionSource.ps1',
     'scripts/Test-WorkflowContracts.ps1',
     '.github/workflows/validate.yml',
