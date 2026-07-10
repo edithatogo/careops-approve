@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="1.0" schemaVersion="9.2.0.0">
+  <Entities />
+  <Roles />
+  <Workflows />
+  <Templates />
+  <EntityMaps />
+  <EntityRelationships />
+  <OrganizationSettings />
+  <Optionsets />
+  <CustomControls />
+  <SiteMap />
+  <AppModuleSiteMaps />
+  <AppModules />
+  <AppModuleComponents />
+  <AppActions />
+  <CustomApis />
+  <CustomApiRequestParameters />
+  <CustomApiResponseProperties />
+  <ConnectionReferences />
+  <EnvironmentVariables />
+</ImportExportXml>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="1.0" schemaVersion="9.2.0.0">
+  <SolutionManifest>
+    <UniqueName>CareOpsApprove</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="CareOps Approve" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Native Teams submit and approve workflow foundation" languagecode="1033" />
+    </Descriptions>
+    <Version>0.1.0.0</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>careops</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="CareOps" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="CareOps solution publisher" languagecode="1033" />
+      </Descriptions>
+      <EMailAddress>noreply@example.invalid</EMailAddress>
+      <SupportingWebsiteUrl>https://example.invalid/careops</SupportingWebsiteUrl>
+      <CustomizationPrefix>careops</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>10000</CustomizationOptionValuePrefix>
+    </Publisher>
+    <RootComponents />
+  </SolutionManifest>
+</ImportExportXml>

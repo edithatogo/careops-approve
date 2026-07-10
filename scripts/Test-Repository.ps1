@@ -31,6 +31,11 @@ $required = @(
     'contracts/fixtures/decision.valid.json',
     'contracts/fixtures/approver-configuration.valid.json',
     'scripts/Test-Contracts.ps1',
+    'src/solutions/CareOpsApprove/Other/Solution.xml',
+    'src/solutions/CareOpsApprove/Other/Customizations.xml',
+    'config/solution-contract.example.json',
+    'docs/solution-source.md',
+    'scripts/Test-SolutionSource.ps1',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -98,5 +103,6 @@ foreach ($file in $trackedFiles) {
 }
 
 & (Join-Path $root 'scripts/Test-Contracts.ps1')
+& (Join-Path $root 'scripts/Test-SolutionSource.ps1')
 
 Write-Output 'Repository validation passed.'
