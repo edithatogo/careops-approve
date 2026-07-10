@@ -64,8 +64,8 @@
     - [x] Define the tenant-neutral configuration lookup and routing failure blueprint [85fedee]
     - [ ] Resolve approvers from configuration rather than hard-coded identities
     - [ ] Alert owners and preserve the request when configuration is invalid
-- [ ] Task: Implement Teams approval and finalization
-    - [ ] Write tests for approve, reject, duplicate response, cancellation, and connector failure paths
+- [~] Task: Implement Teams approval and finalization
+    - [x] Write tests for approve, reject, duplicate response, cancellation, and connector failure paths [9330374]
     - [ ] Create the Approve/Reject request and require rejection comments
     - [ ] Persist the immutable assigned approver and final outcome
     - [ ] Notify the requester of the decision or actionable failure
