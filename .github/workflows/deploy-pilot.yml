@@ -16,7 +16,7 @@ jobs:
     environment: pilot
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Require solution source
         shell: pwsh
@@ -62,7 +62,7 @@ jobs:
           deployment-settings-file: config/pilot.deploymentSettings.example.json
 
       - name: Retain deployed package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: CareOpsApprove-pilot-${{ github.run_number }}
           path: out/CareOpsApprove_unmanaged.zip
