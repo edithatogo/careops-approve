@@ -17,3 +17,7 @@ node_modules/
 
 # Power Platform authentication profiles
 .pac/
+
+# Deployment settings may contain tenant-specific IDs. Commit examples only.
+config/*.deploymentSettings.json
+!config/*.deploymentSettings.example.json

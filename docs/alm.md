@@ -1,0 +1,68 @@
+# CareOps Approve ALM Strategy
+
+## Baseline
+
+CareOps Approve uses a custom, solution-aware Power Platform solution. Source
+control contains unpacked, reviewable artifacts; build jobs produce immutable
+solution packages. Connection references, environment variables, identities, and
+deployment settings remain environment-specific.
+
+The stable delivery path is:
+
+1. Maker changes occur in an approved development environment.
+2. The solution is exported and unpacked into `src/solutions/CareOpsApprove`.
+3. Pull requests run repository validation and pack the solution.
+4. Authenticated CI runs Power Apps solution checker against the package.
+5. A protected deployment job imports the validated package into the pilot environment.
+6. Power Platform Pipelines promotes the same release artifact where the tenant
+   provides an approved pipelines host and target environments.
+
+## Authentication
+
+- Use a Microsoft Entra service principal or an approved delegated pipeline identity.
+- Store credentials only in protected GitHub or GitHub Enterprise environments.
+- Prefer workload identity or short-lived credentials when supported by the selected
+  Power Platform tooling; client secrets are a compatibility fallback.
+- Never use a maker's password in CI.
+
+The `pilot` GitHub environment must define `POWERPLATFORM_URL`,
+`POWERPLATFORM_APP_ID`, `POWERPLATFORM_CLIENT_SECRET`, and
+`POWERPLATFORM_TENANT_ID`. It should require reviewer approval. A real
+The checked-in example deployment settings file contains no tenant identifiers and
+is sufficient until the solution introduces environment variables or connection
+references. When those exist, the deployment process must generate or retrieve a
+real settings file securely rather than committing tenant-specific identifiers.
+
+## Microsoft kits
+
+The Microsoft Business Approvals Kit is an evaluation candidate, not an automatic
+dependency. It becomes preferable when requirements expand to reusable multi-stage
+processes, delegation, centralized process administration, or broader reporting.
+For the initial one-stage workflow, the kit must demonstrate benefits that outweigh
+its Dataverse, licensing, deployment, and support footprint.
+
+Center of Excellence Starter Kit conventions may be reused for inventory, ownership,
+and governance reporting. CareOps Approve does not require installation of the full
+CoE Starter Kit merely to run the workflow.
+
+## Repository topology
+
+- `origin`: private GitHub.com repository under `edithatogo`.
+- `ghe`: approved GitHub Enterprise repository, once supplied.
+
+GitHub Enterprise is a secondary publication target. The push procedure publishes
+branches and tags without `--mirror` deletion semantics. Repository settings,
+secrets, environments, issues, and Actions history are not Git objects and require
+separate enterprise configuration.
+
+On GitHub Enterprise Server, use a self-hosted runner and ensure Microsoft actions
+are either permitted from GitHub.com or mirrored into the enterprise. Do not assume
+GitHub-hosted runners or Marketplace access are available.
+
+## Release controls
+
+- Pull-request validation is credential-free wherever possible.
+- Solution checker and deployment jobs use protected environments.
+- Production deployment requires explicit approval and immutable build artifacts.
+- Preview features are isolated from the stable release path.
+- Rollback means redeploying the last validated managed solution, not editing production.

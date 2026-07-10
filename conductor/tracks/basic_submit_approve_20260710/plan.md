@@ -10,6 +10,10 @@
     - [ ] Write validation fixtures for request, outcome, and approver configuration records
     - [ ] Define required fields, statuses, immutable audit fields, and owner permissions
     - [ ] Define prospective approver-change behaviour and failure handling
+- [ ] Task: Evaluate Microsoft kits and frontier capabilities
+    - [ ] Assess Business Approvals Kit dependencies, licensing, DLP compatibility, and proportionality for the basic workflow
+    - [ ] Assess Microsoft Graph Approvals APIs and Power Apps Test Engine preview in an isolated environment
+    - [ ] Record adopt, trial, watch, or reject decisions with stable fallbacks and review dates
 - [ ] Task: Conductor - User Manual Verification 'Tenant Fit and Solution Contract' (Protocol in workflow.md)
 
 ## Phase 2: Source-Controlled Power Platform Foundation
@@ -18,6 +22,15 @@
     - [ ] Write checks for expected solution structure, connection references, and environment variables
     - [ ] Create or import the unpacked CareOps Approve solution structure
     - [ ] Document export, unpack, pack, and validation commands
+- [ ] Task: Establish GitHub and GitHub Enterprise ALM automation
+    - [ ] Add Microsoft Power Platform GitHub Actions for validation, packing, checker analysis, and protected deployment
+    - [ ] Configure Dependabot monitoring for action updates and require review before adopting new major versions
+    - [ ] Configure a GitHub Enterprise secondary remote and approved runner after the endpoint is supplied
+    - [ ] Verify branches and tags publish to both remotes without destructive mirror deletion
+- [ ] Task: Establish governed Power Platform Pipelines promotion
+    - [ ] Define development, test or pilot, and production stages with environment-specific deployment settings
+    - [ ] Prefer service-principal delegated deployment and protected environment approvals where tenant policy permits
+    - [ ] Document the fallback GitHub Actions deployment path when Pipelines cannot be provisioned
 - [ ] Task: Create SharePoint data contracts
     - [ ] Write checks for submission, outcome, and approver configuration list definitions
     - [ ] Define least-privilege list permissions and owner configuration access

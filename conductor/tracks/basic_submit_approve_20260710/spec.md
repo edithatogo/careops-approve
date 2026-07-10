@@ -58,6 +58,15 @@ configuration.
 - Work through supported Teams approval surfaces on desktop, web, and mobile.
 - Keep the interaction suitable for a two-person pilot while allowing later roster growth.
 - Clearly state that technical approval does not create delegated organisational authority.
+- Package all deployable components in a custom solution with connection references
+  and environment variables suitable for automated ALM.
+- Build and validate solution artifacts with Microsoft Power Platform GitHub Actions.
+- Support governed promotion with Power Platform Pipelines when an approved host and
+  target environments are available.
+- Maintain GitHub.com and GitHub Enterprise copies without embedding enterprise
+  credentials or endpoint secrets in the repository.
+- Evaluate Microsoft Business Approvals Kit and preview capabilities against explicit
+  adoption gates; do not make a preview feature mandatory for the MVP.
 
 ## Acceptance Criteria
 
@@ -69,6 +78,12 @@ configuration.
 6. An unauthorised user cannot change the approver configuration.
 7. Missing or invalid approver configuration does not silently lose a request.
 8. Source validation finds no credentials, tenant-specific connection IDs, or hard-coded people.
+9. CI can validate and pack the solution without interactive credentials.
+10. Environment deployment is gated, uses a service principal or approved pipeline
+    identity, and consumes protected configuration.
+11. The repository documents and tests the procedure for publishing branches and tags
+    to both GitHub.com and an approved GitHub Enterprise repository.
+12. Every preview or frontier feature has a dated status, fallback, and adoption decision.
 
 ## Out of Scope
 
