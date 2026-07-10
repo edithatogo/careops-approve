@@ -19,3 +19,8 @@ validation gate without embedding a SharePoint site, connection ID, or identity.
 It must be translated into a solution-aware cloud flow only after the tenant
 owner confirms the permitted Forms, SharePoint, Power Automate, and Teams
 Approvals surfaces.
+
+`config/decision-scenarios.example.json` is the decision-state test contract. A
+rejection cannot finalize without a comment, and a later response cannot replace
+an existing final outcome. Connector failure is recorded as failed and alerts an
+owner so the request remains operationally visible.

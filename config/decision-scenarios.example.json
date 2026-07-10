@@ -1,0 +1,11 @@
+{
+  "scenarios": [
+    { "name": "approve with optional comment", "outcome": "Approved", "comment": "Looks good.", "expected": "finalized" },
+    { "name": "approve without comment", "outcome": "Approved", "comment": "", "expected": "finalized" },
+    { "name": "reject with comment", "outcome": "Rejected", "comment": "Please revise.", "expected": "finalized" },
+    { "name": "reject without comment", "outcome": "Rejected", "comment": "", "expected": "needs-comment" },
+    { "name": "duplicate response after approval", "outcome": "Rejected", "comment": "Late response.", "existingOutcome": "Approved", "expected": "retain-existing" },
+    { "name": "request cancellation", "outcome": "Cancelled", "comment": "Requester cancelled.", "expected": "finalized" },
+    { "name": "connector failure", "outcome": "Failed", "comment": "Approval connector unavailable.", "expected": "finalized-and-alert-owner" }
+  ]
+}
