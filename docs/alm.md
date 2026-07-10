@@ -63,6 +63,11 @@ NSW Health uses a `ghe.com` managed-user platform. Do not apply on-premises GitH
 Enterprise Server assumptions such as mandatory self-hosted runners unless live host
 policy requires them.
 
+Live policy currently disables hosted runners for this repository. Until an approved
+GHE runner is assigned, the private GitHub.com mirror executes credential-free CI on
+the same commit while GHE remains authoritative. This is an interim asymmetry and is
+tracked explicitly; deployment must not piggyback on personal-host secrets.
+
 ## Release controls
 
 - Pull-request validation is credential-free wherever possible.

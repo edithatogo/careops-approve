@@ -30,6 +30,9 @@
     - [x] Set `main` to track GHE `origin/main` and publish current branches and tags to both hosts
     - [x] Document host inference, explicit host targeting, token precedence, and Git credential routing
     - [x] Document non-Git controls and the governed future transition to personal-primary authority
+    - [x] Verify personal GitHub Actions validation passes against the dual-published commit
+    - [x] Record the GHE hosted-runner policy failure and absence of a repository self-hosted runner
+    - [ ] Obtain an approved GHE runner or hosted-runner entitlement for repository-native validation
     - [ ] Verify equivalent repository rules, Actions policy, environments, and protected secrets on both hosts
     - [ ] Verify branches and tags continue to publish to both remotes without destructive mirror deletion
 - [ ] Task: Establish governed Power Platform Pipelines promotion

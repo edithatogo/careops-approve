@@ -94,6 +94,11 @@ configuration.
     through non-destructive publication.
 15. Documentation identifies which repository controls do not mirror through Git and
     defines a governed procedure for eventually making GitHub.com authoritative.
+16. When GHE runner policy prevents execution, GHE workflows skip runner-dependent
+    jobs cleanly and documentation identifies personal-mirror CI as interim supporting
+    evidence rather than an equivalent enterprise control.
+17. Power Platform deployment cannot proceed from the personal mirror using NSW Health
+    credentials unless that execution path is explicitly approved and protected.
 
 ## Out of Scope
 

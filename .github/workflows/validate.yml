@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   repository:
+    if: ${{ github.server_url == 'https://github.com' }}
     runs-on: windows-latest
     steps:
       - name: Check out repository
@@ -20,6 +21,7 @@ jobs:
         run: ./scripts/Test-Repository.ps1 -SkipRemoteTopology
 
   power-platform-package:
+    if: ${{ github.server_url == 'https://github.com' }}
     runs-on: windows-latest
     steps:
       - name: Check out repository

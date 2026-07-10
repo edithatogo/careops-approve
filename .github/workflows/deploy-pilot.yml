@@ -12,6 +12,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: ${{ github.server_url == 'https://github.com' }}
     runs-on: windows-latest
     environment: pilot
     steps:

@@ -13,6 +13,27 @@ The local `main` branch tracks `origin/main`. Pull requests, environment secrets
 enterprise controls, and deployment approvals should currently be managed on GHE.
 GitHub.com receives branches and tags as a private continuity mirror.
 
+## Current Actions execution model
+
+As verified on 2026-07-10, NSW Health GHE has hosted runners disabled for this
+repository and no repository self-hosted runner is assigned. The managed user cannot
+inspect organisation runner groups without additional administrative permission.
+
+Until an approved GHE runner is assigned:
+
+- GHE remains the source and audit authority.
+- Workflows mirrored to GHE skip runner-dependent jobs using `github.server_url`.
+- GitHub.com runs credential-free validation and packaging against the identical SHA.
+- Power Platform deployment remains disabled until an approved environment, identity,
+  secrets, and runner path are configured.
+- A passing GitHub.com check is supporting evidence, not a native GHE required check.
+
+Do not describe the two hosts as having equivalent CI controls until GHE-native jobs
+pass and corresponding rulesets are configured. The desired end state is an approved
+GHE runner (or enabled hosted runner policy) with host-local secrets and environment
+reviewers; the personal mirror then remains a continuity check rather than the sole
+execution surface.
+
 ## How GitHub CLI dual authentication works
 
 GitHub CLI stores authentication independently for each hostname. Confirm both hosts
@@ -80,6 +101,9 @@ Maintain a separate checklist for each host covering:
 - environments, reviewers, variables, and secrets;
 - issues, discussions, pull requests, releases, and audit history;
 - service principals, app installations, webhooks, and deployment credentials.
+
+Current known difference: GitHub.com hosted Actions execute successfully; NSW Health
+GHE hosted runners are disabled and no repository self-hosted runner is assigned.
 
 Personal GitHub must not receive NSW Health secrets, sensitive data, tenant exports,
 or content that policy prohibits from leaving the organisation. A private mirror does
