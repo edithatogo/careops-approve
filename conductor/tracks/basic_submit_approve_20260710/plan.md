@@ -46,10 +46,10 @@
     - [x] Define development, test or pilot, and production stages with environment-specific deployment settings [5ba68df]
     - [x] Prefer service-principal delegated deployment and protected environment approvals where tenant policy permits [5ba68df]
     - [x] Document the fallback GitHub Actions deployment path when Pipelines cannot be provisioned [5ba68df]
-- [ ] Task: Create SharePoint data contracts
-    - [ ] Write checks for submission, outcome, and approver configuration list definitions
-    - [ ] Define least-privilege list permissions and owner configuration access
-    - [ ] Add deployment documentation without tenant-specific URLs
+- [x] Task: Create SharePoint data contracts [4dbd5dc]
+    - [x] Write checks for submission, outcome, and approver configuration list definitions [4dbd5dc]
+    - [x] Define least-privilege list permissions and owner configuration access [4dbd5dc]
+    - [x] Add deployment documentation without tenant-specific URLs [4dbd5dc]
 - [ ] Task: Conductor - User Manual Verification 'Source-Controlled Power Platform Foundation' (Protocol in workflow.md)
 
 ## Phase 3: Submit and Approve Flow
