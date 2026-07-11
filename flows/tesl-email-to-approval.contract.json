@@ -2,6 +2,7 @@
   "name": "CareOps TESL Email to Approval",
   "status": "blueprint",
   "deploymentStatus": "executive-confirmed-live",
+  "aiReview": "config/ai-review.example.json",
   "surfaces": ["Office 365 Outlook", "SharePoint", "Power Automate", "Teams Approvals"],
   "templateRef": "config/approval-templates.example.json",
   "roleAssignments": "config/role-assignments.example.json",
@@ -28,6 +29,8 @@
     { "id": "resolve-roster-and-delegation", "type": "sharepoint-roster-exception-and-delegate-resolution", "onFailure": "preserve-and-alert-owner" },
     { "id": "generate-request-id", "type": "idempotent-request-id" },
     { "id": "create-submission", "type": "sharepoint-create-item", "status": "Submitted", "immutable": ["requestId", "assignedApproverEmail", "approverConfigurationVersion", "sourceMessageId", "teslId"] },
+    { "id": "run-ai-pre-review", "type": "ai-builder-prompt-advisory", "config": "config/ai-review.example.json", "enabledByConfiguration": true, "authoritative": false, "onFailure": "continue-to-human-review", "inputPolicy": "redacted-approved-fields-only" },
+    { "id": "persist-ai-assessment", "type": "sharepoint-create-advisory-assessment", "requires": ["assessmentStatus", "summary", "missingInformation", "flags", "confidence", "promptVersion", "evaluatedAt", "humanDecisionRequired"], "email": false },
     { "id": "create-approval", "type": "native-teams-approval", "responses": ["Approve", "Reject"], "assignedTo": "resolved-primary-or-fallback", "sendEmailNotification": false, "title": "TESL: teslTitle", "details": ["teslId", "teslStatus", "teslCategory", "teslOwner", "teslDueDate", "teslPriority", "teslSummary", "teslLink", "email.webLink"] },
     { "id": "present-teams-card", "type": "teams-adaptive-card-presentation", "authoritativeDecisionSource": "native-teams-approval", "email": false },
     { "id": "wait-for-decision", "type": "wait-for-approval-or-14-day-timeout" },
@@ -53,6 +56,8 @@
     "no-outbound-email-notifications",
     "adaptive-card-does-not-replace-native-approval-record",
     "weekly-summary-is-owner-only"
+    ,"ai-output-never-finalizes-decision"
+    ,"ai-failure-preserves-human-review-path"
   ],
   "tenantConfiguration": "not stored in source control"
 }

@@ -11,6 +11,10 @@ environment:
 1. CareOps Submit and Route
 2. CareOps TESL Email to Approval
 
+The advisory AI review stage is implemented in source contracts but remains
+disabled in the live workflows pending AI Builder licensing, region, data
+classification, retention, prompt ownership, and pilot evidence.
+
 ## Source-control boundary
 
 The repository contracts retain `status: blueprint` because they are

@@ -1,0 +1,13 @@
+{
+  "requestId": "CA-20260711-AI01",
+  "assessmentStatus": "completed",
+  "summary": "The request contains the required administrative details for human review.",
+  "missingInformation": [],
+  "flags": ["Verify supporting evidence before deciding."],
+  "confidence": 0.82,
+  "recommendation": "no-autonomous-decision",
+  "promptVersion": "example-v1",
+  "evaluatedAt": "2026-07-11T12:00:00Z",
+  "inputHash": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "humanDecisionRequired": true
+}

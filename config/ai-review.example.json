@@ -1,0 +1,28 @@
+{
+  "status": "blueprint",
+  "enabled": false,
+  "mode": "advisory",
+  "provider": "AI Builder prompt",
+  "promptName": "tenant-provided prompt reference",
+  "inputs": ["title", "description", "teslDetails", "supportingUrl"],
+  "outputs": ["summary", "missingInformation", "flags", "confidence", "recommendation"],
+  "recommendation": "no-autonomous-decision",
+  "humanDecisionRequired": true,
+  "failMode": "continue-to-human-review",
+  "promptVersion": "tenant-provided-version",
+  "dataPolicy": {
+    "allowSensitiveData": false,
+    "allowClinicalData": false,
+    "retainRawPromptInput": false,
+    "retainAssessment": true,
+    "redactBeforePrompt": true
+  },
+  "guardrails": [
+    "AI output is advisory only",
+    "AI cannot approve, reject, assign, or escalate an approval",
+    "low confidence routes to human review without an automated adverse outcome",
+    "prompt failure preserves the request and routes to ordinary human approval",
+    "assessment includes model, prompt version, timestamp, and input hash"
+  ],
+  "tenantConfiguration": "AI Builder capacity, region, prompt reference, and retention are tenant-provided and excluded from source control"
+}

@@ -7,7 +7,9 @@ flowchart LR
   F -- No --> G[Preserve request and alert owner] --> Z2([Configuration error])
   F -- Yes --> H[Generate idempotent request ID]
   H --> I[Create immutable SharePoint submission]
-  I --> J[Create Teams approval<br/>email disabled]
+  I --> AI[Optional advisory AI review<br/>summarize / flag only]
+  AI --> AIP[Persist assessment<br/>human decision required]
+  AIP --> J[Create Teams approval<br/>email disabled]
   J --> K{Assigned approver decision}
   K -- Approve/Reject --> N[Persist first final outcome<br/>and audit fields]
   K -- Cancelled by requester --> N

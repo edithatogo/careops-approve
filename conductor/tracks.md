@@ -16,3 +16,6 @@ plan in its respective folder.
 
 - [x] **Track: Complete BPMN and visual process model coverage**
   *Link: [./tracks/process_model_completeness_20260711/](./tracks/process_model_completeness_20260711/)*
+
+- [x] **Track: Add advisory AI review guardrails**
+  *Link: [./tracks/advisory_ai_review_20260711/](./tracks/advisory_ai_review_20260711/)*

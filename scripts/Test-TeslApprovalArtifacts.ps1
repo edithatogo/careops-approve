@@ -16,7 +16,7 @@ if ($contract.deploymentStatus -ne 'executive-confirmed-live') { throw 'TESL dep
 foreach ($surface in @('Office 365 Outlook', 'SharePoint', 'Power Automate', 'Teams Approvals')) {
     if ($contract.surfaces -notcontains $surface) { throw "TESL flow is missing surface: $surface" }
 }
-foreach ($step in @('match-tesl-email', 'parse-tesl-details', 'load-template', 'validate-tesl-details', 'load-configuration', 'resolve-roster-and-delegation', 'create-submission', 'create-approval', 'present-teams-card', 'wait-for-decision', 'check-still-pending', 'create-edms-escalation', 'wait-for-edms-decision', 'record-verbal-delegation', 'persist-outcome', 'notify-requester', 'run-desktop-intranet', 'build-weekly-owner-summary', 'finalize')) {
+foreach ($step in @('match-tesl-email', 'parse-tesl-details', 'load-template', 'validate-tesl-details', 'load-configuration', 'resolve-roster-and-delegation', 'create-submission', 'run-ai-pre-review', 'persist-ai-assessment', 'create-approval', 'present-teams-card', 'wait-for-decision', 'check-still-pending', 'create-edms-escalation', 'wait-for-edms-decision', 'record-verbal-delegation', 'persist-outcome', 'notify-requester', 'run-desktop-intranet', 'build-weekly-owner-summary', 'finalize')) {
     if (@($contract.steps | Where-Object id -eq $step).Count -ne 1) { throw "TESL flow is missing step: $step" }
 }
 foreach ($field in @('teslId', 'teslTitle', 'teslStatus', 'teslSummary')) {
@@ -34,6 +34,8 @@ foreach ($permission in @('submitters', 'workflowEditors', 'normalApprovers', 'u
 }
 if ($roles.delegationPolicy.mode -ne 'recorded-verbal-delegation-only' -or -not $roles.delegationPolicy.requiresOwnerNotification) { throw 'Urgent delegation must be recorded and notify the workflow owner.' }
 if ($contract.notificationPolicy.approvalEmail -ne $false -or $contract.notificationPolicy.outboundEmail -ne $false) { throw 'TESL flow must disable email notifications.' }
+$ai = Get-Content -Raw -LiteralPath (Join-Path $root 'config/ai-review.example.json') | ConvertFrom-Json
+if ($ai.mode -ne 'advisory' -or $ai.recommendation -ne 'no-autonomous-decision' -or $ai.humanDecisionRequired -ne $true) { throw 'AI review must remain advisory and human-authoritative.' }
 if ($contract.steps | Where-Object { $_.type -eq 'outlook-send-email' }) { throw 'TESL flow must not contain an outbound Outlook email action.' }
 if ($desktop.notifications.email -ne $false -or $desktop.action -ne 'Run a flow built with Power Automate for desktop') { throw 'Desktop execution must be approved-only and email-free.' }
 foreach ($patternId in @('sharepoint-action-state', 'teams-adaptive-card-presentation', 'dynamic-roster-resolution', 'delegate-assignment-resolution', 'weekly-teams-summary')) {

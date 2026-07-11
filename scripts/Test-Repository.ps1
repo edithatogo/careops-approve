@@ -22,16 +22,22 @@ $required = @(
     'docs/repository-topology.md',
     'docs/tenant-fit-checklist.md',
     'docs/deployment-attestation.md',
+    'docs/ai-assisted-review.md',
     'docs/low-privilege-architecture.md',
     'docs/frontier-capability-assessment.md',
     'contracts/request.schema.json',
     'contracts/decision.schema.json',
     'contracts/approver-configuration.schema.json',
+    'contracts/ai-assessment.schema.json',
     'contracts/README.md',
     'contracts/fixtures/request.valid.json',
     'contracts/fixtures/decision.valid.json',
     'contracts/fixtures/approver-configuration.valid.json',
+    'contracts/fixtures/ai-assessment.valid.json',
     'scripts/Test-Contracts.ps1',
+    'config/ai-review.example.json',
+    'config/ai-review-scenarios.example.json',
+    'scripts/Test-AiReview.ps1',
     'src/solutions/CareOpsApprove/Other/Solution.xml',
     'src/solutions/CareOpsApprove/Other/Customizations.xml',
     'config/solution-contract.example.json',
@@ -140,6 +146,7 @@ foreach ($file in $trackedFiles) {
 }
 
 & (Join-Path $root 'scripts/Test-Contracts.ps1')
+& (Join-Path $root 'scripts/Test-AiReview.ps1')
 & (Join-Path $root 'scripts/Test-SolutionSource.ps1')
 & (Join-Path $root 'scripts/Test-WorkflowContracts.ps1')
 & (Join-Path $root 'scripts/Test-SharePointContracts.ps1')

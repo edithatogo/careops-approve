@@ -11,12 +11,13 @@
     <polygon points="370,170 410,130 450,170 410,210" fill="#fef3c7" stroke="#a16207" stroke-width="2"/><text x="410" y="175" fill="#713f12">Valid?</text>
     <rect x="500" y="135" width="160" height="70" rx="12" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/><text x="580" y="165" fill="#1e3a8a">Resolve</text><text x="580" y="186" fill="#1e3a8a">approver</text>
     <rect x="710" y="135" width="170" height="70" rx="12" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/><text x="795" y="165" fill="#1e3a8a">Persist</text><text x="795" y="186" fill="#1e3a8a">submission</text>
-    <rect x="930" y="135" width="190" height="70" rx="12" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"/><text x="1025" y="165" fill="#4c1d95">Teams approval</text><text x="1025" y="186" fill="#4c1d95">no email</text>
-    <rect x="1170" y="135" width="180" height="70" rx="12" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"/><text x="1260" y="165" fill="#4c1d95">Decision /</text><text x="1260" y="186" fill="#4c1d95">cancellation</text>
-    <ellipse cx="1420" cy="170" rx="48" ry="28" fill="#dcfce7" stroke="#166534" stroke-width="2"/><text x="1420" y="175" fill="#14532d">Final</text>
+    <rect x="900" y="135" width="170" height="70" rx="12" fill="#fef3c7" stroke="#a16207" stroke-width="2"/><text x="985" y="165" fill="#713f12">Advisory AI</text><text x="985" y="186" fill="#713f12">flag only</text>
+    <rect x="1100" y="135" width="180" height="70" rx="12" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"/><text x="1190" y="165" fill="#4c1d95">Teams approval</text><text x="1190" y="186" fill="#4c1d95">no email</text>
+    <rect x="1300" y="135" width="150" height="70" rx="12" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"/><text x="1375" y="165" fill="#4c1d95">Decision /</text><text x="1375" y="186" fill="#4c1d95">cancellation</text>
+    <ellipse cx="1480" cy="170" rx="20" ry="20" fill="#dcfce7" stroke="#166534" stroke-width="2"/><text x="1480" y="175" fill="#14532d">✓</text>
     <rect x="1110" y="350" width="210" height="70" rx="12" fill="#fce7f3" stroke="#be185d" stroke-width="2"/><text x="1215" y="380" fill="#831843">14-day timeout</text><text x="1215" y="401" fill="#831843">EDMS escalation</text>
     <rect x="710" y="350" width="220" height="70" rx="12" fill="#e2e8f0" stroke="#475569" stroke-width="2"/><text x="820" y="380" fill="#1e293b">Restricted visibility</text><text x="820" y="401" fill="#1e293b">owner/requester/approver</text>
   </g>
-  <g stroke="#334155" stroke-width="2" fill="none" marker-end="url(#arrow)"><path d="M132 170 H160"/><path d="M310 170 H370"/><path d="M450 170 H500"/><path d="M660 170 H710"/><path d="M880 170 H930"/><path d="M1120 170 H1170"/><path d="M1350 170 H1370"/><path d="M1260 205 V350"/><path d="M1170 385 H930 V205"/><path d="M1025 205 V350 H930"/><path d="M710 385 H600 V240"/></g>
+  <g stroke="#334155" stroke-width="2" fill="none" marker-end="url(#arrow)"><path d="M132 170 H160"/><path d="M310 170 H370"/><path d="M450 170 H500"/><path d="M660 170 H710"/><path d="M880 170 H900"/><path d="M1070 170 H1100"/><path d="M1280 170 H1300"/><path d="M1450 170 H1460"/><path d="M1375 205 V350"/><path d="M1215 385 H930 V205"/><path d="M985 205 V350 H930"/><path d="M710 385 H600 V240"/></g>
   <g font-family="Segoe UI,Arial" font-size="13" fill="#475569"><text x="462" y="155">yes</text><text x="400" y="245">no → preserve and alert owner</text><text x="1268" y="285">timeout</text></g>
 </svg>

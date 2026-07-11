@@ -45,6 +45,7 @@ tenant exports belong in this file.
 - [ ] Power Platform Pipelines host and development/pilot/production environments are approved,
       or the reason for deferral is recorded.
 - [ ] Service principal or delegated deployment identity is approved with least-privilege roles.
+- [ ] AI Builder prompt availability, capacity, region, data classification, retention, and prompt owner are approved before enabling advisory AI review.
 - [ ] GHE Actions policy provides an approved hosted runner or repository self-hosted runner.
 - [ ] GHE repository rulesets, Actions policy, environments, reviewers, and secrets are configured.
 

@@ -11,7 +11,7 @@ if ($flow.deploymentStatus -ne 'executive-confirmed-live') { throw 'Flow deploym
 foreach ($surface in @('Microsoft Forms', 'SharePoint', 'Power Automate', 'Teams Approvals')) {
     if ($flow.surfaces -notcontains $surface) { throw "Flow blueprint is missing surface: $surface" }
 }
-foreach ($step in @('validate-input', 'load-configuration', 'generate-request-id', 'create-submission', 'create-approval', 'acknowledge-requester', 'restrict-request-visibility', 'persist-immutable-assignment', 'persist-final-outcome', 'allow-requester-cancellation', 'create-edms-escalation', 'finalize')) {
+foreach ($step in @('validate-input', 'load-configuration', 'generate-request-id', 'create-submission', 'run-ai-pre-review', 'persist-ai-assessment', 'create-approval', 'acknowledge-requester', 'restrict-request-visibility', 'persist-immutable-assignment', 'persist-final-outcome', 'allow-requester-cancellation', 'create-edms-escalation', 'finalize')) {
     if (@($flow.steps | Where-Object id -eq $step).Count -ne 1) { throw "Flow blueprint is missing step: $step" }
 }
 foreach ($failure in @('invalid-input-does-not-create-approval', 'invalid-configuration-preserves-submission-and-alerts-owner', 'connector-failure-preserves-request-and-reports-actionable-error')) {
@@ -19,7 +19,7 @@ foreach ($failure in @('invalid-input-does-not-create-approval', 'invalid-config
 }
 if (-not ($flow.steps | Where-Object id -eq 'create-approval').rejectionRequiresComment) { throw 'Approval blueprint must require rejection comments.' }
 if (($flow.steps | Where-Object id -eq 'create-approval').sendEmailNotification) { throw 'Approval blueprint must suppress email notifications.' }
-foreach ($failure in @('rejection-without-comment-does-not-finalize', 'assigned-approver-and-approval-id-are-immutable')) {
+foreach ($failure in @('rejection-without-comment-does-not-finalize', 'assigned-approver-and-approval-id-are-immutable', 'ai-output-never-finalizes-decision', 'ai-failure-preserves-human-review-path')) {
     if ($flow.failurePaths -notcontains $failure) { throw "Flow blueprint is missing failure path: $failure" }
 }
 $approval = $flow.steps | Where-Object id -eq 'create-approval'
@@ -30,5 +30,7 @@ foreach ($failure in @('timeout-escalates-to-edms-without-email', 'requester-can
     if ($flow.failurePaths -notcontains $failure) { throw "Flow blueprint is missing failure path: $failure" }
 }
 if ($flow.tenantConfiguration -ne 'not stored in source control') { throw 'Flow blueprint contains a tenant configuration value.' }
+$ai = Get-Content -Raw -LiteralPath (Join-Path $root 'config/ai-review.example.json') | ConvertFrom-Json
+if ($ai.mode -ne 'advisory' -or $ai.recommendation -ne 'no-autonomous-decision' -or $ai.humanDecisionRequired -ne $true) { throw 'AI review must remain advisory and human-authoritative.' }
 
 Write-Output 'Flow blueprint validation passed.'

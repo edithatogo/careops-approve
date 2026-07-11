@@ -18,6 +18,8 @@
     <endEvent id="End_Config_Error" name="Configuration error" />
     <serviceTask id="Task_Generate_Id" name="Generate idempotent request ID" />
     <serviceTask id="Task_Create_Submission" name="Create immutable SharePoint submission" />
+    <serviceTask id="Task_AI_PreReview" name="Optional advisory AI pre-review" />
+    <serviceTask id="Task_Persist_AI" name="Persist AI assessment and audit metadata" />
     <serviceTask id="Task_Create_Approval" name="Create Teams approval without email" />
     <userTask id="Task_Decide" name="Assigned approver decides" />
     <boundaryEvent id="Boundary_14_Days" name="14-day timeout" attachedToRef="Task_Decide" cancelActivity="true">
@@ -40,7 +42,9 @@
     <sequenceFlow id="Flow_Config_Error_End" sourceRef="Task_Preserve_Config_Error" targetRef="End_Config_Error" />
     <sequenceFlow id="Flow_Config_Valid" name="Yes" sourceRef="Gateway_Config" targetRef="Task_Generate_Id" />
     <sequenceFlow id="Flow_Id_Submission" sourceRef="Task_Generate_Id" targetRef="Task_Create_Submission" />
-    <sequenceFlow id="Flow_Submission_Approval" sourceRef="Task_Create_Submission" targetRef="Task_Create_Approval" />
+    <sequenceFlow id="Flow_Submission_AI" sourceRef="Task_Create_Submission" targetRef="Task_AI_PreReview" />
+    <sequenceFlow id="Flow_AI_Persist" sourceRef="Task_AI_PreReview" targetRef="Task_Persist_AI" />
+    <sequenceFlow id="Flow_Persist_AI_Approval" sourceRef="Task_Persist_AI" targetRef="Task_Create_Approval" />
     <sequenceFlow id="Flow_Approval_Decision" sourceRef="Task_Create_Approval" targetRef="Task_Decide" />
     <sequenceFlow id="Flow_Timeout_EDMS" sourceRef="Boundary_14_Days" targetRef="Task_Create_EDMS" />
     <sequenceFlow id="Flow_EDMS_Decision" sourceRef="Task_Create_EDMS" targetRef="Task_EDMS_Decide" />

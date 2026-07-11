@@ -1,0 +1,8 @@
+{
+  "scenarios": [
+    { "name": "complete assessment", "status": "completed", "expectedRoute": "ordinary-human-approval" },
+    { "name": "missing information", "status": "needs-information", "expectedRoute": "human-review-with-clarification" },
+    { "name": "policy-blocked content", "status": "blocked-by-policy", "expectedRoute": "ordinary-human-approval" },
+    { "name": "AI connector unavailable", "status": "unavailable", "expectedRoute": "ordinary-human-approval" }
+  ]
+}

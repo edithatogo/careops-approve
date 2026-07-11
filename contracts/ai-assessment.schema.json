@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careops.example/schemas/ai-assessment.schema.json",
+  "title": "CareOps advisory AI assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["requestId", "assessmentStatus", "summary", "missingInformation", "flags", "confidence", "recommendation", "promptVersion", "evaluatedAt", "humanDecisionRequired"],
+  "properties": {
+    "requestId": { "type": "string", "pattern": "^CA-[0-9A-Z-]{8,64}$" },
+    "assessmentStatus": { "enum": ["completed", "needs-information", "unavailable", "blocked-by-policy"] },
+    "summary": { "type": "string", "maxLength": 4000 },
+    "missingInformation": { "type": "array", "items": { "type": "string", "maxLength": 300 }, "maxItems": 20 },
+    "flags": { "type": "array", "items": { "type": "string", "maxLength": 300 }, "maxItems": 20 },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "recommendation": { "const": "no-autonomous-decision" },
+    "promptVersion": { "type": "string", "minLength": 1, "maxLength": 100 },
+    "evaluatedAt": { "type": "string", "format": "date-time" },
+    "inputHash": { "type": "string", "pattern": "^[A-Fa-f0-9]{64}$" },
+    "humanDecisionRequired": { "const": true }
+  }
+}

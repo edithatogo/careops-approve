@@ -18,6 +18,8 @@
     <endEvent id="End_Invalid_TESL" name="TESL validation failure" />
     <serviceTask id="Task_Resolve_Approver" name="Resolve active CareOps approver" />
     <serviceTask id="Task_Create_Submission" name="Create immutable SharePoint submission" />
+    <serviceTask id="Task_AI_PreReview" name="Optional advisory AI pre-review" />
+    <serviceTask id="Task_Persist_AI" name="Persist AI assessment and audit metadata" />
     <serviceTask id="Task_Create_Approval" name="Create Teams Approvals request" />
     <userTask id="Task_Decide" name="Approve or reject TESL request" />
     <boundaryEvent id="Boundary_14_Days" name="14-day pending timeout" attachedToRef="Task_Decide" cancelActivity="true">
@@ -44,7 +46,9 @@
     <sequenceFlow id="Flow_Invalid_End" sourceRef="Task_Preserve_Alert" targetRef="End_Invalid_TESL" />
     <sequenceFlow id="Flow_Valid_TESL" name="Yes" sourceRef="Gateway_Valid_TESL" targetRef="Task_Resolve_Approver" />
     <sequenceFlow id="Flow_Resolve_Create" sourceRef="Task_Resolve_Approver" targetRef="Task_Create_Submission" />
-    <sequenceFlow id="Flow_Submission_Approval" sourceRef="Task_Create_Submission" targetRef="Task_Create_Approval" />
+    <sequenceFlow id="Flow_Submission_AI" sourceRef="Task_Create_Submission" targetRef="Task_AI_PreReview" />
+    <sequenceFlow id="Flow_AI_Persist" sourceRef="Task_AI_PreReview" targetRef="Task_Persist_AI" />
+    <sequenceFlow id="Flow_Persist_AI_Approval" sourceRef="Task_Persist_AI" targetRef="Task_Create_Approval" />
     <sequenceFlow id="Flow_Approval_Decision" sourceRef="Task_Create_Approval" targetRef="Task_Decide" />
     <sequenceFlow id="Flow_Decision_Delegation" sourceRef="Task_Decide" targetRef="Task_Record_Delegation" />
     <sequenceFlow id="Flow_Decision_Persist" sourceRef="Task_Record_Delegation" targetRef="Task_Persist_Decision" />

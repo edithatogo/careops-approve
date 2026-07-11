@@ -2,6 +2,7 @@
   "name": "CareOps Submit and Route",
   "status": "blueprint",
   "deploymentStatus": "executive-confirmed-live",
+  "aiReview": "config/ai-review.example.json",
   "surfaces": ["Microsoft Forms", "Office 365 Outlook", "SharePoint", "Power Automate", "Teams Approvals"],
   "trigger": {
     "type": "forms-response",
@@ -13,6 +14,8 @@
     { "id": "load-configuration", "type": "sharepoint-read-active-approver", "onFailure": "preserve-and-alert-owner" },
     { "id": "generate-request-id", "type": "idempotent-request-id" },
     { "id": "create-submission", "type": "sharepoint-create-item", "status": "Submitted", "immutable": ["requestId", "assignedApproverEmail", "approverConfigurationVersion"] },
+    { "id": "run-ai-pre-review", "type": "ai-builder-prompt-advisory", "config": "config/ai-review.example.json", "enabledByConfiguration": true, "authoritative": false, "onFailure": "continue-to-human-review" },
+    { "id": "persist-ai-assessment", "type": "sharepoint-create-advisory-assessment", "requires": ["assessmentStatus", "summary", "flags", "confidence", "promptVersion", "evaluatedAt", "humanDecisionRequired"], "email": false },
     { "id": "create-approval", "type": "native-teams-approval", "responses": ["Approve", "Reject"], "assignedTo": "resolved-primary-or-fallback", "sendEmailNotification": false, "rejectionRequiresComment": true, "timeoutDays": 14, "onTimeout": "create-edms-escalation" },
     { "id": "acknowledge-requester", "type": "notification", "surface": "teams-or-sharepoint", "email": false, "contains": ["requestId", "assignedApprover"] },
     { "id": "restrict-request-visibility", "type": "authorization", "audience": ["workflowOwner", "requester", "assignedApprover"], "excludeFromAudience": ["unassignedUsers", "generalTeamMembers"], "email": false },
@@ -31,6 +34,8 @@
     "timeout-escalates-to-edms-without-email",
     "requester-cancellation-is-audited-and-idempotent",
     "visibility-is-limited-to-owner-requester-and-assigned-approver"
+    ,"ai-output-never-finalizes-decision"
+    ,"ai-failure-preserves-human-review-path"
   ],
   "tenantConfiguration": "not stored in source control"
 }

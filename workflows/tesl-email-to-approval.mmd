@@ -8,7 +8,9 @@ flowchart LR
   F -- No --> G[Preserve source and alert owner] --> Z1([Validation failure])
   F -- Yes --> H[Resolve approver and delegation]
   H --> I[Create immutable submission]
-  I --> J[Create Teams approval<br/>email disabled]
+  I --> AI[Optional advisory AI review<br/>extract / summarize / flag]
+  AI --> AIP[Persist assessment<br/>human decision required]
+  AIP --> J[Create Teams approval<br/>email disabled]
   J --> K{Decision}
   K -- Approve/Reject --> N[Persist decision and audit]
   K -- Urgent delegate --> L[Record verbal delegation] --> N

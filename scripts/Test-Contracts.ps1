@@ -15,6 +15,7 @@ $schemas = @{
     request = Read-Json (Join-Path $contracts 'request.schema.json')
     decision = Read-Json (Join-Path $contracts 'decision.schema.json')
     approver = Read-Json (Join-Path $contracts 'approver-configuration.schema.json')
+    aiAssessment = Read-Json (Join-Path $contracts 'ai-assessment.schema.json')
 }
 
 foreach ($schema in $schemas.GetEnumerator()) {
@@ -26,10 +27,12 @@ foreach ($schema in $schemas.GetEnumerator()) {
 $request = Read-Json (Join-Path $contracts 'fixtures/request.valid.json')
 $decision = Read-Json (Join-Path $contracts 'fixtures/decision.valid.json')
 $approver = Read-Json (Join-Path $contracts 'fixtures/approver-configuration.valid.json')
+$aiAssessment = Read-Json (Join-Path $contracts 'fixtures/ai-assessment.valid.json')
 
 if ($request.status -ne 'Submitted') { throw 'The request fixture must start in Submitted status.' }
 if ([string]::IsNullOrWhiteSpace($request.requestId) -or [string]::IsNullOrWhiteSpace($request.assignedApprover.email)) { throw 'The request fixture must contain an ID and assigned approver.' }
 if ($decision.outcome -eq 'Rejected' -and [string]::IsNullOrWhiteSpace($decision.comment)) { throw 'Rejected decisions require a comment.' }
 if ($approver.status -ne 'Active' -or [string]::IsNullOrWhiteSpace($approver.primaryApprover.email)) { throw 'The approver fixture must contain an active primary approver.' }
+if ($aiAssessment.humanDecisionRequired -ne $true -or $aiAssessment.recommendation -ne 'no-autonomous-decision') { throw 'AI assessment fixture must preserve human decision authority.' }
 
 Write-Output 'Contract validation passed.'
