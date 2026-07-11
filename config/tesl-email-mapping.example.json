@@ -3,7 +3,8 @@
   "source": {
     "connector": "Office 365 Outlook",
     "trigger": "When a new email arrives (V3)",
-    "mailbox": "tenant-provided mailbox or folder",
+    "mailbox": "workflow-owner-mailbox",
+    "mailboxRole": "workflowOwner",
     "folder": "tenant-provided TESL folder",
     "tenantConfiguration": "not stored in source control"
   },

@@ -61,6 +61,7 @@
     - [ ] Confirm requester acknowledgement contains request ID and resolved approver
     - [x] Add TESL email intake, field mapping, BPMN 2.0 process, and Teams approval blueprint [727eff3]
     - [x] Add 14-day EDMS escalation, approval templates, and auditable urgent delegation policy [05853a3]
+    - [x] Configure owner-mailbox intake, email-notification suppression, and future desktop-flow boundary [pending]
 - [~] Task: Implement configurable approver resolution
     - [x] Write tests for primary approver, fallback, inactive entries, duplicate entries, and empty configuration [d204290]
     - [x] Define the tenant-neutral configuration lookup and routing failure blueprint [85fedee]
@@ -73,6 +74,8 @@
     - [ ] Notify the requester of the decision or actionable failure
     - [x] Surface TESL details, source email link, and immutable TESL metadata in the approval blueprint [727eff3]
     - [x] Define submitter/editor roles for Natalie Degidio and Kathryn Meharg without committing tenant UPNs [05853a3]
+    - [ ] Create and share the tenant flow with no email notifications
+    - [ ] Register an approved desktop machine or machine group for the intranet stage
 - [ ] Task: Conductor - User Manual Verification 'Submit and Approve Flow' (Protocol in workflow.md)
 
 ## Phase 4: Administration, Deployment, and Pilot

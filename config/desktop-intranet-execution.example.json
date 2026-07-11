@@ -1,0 +1,18 @@
+{
+  "status": "future-stage-blueprint",
+  "trigger": "CareOps decision outcome equals Approved",
+  "action": "Run a flow built with Power Automate for desktop",
+  "connectivity": {
+    "preferred": "direct-machine-connectivity",
+    "legacyFallback": "on-premises-data-gateway-if-already-approved-and-available",
+    "machine": "tenant-provided registered intranet machine or machine group"
+  },
+  "intranet": {
+    "application": "tenant-provided intranet-accessed platform",
+    "urlOrTarget": "tenant-provided; not stored in source control",
+    "credentials": "use an approved desktop-flow connection; never store credentials here"
+  },
+  "inputs": ["requestId", "teslId", "decisionId", "decisionComment", "teslLink"],
+  "controls": ["approved-outcome-only", "idempotency-key-requestId", "run-log-persisted", "failure-alerts-owner-in-Teams"],
+  "notifications": { "email": false, "teams": true }
+}

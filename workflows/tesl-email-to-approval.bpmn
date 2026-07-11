@@ -30,7 +30,8 @@
     <userTask id="Task_EDMS_Decide" name="EDMS approve or reject escalated request" />
     <serviceTask id="Task_Record_Delegation" name="Record verbal delegation when urgent delegate responds" />
     <serviceTask id="Task_Persist_Decision" name="Persist decision and immutable audit fields" />
-    <serviceTask id="Task_Notify" name="Notify requester and TESL owner" />
+    <serviceTask id="Task_Notify" name="Surface status in Teams and SharePoint (no email)" />
+    <serviceTask id="Task_Run_Desktop" name="Run approved desktop flow against intranet platform" />
     <endEvent id="End_Complete" name="TESL approval complete" />
 
     <sequenceFlow id="Flow_Start_Match" sourceRef="Start_TESL_Email" targetRef="Task_Match_Email" />
@@ -52,6 +53,7 @@
     <sequenceFlow id="Flow_EDMS_Decision" sourceRef="Task_Create_EDMS" targetRef="Task_EDMS_Decide" />
     <sequenceFlow id="Flow_EDMS_Delegation" sourceRef="Task_EDMS_Decide" targetRef="Task_Record_Delegation" />
     <sequenceFlow id="Flow_Persist_Notify" sourceRef="Task_Persist_Decision" targetRef="Task_Notify" />
-    <sequenceFlow id="Flow_Notify_End" sourceRef="Task_Notify" targetRef="End_Complete" />
+    <sequenceFlow id="Flow_Notify_Desktop" sourceRef="Task_Notify" targetRef="Task_Run_Desktop" />
+    <sequenceFlow id="Flow_Desktop_End" sourceRef="Task_Run_Desktop" targetRef="End_Complete" />
   </process>
 </definitions>

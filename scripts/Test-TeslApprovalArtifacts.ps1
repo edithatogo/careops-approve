@@ -7,13 +7,14 @@ $contract = Get-Content -Raw -LiteralPath (Join-Path $root 'flows/tesl-email-to-
 $mapping = Get-Content -Raw -LiteralPath (Join-Path $root 'config/tesl-email-mapping.example.json') | ConvertFrom-Json
 $templates = Get-Content -Raw -LiteralPath (Join-Path $root 'config/approval-templates.example.json') | ConvertFrom-Json
 $roles = Get-Content -Raw -LiteralPath (Join-Path $root 'config/role-assignments.example.json') | ConvertFrom-Json
+$desktop = Get-Content -Raw -LiteralPath (Join-Path $root 'config/desktop-intranet-execution.example.json') | ConvertFrom-Json
 $bpmn = [System.Xml.Linq.XDocument]::Load((Join-Path $root 'workflows/tesl-email-to-approval.bpmn'))
 
 if ($contract.status -ne 'blueprint') { throw 'TESL flow must remain a blueprint until tenant export is approved.' }
 foreach ($surface in @('Office 365 Outlook', 'SharePoint', 'Power Automate', 'Teams Approvals')) {
     if ($contract.surfaces -notcontains $surface) { throw "TESL flow is missing surface: $surface" }
 }
-foreach ($step in @('match-tesl-email', 'parse-tesl-details', 'load-template', 'validate-tesl-details', 'load-configuration', 'create-submission', 'create-approval', 'wait-for-decision', 'check-still-pending', 'create-edms-escalation', 'wait-for-edms-decision', 'record-verbal-delegation', 'persist-outcome', 'notify-requester', 'finalize')) {
+foreach ($step in @('match-tesl-email', 'parse-tesl-details', 'load-template', 'validate-tesl-details', 'load-configuration', 'create-submission', 'create-approval', 'wait-for-decision', 'check-still-pending', 'create-edms-escalation', 'wait-for-edms-decision', 'record-verbal-delegation', 'persist-outcome', 'notify-requester', 'run-desktop-intranet', 'finalize')) {
     if (@($contract.steps | Where-Object id -eq $step).Count -ne 1) { throw "TESL flow is missing step: $step" }
 }
 foreach ($field in @('teslId', 'teslTitle', 'teslStatus', 'teslSummary')) {
@@ -30,6 +31,9 @@ foreach ($permission in @('submitters', 'workflowEditors', 'normalApprovers', 'u
     if (-not $roles.permissions.$permission) { throw "Missing permission group: $permission" }
 }
 if ($roles.delegationPolicy.mode -ne 'recorded-verbal-delegation-only' -or -not $roles.delegationPolicy.requiresOwnerNotification) { throw 'Urgent delegation must be recorded and notify the workflow owner.' }
+if ($contract.notificationPolicy.approvalEmail -ne $false -or $contract.notificationPolicy.outboundEmail -ne $false) { throw 'TESL flow must disable email notifications.' }
+if ($contract.steps | Where-Object { $_.type -eq 'outlook-send-email' }) { throw 'TESL flow must not contain an outbound Outlook email action.' }
+if ($desktop.notifications.email -ne $false -or $desktop.action -ne 'Run a flow built with Power Automate for desktop') { throw 'Desktop execution must be approved-only and email-free.' }
 
 $ns = [System.Xml.Linq.XNamespace]::Get('http://www.omg.org/spec/BPMN/20100524/MODEL')
 $process = $bpmn.Root.Element($ns + 'process')

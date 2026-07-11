@@ -24,7 +24,9 @@ This repository therefore provides a tenant-neutral implementation boundary:
 
 ## Intended flow
 
-1. Outlook receives an email in the configured TESL folder.
+1. Outlook receives an email in the workflow owner's mailbox in the configured
+   TESL folder. The live tenant owner mailbox is configured outside source
+   control.
 2. The flow filters by the configured folder, sender allow-list, and subject
    marker. Non-TESL messages are ignored without creating an approval.
 3. TESL fields are extracted from configured header/body aliases. Required
@@ -36,9 +38,13 @@ This repository therefore provides a tenant-neutral implementation boundary:
 6. Teams Approvals receives a request containing the TESL details and a link to
    the source email.
 7. The decision, comments, approver, timestamps, and request ID are persisted;
-   the requester and TESL owner are notified.
+   status is surfaced in Teams and SharePoint. Outbound email notifications are
+   disabled.
 8. If the primary approval remains pending for 14 days, the flow escalates to
    the EDMS approver and records the escalation stage.
+9. Only an approved outcome may invoke the future desktop flow for the
+   intranet-accessed platform. See
+   [`config/desktop-intranet-execution.example.json`](../config/desktop-intranet-execution.example.json).
 
 ## Urgent verbal delegation
 
@@ -63,7 +69,15 @@ committed here:
   manager, and EDMS escalation approver;
 - the authorised workflow editors/co-owners and their connection ownership;
 - the approved Power Automate environment and connection owners.
+- a registered desktop-flow machine or machine group with approved intranet
+  access for the future execution stage.
 
 The flow must be built or imported only after these values are confirmed by the
 tenant owner. The contract intentionally remains a blueprint rather than a
 claim that a live TESL flow has been deployed.
+
+The live environment currently has no registered desktop machine or machine
+group, so the intranet execution stage remains deferred. Power Automate's
+direct machine connectivity is the preferred future route; an on-premises
+gateway is only a legacy fallback if the tenant already approves and supports
+one.
