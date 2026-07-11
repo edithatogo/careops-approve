@@ -10,7 +10,7 @@
   },
   "permissions": {
     "submitters": ["requester", "executiveAssistant", "medicalWorkforceManager"],
-    "workflowEditors": ["workflowOwner", "executiveAssistant", "medicalWorkforceManager"],
+    "workflowEditors": ["workflowOwner"],
     "normalApprovers": ["primaryApprover", "edmsEscalationApprover"],
     "urgentDelegatedApprovers": ["executiveAssistant", "medicalWorkforceManager"]
   },

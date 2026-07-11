@@ -73,7 +73,7 @@
     - [ ] Persist the immutable assigned approver and final outcome
     - [ ] Notify the requester of the decision or actionable failure
     - [x] Surface TESL details, source email link, and immutable TESL metadata in the approval blueprint [727eff3]
-    - [x] Define submitter/editor roles for Natalie Degidio and Kathryn Meharg without committing tenant UPNs [05853a3]
+    - [x] Define owner, submitter, and urgent-delegate roles without committing tenant UPNs [05853a3]
     - [ ] Create and share the tenant flow with no email notifications
     - [ ] Register an approved desktop machine or machine group for the intranet stage
 - [ ] Task: Conductor - User Manual Verification 'Submit and Approve Flow' (Protocol in workflow.md)
