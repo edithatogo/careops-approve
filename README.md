@@ -28,6 +28,8 @@ TESL emails can enter the same approval path through the source-controlled
 [TESL email-to-approval blueprint](docs/tesl-email-approval.md), which includes
 a BPMN 2.0 process, configurable TESL field mapping, and a Power Automate flow
 contract. Tenant mailbox and field syntax remain deployment configuration.
+The implementation also records which existing Power Automate patterns are safe
+to adapt in the [reuse assessment](docs/power-automate-reuse-assessment.md).
 
 Changing the approver configuration affects new requests. Existing requests keep
 the approver assigned when they were submitted so their audit history remains

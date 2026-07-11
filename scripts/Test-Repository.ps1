@@ -51,6 +51,8 @@ $required = @(
     'config/approval-templates.example.json',
     'config/role-assignments.example.json',
     'config/desktop-intranet-execution.example.json',
+    'config/power-automate-reuse.example.json',
+    'docs/power-automate-reuse-assessment.md',
     'workflows/tesl-email-to-approval.bpmn',
     'scripts/Test-TeslApprovalArtifacts.ps1',
     'docs/tesl-email-approval.md',

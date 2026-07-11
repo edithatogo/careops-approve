@@ -1,0 +1,57 @@
+{
+  "status": "assessed-blueprint",
+  "environment": "tenant-provided personal or approved pilot environment",
+  "patterns": [
+    {
+      "patternId": "sharepoint-action-state",
+      "observedIn": ["Leader Rounding - Teams Escalation Approvals v2"],
+      "decision": "adapt",
+      "sourceActions": ["SharePoint item trigger", "Create action item", "Persist approval outcome"],
+      "careOpsUse": ["create immutable submission", "persist decision", "retain escalation and delegation audit"]
+    },
+    {
+      "patternId": "teams-adaptive-card-presentation",
+      "observedIn": ["Leader Rounding - Teams Escalation Approvals v2"],
+      "decision": "adapt",
+      "sourceActions": ["Post Teams Adaptive Card Approval"],
+      "careOpsUse": ["Teams-only status and action presentation", "no outbound email"],
+      "constraint": "native Teams Approvals record remains authoritative"
+    },
+    {
+      "patternId": "dynamic-roster-resolution",
+      "observedIn": ["Leader Rounding - Dynamic Roster Reallocation v2"],
+      "decision": "adapt",
+      "sourceActions": ["Load exception roster entries", "Load availability exceptions", "Load leaders", "Select replacement leader candidates", "Build readiness summary"],
+      "careOpsUse": ["resolve primary, fallback, urgent delegate, and EDMS escalation roles", "fail visibly when no valid candidate exists"]
+    },
+    {
+      "patternId": "delegate-assignment-resolution",
+      "observedIn": ["Leader Rounding - Dual Calendar Sync and Delegate Invite"],
+      "decision": "adapt-design-only",
+      "sourceActions": ["Load roster entries", "Load leaders", "Resolve delegate assignments"],
+      "careOpsUse": ["resolve recorded verbal delegation without silently reassigning an in-flight approval"]
+    },
+    {
+      "patternId": "weekly-teams-summary",
+      "observedIn": ["Leader Rounding - Weekly Collation"],
+      "decision": "adapt",
+      "sourceActions": ["Recurrence", "Load open action items", "Build weekly summary", "Post to Teams channel"],
+      "careOpsUse": ["owner-only pending and escalated approval summary", "no outbound email"]
+    }
+  ],
+  "excluded": [
+    {
+      "asset": "MSCG - M+M - Action Overdue Escalation",
+      "reason": "Power Automate reports corrupted flow data"
+    },
+    {
+      "asset": "direct Save As or clone of Leader Rounding flows",
+      "reason": "existing flows are off, draft, or contain invalid parameters and environment sharing is disabled"
+    },
+    {
+      "asset": "calendar event creation",
+      "reason": "not required for the TESL approval MVP"
+    }
+  ],
+  "tenantConfiguration": "No flow IDs, connection IDs, site URLs, or user UPNs are stored in source control."
+}
