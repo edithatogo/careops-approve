@@ -9,7 +9,10 @@
     "conductor/workflow.md",
     "conductor/tracks.md",
     "conductor/tracks/basic_submit_approve_20260710/plan.md",
-    "scripts/Test-Repository.ps1"
+    "scripts/Test-Repository.ps1",
+    "tooling/powerplatform-tools.json",
+    "scripts/Install-PowerPlatformTooling.ps1",
+    "scripts/Test-Coverage.ps1"
   ],
   "forbiddenTrackedPrefixes": [".env", ".pac/", "logs/", "test-results/"],
   "workflowFiles": [

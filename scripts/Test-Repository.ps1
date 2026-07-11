@@ -79,6 +79,12 @@ $required = @(
     'docs/pilot-test-matrix.md',
     'scripts/Test-HandoffPackage.ps1',
     'docs/approver-administration.md',
+    'tooling/powerplatform-tools.json',
+    'docs/tooling.md',
+    'scripts/Install-PowerPlatformTooling.ps1',
+    'scripts/Test-ToolingManifest.ps1',
+    'harness/coverage-matrix.json',
+    'scripts/Test-Coverage.ps1',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -157,5 +163,7 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-DecisionScenarios.ps1')
 & (Join-Path $root 'scripts/Test-AdministrationScenarios.ps1')
 & (Join-Path $root 'scripts/Test-HandoffPackage.ps1')
+& (Join-Path $root 'scripts/Test-ToolingManifest.ps1')
+& (Join-Path $root 'scripts/Test-Coverage.ps1')
 
 Write-Output 'Repository validation passed.'

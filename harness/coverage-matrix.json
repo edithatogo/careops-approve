@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "threshold": 0.9,
+  "definition": "Repository control coverage maps every repo-local control to an executable validation script. Tenant controls require live evidence and are reported separately.",
+  "controls": [
+    {"id":"request-contract","scope":"repo","test":"scripts/Test-Contracts.ps1"},
+    {"id":"decision-contract","scope":"repo","test":"scripts/Test-Contracts.ps1"},
+    {"id":"approver-configuration","scope":"repo","test":"scripts/Test-Contracts.ps1"},
+    {"id":"advisory-ai-guardrails","scope":"repo","test":"scripts/Test-AiReview.ps1"},
+    {"id":"solution-source","scope":"repo","test":"scripts/Test-SolutionSource.ps1"},
+    {"id":"workflow-contracts","scope":"repo","test":"scripts/Test-WorkflowContracts.ps1"},
+    {"id":"sharepoint-data-contracts","scope":"repo","test":"scripts/Test-SharePointContracts.ps1"},
+    {"id":"scenario-coverage","scope":"repo","test":"scripts/Test-WorkflowScenarios.ps1"},
+    {"id":"flow-blueprints","scope":"repo","test":"scripts/Test-FlowBlueprint.ps1"},
+    {"id":"tesl-email-mapping","scope":"repo","test":"scripts/Test-TeslApprovalArtifacts.ps1"},
+    {"id":"bpmn-visual-pairs","scope":"repo","test":"scripts/Test-BpmnArtifacts.ps1"},
+    {"id":"decision-outcomes","scope":"repo","test":"scripts/Test-DecisionScenarios.ps1"},
+    {"id":"administration-and-delegation","scope":"repo","test":"scripts/Test-AdministrationScenarios.ps1"},
+    {"id":"handoff-package","scope":"repo","test":"scripts/Test-HandoffPackage.ps1"},
+    {"id":"toolchain-reproducibility","scope":"repo","test":"scripts/Test-ToolingManifest.ps1"},
+    {"id":"publication-boundary","scope":"repo","test":"harness/Test-Harness.ps1"},
+    {"id":"tenant-authentication","scope":"tenant","test":"docs/tooling.md","covered":false},
+    {"id":"teams-approval-pilot","scope":"tenant","test":"docs/pilot-test-matrix.md","covered":false},
+    {"id":"power-automate-live-flow","scope":"tenant","test":"docs/tenant-handoff-runbook.md","covered":false},
+    {"id":"desktop-intranet-gateway","scope":"tenant","test":"config/desktop-intranet-execution.example.json","covered":false}
+  ]
+}

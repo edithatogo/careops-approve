@@ -19,3 +19,6 @@ plan in its respective folder.
 
 - [x] **Track: Add advisory AI review guardrails**
   *Link: [./tracks/advisory_ai_review_20260711/](./tracks/advisory_ai_review_20260711/)*
+
+- [x] **Track: Reproducible tooling and measurable harness coverage**
+  *Link: [./tracks/reproducible_tooling_coverage_20260712/](./tracks/reproducible_tooling_coverage_20260712/)*
