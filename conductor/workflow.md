@@ -32,6 +32,10 @@ At the end of every phase:
 
 ## Quality Gates
 
+- The repository harness must pass before a phase checkpoint or pilot package.
+- Harness failures are blockers and must be repaired or explicitly isolated
+  from the publication boundary.
+
 - No secrets, connection credentials, or fixed personal identifiers are committed.
 - Configuration changes are restricted to authorised owners and are auditable.
 - In-flight requests are not silently reassigned by configuration changes.

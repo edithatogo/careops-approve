@@ -1,0 +1,20 @@
+{
+  "name": "careops-approve",
+  "required": [
+    "README.md",
+    "conductor/index.md",
+    "conductor/product.md",
+    "conductor/product-guidelines.md",
+    "conductor/tech-stack.md",
+    "conductor/workflow.md",
+    "conductor/tracks.md",
+    "conductor/tracks/basic_submit_approve_20260710/plan.md",
+    "scripts/Test-Repository.ps1"
+  ],
+  "forbiddenTrackedPrefixes": [".env", ".pac/", "logs/", "test-results/"],
+  "workflowFiles": [
+    ".github/workflows/validate.yml",
+    ".github/workflows/deploy-pilot.yml"
+  ],
+  "allowContentsWrite": false
+}

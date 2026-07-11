@@ -1,0 +1,19 @@
+name: Harness gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  harness:
+    if: ${{ github.server_url == 'https://github.com' }}
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run fail-closed harness
+        shell: pwsh
+        run: ./harness/Test-Harness.ps1
