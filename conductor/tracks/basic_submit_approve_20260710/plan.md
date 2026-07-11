@@ -62,7 +62,7 @@
     - [x] Add TESL email intake, field mapping, BPMN 2.0 process, and Teams approval blueprint [727eff3]
     - [x] Add 14-day EDMS escalation, approval templates, and auditable urgent delegation policy [05853a3]
     - [x] Configure owner-mailbox intake, email-notification suppression, and future desktop-flow boundary [872cefa]
-    - [x] Assess and adopt safe patterns from existing Leader Rounding Power Automate flows [pending]
+    - [x] Assess and adopt safe patterns from existing Leader Rounding Power Automate flows [cca393a]
 - [~] Task: Implement configurable approver resolution
     - [x] Write tests for primary approver, fallback, inactive entries, duplicate entries, and empty configuration [d204290]
     - [x] Define the tenant-neutral configuration lookup and routing failure blueprint [85fedee]
