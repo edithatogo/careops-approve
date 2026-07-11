@@ -6,6 +6,7 @@
     - [ ] Verify Teams Approvals availability, standard connector licensing, DLP policy, and Dataverse provisioning state
     - [ ] Confirm the pilot data classification, retention expectation, and authorised workflow owners
     - [x] Record external blockers without embedding tenant identifiers or credentials [d502a49]
+    - [x] Produce a sanitized tenant-owner request checklist for the remaining fit gates
 - [x] Task: Define the solution contract and configuration schema [92dd5a7]
     - [x] Write validation fixtures for request, outcome, and approver configuration records [92dd5a7]
     - [x] Define required fields, statuses, immutable audit fields, and owner permissions [92dd5a7]
