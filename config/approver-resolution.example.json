@@ -1,0 +1,22 @@
+{
+  "status": "blueprint",
+  "lookupOrder": [
+    "active-template-approver",
+    "active-primary-approver",
+    "active-fallback-approver"
+  ],
+  "selectionRules": [
+    "exactly-one-active-record-per-role",
+    "effective-from-and-effective-to-window",
+    "do-not-reassign-existing-submissions",
+    "reject-duplicate-active-configuration",
+    "reject-empty-resolution"
+  ],
+  "invalidConfiguration": {
+    "preserveSubmission": true,
+    "createApproval": false,
+    "alertRole": "workflowOwner",
+    "auditState": "ConfigurationError"
+  },
+  "tenantConfiguration": "Approver UPNs and SharePoint identifiers are tenant-provided and excluded from source control."
+}

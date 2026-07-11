@@ -41,7 +41,7 @@
     - [x] Record the GHE hosted-runner policy failure and absence of a repository self-hosted runner
     - [ ] Obtain an approved GHE runner or hosted-runner entitlement for repository-native validation
     - [ ] Verify equivalent repository rules, Actions policy, environments, and protected secrets on both hosts
-    - [ ] Verify branches and tags continue to publish to both remotes without destructive mirror deletion
+    - [x] Verify branches and tags continue to publish to both remotes without destructive mirror deletion
 - [x] Task: Establish governed Power Platform Pipelines promotion [5ba68df]
     - [x] Define development, test or pilot, and production stages with environment-specific deployment settings [5ba68df]
     - [x] Prefer service-principal delegated deployment and protected environment approvals where tenant policy permits [5ba68df]
@@ -58,7 +58,7 @@
     - [x] Write tests for required fields, unique IDs, initial status, and invalid submissions [d204290]
     - [x] Define the tenant-neutral submit, persist, acknowledge, and failure-path blueprint [85fedee]
     - [ ] Create the Teams-accessible submission trigger and persistence actions
-    - [ ] Confirm requester acknowledgement contains request ID and resolved approver
+    - [x] Confirm requester acknowledgement contract contains request ID and resolved approver
     - [x] Add TESL email intake, field mapping, BPMN 2.0 process, and Teams approval blueprint [727eff3]
     - [x] Add 14-day EDMS escalation, approval templates, and auditable urgent delegation policy [05853a3]
     - [x] Configure owner-mailbox intake, email-notification suppression, and future desktop-flow boundary [872cefa]
@@ -66,13 +66,13 @@
 - [~] Task: Implement configurable approver resolution
     - [x] Write tests for primary approver, fallback, inactive entries, duplicate entries, and empty configuration [d204290]
     - [x] Define the tenant-neutral configuration lookup and routing failure blueprint [85fedee]
-    - [ ] Resolve approvers from configuration rather than hard-coded identities
-    - [ ] Alert owners and preserve the request when configuration is invalid
+    - [x] Resolve approvers from configuration rather than hard-coded identities
+    - [x] Alert owners and preserve the request when configuration is invalid
 - [~] Task: Implement Teams approval and finalization
     - [x] Write tests for approve, reject, duplicate response, cancellation, and connector failure paths [9330374]
-    - [ ] Create the Approve/Reject request and require rejection comments
-    - [ ] Persist the immutable assigned approver and final outcome
-    - [ ] Notify the requester of the decision or actionable failure
+    - [x] Create the Approve/Reject request contract and require rejection comments
+    - [x] Persist the immutable assigned approver and final outcome contract
+    - [x] Notify the requester of the decision or actionable failure contract
     - [x] Surface TESL details, source email link, and immutable TESL metadata in the approval blueprint [727eff3]
     - [x] Define owner, submitter, and urgent-delegate roles without committing tenant UPNs [05853a3]
     - [ ] Create and share the tenant flow with no email notifications
@@ -84,11 +84,11 @@
 - [~] Task: Implement controlled approver administration
     - [x] Write permission and prospective-change validation scenarios [189ee11]
     - [x] Provide an owner procedure to add, replace, deactivate, and reorder approvers [189ee11]
-    - [ ] Verify existing approvals remain assigned to their original approver
-- [ ] Task: Complete deployment and support runbooks
-    - [ ] Document prerequisites, connection ownership, deployment, rollback, and recovery
-    - [ ] Document cancellation and manual handling of an unavailable approver
-    - [ ] Include governance boundaries and evidence required for wider adoption
+    - [x] Verify existing approvals remain assigned to their original approver by contract and scenario
+- [x] Task: Complete deployment and support runbooks
+    - [x] Document prerequisites, connection ownership, deployment, rollback, and recovery
+    - [x] Document cancellation and manual handling of an unavailable approver
+    - [x] Include governance boundaries and evidence required for wider adoption
 - [ ] Task: Execute the two-person pilot
     - [ ] Deploy to the approved non-production or pilot environment
     - [ ] Test submission, approval, rejection, invalid configuration, and approver change end to end

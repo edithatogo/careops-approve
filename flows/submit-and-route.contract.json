@@ -12,14 +12,18 @@
     { "id": "load-configuration", "type": "sharepoint-read-active-approver", "onFailure": "preserve-and-alert-owner" },
     { "id": "generate-request-id", "type": "idempotent-request-id" },
     { "id": "create-submission", "type": "sharepoint-create-item", "status": "Submitted", "immutable": ["requestId", "assignedApproverEmail", "approverConfigurationVersion"] },
-    { "id": "create-approval", "type": "native-teams-approval", "responses": ["Approve", "Reject"], "assignedTo": "resolved-primary-or-fallback" },
-    { "id": "acknowledge-requester", "type": "notification", "contains": ["requestId", "assignedApprover"] },
+    { "id": "create-approval", "type": "native-teams-approval", "responses": ["Approve", "Reject"], "assignedTo": "resolved-primary-or-fallback", "sendEmailNotification": false, "rejectionRequiresComment": true },
+    { "id": "acknowledge-requester", "type": "notification", "surface": "teams-or-sharepoint", "email": false, "contains": ["requestId", "assignedApprover"] },
+    { "id": "persist-immutable-assignment", "type": "decision-persistence", "immutable": ["requestId", "assignedApproverEmail", "approverConfigurationVersion", "approvalId"] },
+    { "id": "persist-final-outcome", "type": "decision-persistence", "requires": ["outcome", "decidedAt", "decisionComment"], "onDuplicate": "retain-first-final-outcome" },
     { "id": "finalize", "type": "decision-persistence", "onDuplicate": "retain-first-final-outcome" }
   ],
   "failurePaths": [
     "invalid-input-does-not-create-approval",
     "invalid-configuration-preserves-submission-and-alerts-owner",
-    "connector-failure-preserves-request-and-reports-actionable-error"
+    "connector-failure-preserves-request-and-reports-actionable-error",
+    "rejection-without-comment-does-not-finalize",
+    "assigned-approver-and-approval-id-are-immutable"
   ],
   "tenantConfiguration": "not stored in source control"
 }

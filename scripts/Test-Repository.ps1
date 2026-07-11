@@ -60,6 +60,10 @@ $required = @(
     'scripts/Test-DecisionScenarios.ps1',
     'config/administration-scenarios.example.json',
     'scripts/Test-AdministrationScenarios.ps1',
+    'config/approver-resolution.example.json',
+    'docs/tenant-handoff-runbook.md',
+    'docs/pilot-test-matrix.md',
+    'scripts/Test-HandoffPackage.ps1',
     'docs/approver-administration.md',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
@@ -136,5 +140,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-TeslApprovalArtifacts.ps1')
 & (Join-Path $root 'scripts/Test-DecisionScenarios.ps1')
 & (Join-Path $root 'scripts/Test-AdministrationScenarios.ps1')
+& (Join-Path $root 'scripts/Test-HandoffPackage.ps1')
 
 Write-Output 'Repository validation passed.'
