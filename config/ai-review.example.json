@@ -1,6 +1,6 @@
 {
   "status": "blueprint",
-  "enabled": false,
+  "enabled": true,
   "mode": "advisory",
   "provider": "AI Builder prompt",
   "promptName": "tenant-provided prompt reference",

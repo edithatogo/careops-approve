@@ -10,7 +10,7 @@ $schema = Read-Json 'contracts/ai-assessment.schema.json'
 $fixture = Read-Json 'contracts/fixtures/ai-assessment.valid.json'
 $scenarios = Read-Json 'config/ai-review-scenarios.example.json'
 
-if ($config.enabled -ne $false -or $config.mode -ne 'advisory') { throw 'AI review must be opt-in advisory mode by default.' }
+if ($config.enabled -ne $true -or $config.mode -ne 'advisory') { throw 'AI review must be enabled only in advisory mode.' }
 if ($config.recommendation -ne 'no-autonomous-decision' -or $config.humanDecisionRequired -ne $true) { throw 'AI review must never replace human decision authority.' }
 if ($config.failMode -ne 'continue-to-human-review') { throw 'AI failure must preserve the human review path.' }
 foreach ($field in @('summary', 'missingInformation', 'flags', 'confidence', 'recommendation', 'promptVersion', 'evaluatedAt', 'humanDecisionRequired')) {

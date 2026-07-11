@@ -5,7 +5,7 @@ preserving human decision authority, privacy boundaries, and fail-safe behavior.
 
 ## Acceptance criteria
 
-- AI review is disabled by default and advisory when enabled.
+- AI review is enabled in source only as an advisory stage and remains subject to tenant gates.
 - AI can summarize, extract, and flag; it cannot finalize, assign, cancel, or escalate an approval.
 - AI failure and low confidence preserve ordinary human review.
 - Assessment metadata is auditable without retaining raw prompt input.

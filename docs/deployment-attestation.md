@@ -12,7 +12,7 @@ environment:
 2. CareOps TESL Email to Approval
 
 The advisory AI review stage is implemented in source contracts but remains
-disabled in the live workflows pending AI Builder licensing, region, data
+not yet invoked in the live workflows pending AI Builder licensing, region, data
 classification, retention, prompt ownership, and pilot evidence.
 
 ## Source-control boundary

@@ -33,6 +33,11 @@ it.
 
 ## Enablement gates
 
+The repository configuration is now enabled for the advisory stage by executive
+direction. This does not grant tenant capacity or change a live flow by itself.
+The following tenant checks must still pass before production submissions are
+sent to the prompt:
+
 Before setting `config/ai-review.example.json` to enabled, confirm:
 
 1. AI Builder prompt availability and capacity in the target region;
@@ -42,5 +47,7 @@ Before setting `config/ai-review.example.json` to enabled, confirm:
 5. human review and low-confidence handling;
 6. pilot evidence for false positives, omissions, and connector failures.
 
-The default is `enabled: false`, `mode: advisory`, and
-`recommendation: no-autonomous-decision`.
+The configuration is `enabled: true`, `mode: advisory`, and
+`recommendation: no-autonomous-decision`. If any tenant gate is not satisfied,
+the deployment must leave the stage bypassed and continue to ordinary human
+approval.
