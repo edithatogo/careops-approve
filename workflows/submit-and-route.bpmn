@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             id="Definitions_Submit_Route"
+             targetNamespace="https://careops.example.invalid/bpmn/submit-and-route">
+  <message id="Message_Submit_Request" name="Approval request submitted" />
+  <process id="Process_Submit_Route" name="CareOps submit and route" isExecutable="false">
+    <startEvent id="Start_Submit" name="Request submitted">
+      <messageEventDefinition messageRef="Message_Submit_Request" />
+    </startEvent>
+    <serviceTask id="Task_Validate" name="Validate required request fields" />
+    <exclusiveGateway id="Gateway_Valid" name="Request valid?" />
+    <serviceTask id="Task_Acknowledge_Invalid" name="Acknowledge invalid request" />
+    <endEvent id="End_Invalid" name="Invalid request" />
+    <serviceTask id="Task_Load_Config" name="Load active approver configuration" />
+    <exclusiveGateway id="Gateway_Config" name="Configuration valid?" />
+    <serviceTask id="Task_Preserve_Config_Error" name="Preserve request and alert owner" />
+    <endEvent id="End_Config_Error" name="Configuration error" />
+    <serviceTask id="Task_Generate_Id" name="Generate idempotent request ID" />
+    <serviceTask id="Task_Create_Submission" name="Create immutable SharePoint submission" />
+    <serviceTask id="Task_Create_Approval" name="Create Teams approval without email" />
+    <userTask id="Task_Decide" name="Assigned approver decides" />
+    <boundaryEvent id="Boundary_14_Days" name="14-day timeout" attachedToRef="Task_Decide" cancelActivity="true">
+      <timerEventDefinition><timeDuration>P14D</timeDuration></timerEventDefinition>
+    </boundaryEvent>
+    <serviceTask id="Task_Create_EDMS" name="Create EDMS escalation without email" />
+    <userTask id="Task_EDMS_Decide" name="EDMS escalation approver decides" />
+    <serviceTask id="Task_Cancel" name="Requester cancellation with reason" />
+    <serviceTask id="Task_Persist" name="Persist first final outcome and audit fields" />
+    <serviceTask id="Task_Surface" name="Surface status to permitted audience" />
+    <endEvent id="End_Final" name="Approval finalized" />
+
+    <sequenceFlow id="Flow_Start_Validate" sourceRef="Start_Submit" targetRef="Task_Validate" />
+    <sequenceFlow id="Flow_Validate_Gateway" sourceRef="Task_Validate" targetRef="Gateway_Valid" />
+    <sequenceFlow id="Flow_Invalid" name="No" sourceRef="Gateway_Valid" targetRef="Task_Acknowledge_Invalid" />
+    <sequenceFlow id="Flow_Invalid_End" sourceRef="Task_Acknowledge_Invalid" targetRef="End_Invalid" />
+    <sequenceFlow id="Flow_Valid" name="Yes" sourceRef="Gateway_Valid" targetRef="Task_Load_Config" />
+    <sequenceFlow id="Flow_Config_Gateway" sourceRef="Task_Load_Config" targetRef="Gateway_Config" />
+    <sequenceFlow id="Flow_Config_Invalid" name="No" sourceRef="Gateway_Config" targetRef="Task_Preserve_Config_Error" />
+    <sequenceFlow id="Flow_Config_Error_End" sourceRef="Task_Preserve_Config_Error" targetRef="End_Config_Error" />
+    <sequenceFlow id="Flow_Config_Valid" name="Yes" sourceRef="Gateway_Config" targetRef="Task_Generate_Id" />
+    <sequenceFlow id="Flow_Id_Submission" sourceRef="Task_Generate_Id" targetRef="Task_Create_Submission" />
+    <sequenceFlow id="Flow_Submission_Approval" sourceRef="Task_Create_Submission" targetRef="Task_Create_Approval" />
+    <sequenceFlow id="Flow_Approval_Decision" sourceRef="Task_Create_Approval" targetRef="Task_Decide" />
+    <sequenceFlow id="Flow_Timeout_EDMS" sourceRef="Boundary_14_Days" targetRef="Task_Create_EDMS" />
+    <sequenceFlow id="Flow_EDMS_Decision" sourceRef="Task_Create_EDMS" targetRef="Task_EDMS_Decide" />
+    <sequenceFlow id="Flow_Decision_Persist" sourceRef="Task_Decide" targetRef="Task_Persist" />
+    <sequenceFlow id="Flow_EDMS_Persist" sourceRef="Task_EDMS_Decide" targetRef="Task_Persist" />
+    <sequenceFlow id="Flow_Cancel_Persist" sourceRef="Task_Cancel" targetRef="Task_Persist" />
+    <sequenceFlow id="Flow_Persist_Surface" sourceRef="Task_Persist" targetRef="Task_Surface" />
+    <sequenceFlow id="Flow_Surface_End" sourceRef="Task_Surface" targetRef="End_Final" />
+  </process>
+</definitions>

@@ -13,3 +13,6 @@ plan in its respective folder.
 
 - [x] **Track: Safe approval lifecycle hardening**
   *Link: [./tracks/safe_approval_lifecycle_hardening_20260711/](./tracks/safe_approval_lifecycle_hardening_20260711/)*
+
+- [x] **Track: Complete BPMN and visual process model coverage**
+  *Link: [./tracks/process_model_completeness_20260711/](./tracks/process_model_completeness_20260711/)*

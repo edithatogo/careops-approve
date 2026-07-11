@@ -1,0 +1,15 @@
+flowchart LR
+  A([Request submitted]) --> B[Validate fields]
+  B --> C{Valid?}
+  C -- No --> D[Acknowledge invalid request] --> Z1([Invalid])
+  C -- Yes --> E[Load active approver configuration]
+  E --> F{Configuration valid?}
+  F -- No --> G[Preserve request and alert owner] --> Z2([Configuration error])
+  F -- Yes --> H[Generate idempotent request ID]
+  H --> I[Create immutable SharePoint submission]
+  I --> J[Create Teams approval<br/>email disabled]
+  J --> K{Assigned approver decision}
+  K -- Approve/Reject --> N[Persist first final outcome<br/>and audit fields]
+  K -- Cancelled by requester --> N
+  K -- 14-day timeout --> L[Create EDMS escalation<br/>email disabled] --> M[EDMS decision] --> N
+  N --> O[Surface to owner, requester,<br/>assigned approver only] --> Z3([Finalized])

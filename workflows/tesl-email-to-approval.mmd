@@ -1,0 +1,19 @@
+flowchart LR
+  A([TESL email received]) --> B[Match mailbox, folder,<br/>sender and subject]
+  B --> C{TESL email?}
+  C -- No --> Z0([Ignore])
+  C -- Yes --> D[Parse configured aliases]
+  D --> E[Validate TESL details]
+  E --> F{Valid?}
+  F -- No --> G[Preserve source and alert owner] --> Z1([Validation failure])
+  F -- Yes --> H[Resolve approver and delegation]
+  H --> I[Create immutable submission]
+  I --> J[Create Teams approval<br/>email disabled]
+  J --> K{Decision}
+  K -- Approve/Reject --> N[Persist decision and audit]
+  K -- Urgent delegate --> L[Record verbal delegation] --> N
+  K -- 14-day timeout --> M[Cancel primary and create EDMS approval]
+  M --> N
+  N --> O[Teams/SharePoint status<br/>owner-only summary]
+  O --> P[Approved desktop boundary<br/>future intranet execution]
+  P --> Z2([Complete])

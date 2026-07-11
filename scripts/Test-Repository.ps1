@@ -54,6 +54,13 @@ $required = @(
     'config/power-automate-reuse.example.json',
     'docs/power-automate-reuse-assessment.md',
     'workflows/tesl-email-to-approval.bpmn',
+    'workflows/submit-and-route.bpmn',
+    'workflows/submit-and-route.mmd',
+    'workflows/submit-and-route.svg',
+    'workflows/tesl-email-to-approval.mmd',
+    'workflows/tesl-email-to-approval.svg',
+    'workflows/INDEX.md',
+    'scripts/Test-BpmnArtifacts.ps1',
     'scripts/Test-TeslApprovalArtifacts.ps1',
     'docs/tesl-email-approval.md',
     'config/decision-scenarios.example.json',
@@ -138,6 +145,7 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-WorkflowScenarios.ps1')
 & (Join-Path $root 'scripts/Test-FlowBlueprint.ps1')
 & (Join-Path $root 'scripts/Test-TeslApprovalArtifacts.ps1')
+& (Join-Path $root 'scripts/Test-BpmnArtifacts.ps1')
 & (Join-Path $root 'scripts/Test-DecisionScenarios.ps1')
 & (Join-Path $root 'scripts/Test-AdministrationScenarios.ps1')
 & (Join-Path $root 'scripts/Test-HandoffPackage.ps1')
