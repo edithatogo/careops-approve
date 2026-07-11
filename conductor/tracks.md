@@ -10,3 +10,6 @@ plan in its respective folder.
 
 - [~] **Track: Build a configurable basic submit and approve workflow in Microsoft Teams**
   *Link: [./tracks/basic_submit_approve_20260710/](./tracks/basic_submit_approve_20260710/)*
+
+- [x] **Track: Safe approval lifecycle hardening**
+  *Link: [./tracks/safe_approval_lifecycle_hardening_20260711/](./tracks/safe_approval_lifecycle_hardening_20260711/)*
