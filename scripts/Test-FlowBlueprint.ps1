@@ -7,6 +7,7 @@ $path = Join-Path $root 'flows/submit-and-route.contract.json'
 $flow = Get-Content -Raw -LiteralPath $path | ConvertFrom-Json
 
 if ($flow.status -ne 'blueprint') { throw 'Flow contract must remain a blueprint until tenant export is approved.' }
+if ($flow.deploymentStatus -ne 'executive-confirmed-live') { throw 'Flow deployment status must reflect executive confirmation.' }
 foreach ($surface in @('Microsoft Forms', 'SharePoint', 'Power Automate', 'Teams Approvals')) {
     if ($flow.surfaces -notcontains $surface) { throw "Flow blueprint is missing surface: $surface" }
 }

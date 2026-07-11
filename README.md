@@ -5,7 +5,7 @@ Microsoft 365 standard capabilities. It is intentionally scoped as a bounded
 administrative pilot for a requester, an executive assistant, and configurable
 named approvers.
 
-The initial implementation is planned under
+The implementation is tracked under
 [`conductor/tracks/basic_submit_approve_20260710/`](conductor/tracks/basic_submit_approve_20260710/).
 
 The MVP deliberately repurposes Microsoft’s native Teams Approvals surface with
@@ -24,10 +24,12 @@ and [technology radar](docs/technology-radar.md).
 3. The approver receives an Approve/Reject request in Microsoft Teams.
 4. The outcome, comments, timestamps, requester, and approver are recorded.
 
-TESL emails can enter the same approval path through the source-controlled
-[TESL email-to-approval blueprint](docs/tesl-email-approval.md), which includes
+TESL emails enter the same approval path through the source-controlled
+[TESL email-to-approval contract](docs/tesl-email-approval.md), which includes
 a BPMN 2.0 process, configurable TESL field mapping, and a Power Automate flow
-contract. Tenant mailbox and field syntax remain deployment configuration.
+contract. Tenant mailbox and field syntax remain deployment configuration. The
+two workflows are deployed in the tenant; source control records only
+tenant-neutral contracts and executive-confirmed deployment status.
 The implementation also records which existing Power Automate patterns are safe
 to adapt in the [reuse assessment](docs/power-automate-reuse-assessment.md).
 

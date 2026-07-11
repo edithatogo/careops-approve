@@ -21,6 +21,7 @@ $required = @(
     'docs/technology-radar.md',
     'docs/repository-topology.md',
     'docs/tenant-fit-checklist.md',
+    'docs/deployment-attestation.md',
     'docs/low-privilege-architecture.md',
     'docs/frontier-capability-assessment.md',
     'contracts/request.schema.json',

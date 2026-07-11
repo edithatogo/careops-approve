@@ -12,6 +12,7 @@ $reuse = Get-Content -Raw -LiteralPath (Join-Path $root 'config/power-automate-r
 $bpmn = [System.Xml.Linq.XDocument]::Load((Join-Path $root 'workflows/tesl-email-to-approval.bpmn'))
 
 if ($contract.status -ne 'blueprint') { throw 'TESL flow must remain a blueprint until tenant export is approved.' }
+if ($contract.deploymentStatus -ne 'executive-confirmed-live') { throw 'TESL deployment status must reflect executive confirmation.' }
 foreach ($surface in @('Office 365 Outlook', 'SharePoint', 'Power Automate', 'Teams Approvals')) {
     if ($contract.surfaces -notcontains $surface) { throw "TESL flow is missing surface: $surface" }
 }

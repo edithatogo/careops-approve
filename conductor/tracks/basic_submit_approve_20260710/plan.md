@@ -58,7 +58,7 @@
 - [~] Task: Implement validated request submission
     - [x] Write tests for required fields, unique IDs, initial status, and invalid submissions [d204290]
     - [x] Define the tenant-neutral submit, persist, acknowledge, and failure-path blueprint [85fedee]
-    - [ ] Create the Teams-accessible submission trigger and persistence actions
+    - [x] Create the Teams-accessible submission trigger and persistence actions [executive-confirmed-live 20260711]
     - [x] Confirm requester acknowledgement contract contains request ID and resolved approver
     - [x] Add TESL email intake, field mapping, BPMN 2.0 process, and Teams approval blueprint [727eff3]
     - [x] Add 14-day EDMS escalation, approval templates, and auditable urgent delegation policy [05853a3]
@@ -76,7 +76,7 @@
     - [x] Notify the requester of the decision or actionable failure contract
     - [x] Surface TESL details, source email link, and immutable TESL metadata in the approval blueprint [727eff3]
     - [x] Define owner, submitter, and urgent-delegate roles without committing tenant UPNs [05853a3]
-    - [ ] Create and share the tenant flow with no email notifications
+    - [x] Create and share the tenant flow with no email notifications [executive-confirmed-live 20260711]
     - [ ] Register an approved desktop machine or machine group for the intranet stage
 - [ ] Task: Conductor - User Manual Verification 'Submit and Approve Flow' (Protocol in workflow.md)
 

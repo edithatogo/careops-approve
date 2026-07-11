@@ -11,14 +11,14 @@ The first flow implementation must preserve the tested contract in
    the submission and alert a workflow owner.
 6. A requester acknowledgement must include the request ID and resolved approver.
 
-The eventual Teams-accessible trigger and Power Automate actions remain tenant
-artifacts. This repository currently provides the contract, scenarios, and
-validation gate without embedding a SharePoint site, connection ID, or identity.
+The Teams-accessible trigger and Power Automate actions are deployed tenant
+artifacts. This repository provides the contract, scenarios, deployment
+attestation, and validation gate without embedding a SharePoint site,
+connection ID, or identity.
 
-`flows/submit-and-route.contract.json` is the build blueprint for those actions.
-It must be translated into a solution-aware cloud flow only after the tenant
-owner confirms the permitted Forms, SharePoint, Power Automate, and Teams
-Approvals surfaces.
+`flows/submit-and-route.contract.json` is the tenant-neutral source contract
+for the deployed flow. The deployment remains outside source control and is
+tracked by executive confirmation in `docs/deployment-attestation.md`.
 
 `config/decision-scenarios.example.json` is the decision-state test contract. A
 rejection cannot finalize without a comment, and a later response cannot replace

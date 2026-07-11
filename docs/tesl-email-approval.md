@@ -1,16 +1,14 @@
 # TESL email to Teams approval
 
-The repository does not currently contain a usable TESL BPMN or an accessible
-tenant flow. The live Power Automate default environment was inspected on
-2026-07-11: the signed-in account had two personal cloud flows, no TESL-named
-flow, no shared TESL flow, and no TESL-named solution visible in that
-environment. The local TESL source directories are present as OneDrive
-placeholders, but the tracked TESL submission schema is empty.
+The TESL approval workflow is deployed in the tenant by executive-owner
+confirmation. A prior CLI inspection of one accessible environment was not a
+complete inventory of the deployed app and must not override that confirmation.
+Tenant-specific exports remain outside this repository.
 
 This repository therefore provides a tenant-neutral implementation boundary:
 
 - [`workflows/tesl-email-to-approval.bpmn`](../workflows/tesl-email-to-approval.bpmn)
-  is a BPMN 2.0 process blueprint.
+  is the tenant-neutral BPMN 2.0 source for the deployed process.
 - [`config/tesl-email-mapping.example.json`](../config/tesl-email-mapping.example.json)
   defines configurable TESL field aliases and email metadata preservation.
 - [`flows/tesl-email-to-approval.contract.json`](../flows/tesl-email-to-approval.contract.json)
@@ -73,9 +71,8 @@ committed here:
 - a registered desktop-flow machine or machine group with approved intranet
   access for the future execution stage.
 
-The flow must be built or imported only after these values are confirmed by the
-tenant owner. The contract intentionally remains a blueprint rather than a
-claim that a live TESL flow has been deployed.
+The flow is deployed following tenant-owner confirmation. The contract remains
+tenant-neutral and intentionally omits the live connection bindings.
 
 The live environment currently has no registered desktop machine or machine
 group, so the intranet execution stage remains deferred. Power Automate's

@@ -1,6 +1,7 @@
 {
   "name": "CareOps Submit and Route",
   "status": "blueprint",
+  "deploymentStatus": "executive-confirmed-live",
   "surfaces": ["Microsoft Forms", "Office 365 Outlook", "SharePoint", "Power Automate", "Teams Approvals"],
   "trigger": {
     "type": "forms-response",

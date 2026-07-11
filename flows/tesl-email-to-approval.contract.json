@@ -1,6 +1,7 @@
 {
   "name": "CareOps TESL Email to Approval",
   "status": "blueprint",
+  "deploymentStatus": "executive-confirmed-live",
   "surfaces": ["Office 365 Outlook", "SharePoint", "Power Automate", "Teams Approvals"],
   "templateRef": "config/approval-templates.example.json",
   "roleAssignments": "config/role-assignments.example.json",
