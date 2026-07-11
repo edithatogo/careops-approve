@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "installMode": "user-local",
+  "tools": {
+    "dotnetSdk": {"version": "10.0.301", "installRoot": "%USERPROFILE%\\scoop\\apps\\dotnet-sdk\\current"},
+    "dotnetRuntime": {"version": "8.0.28", "installRoot": "%USERPROFILE%\\.dotnet\\runtime8"},
+    "pac": {"package": "Microsoft.PowerApps.CLI.Tool", "version": "2.9.3", "executable": "pac.exe", "runtime": "dotnetSdk"},
+    "pacx": {"package": "Greg.Xrm.Command", "version": "1.2026.6.220", "executable": "pacx.exe", "runtime": "dotnetRuntime"}
+  },
+  "authentication": {
+    "mode": "interactive-device-code",
+    "command": "pac auth create --name careops-owner --deviceCode",
+    "secretPolicy": "never commit profiles, tokens, cookies, or environment files"
+  }
+}
