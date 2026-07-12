@@ -27,3 +27,29 @@ plan in its respective folder.
 
 - [x] **Track: Reuse verified TESL intake safeguards in CareOps Approve**
   *Link: [./tracks/tesl_intake_reuse_hardening_20260712/](./tracks/tesl_intake_reuse_hardening_20260712/)*
+
+---
+
+- [ ] **Track: CareOps approvals app integration roadmap**
+  *Link: [./tracks/approvals_app_integration_roadmap_20260712/](./tracks/approvals_app_integration_roadmap_20260712/)*
+
+- [ ] **Track: Integrate TESL Outlook intake**
+  *Link: [./tracks/tesl_email_intake_20260712/](./tracks/tesl_email_intake_20260712/)*
+
+- [ ] **Track: Integrate idempotency and duplicate safety**
+  *Link: [./tracks/idempotency_duplicate_safety_20260712/](./tracks/idempotency_duplicate_safety_20260712/)*
+
+- [ ] **Track: Integrate failed extraction and correction queue**
+  *Link: [./tracks/failure_correction_queue_20260712/](./tracks/failure_correction_queue_20260712/)*
+
+- [ ] **Track: Integrate telemetry and owner reporting**
+  *Link: [./tracks/telemetry_owner_reporting_20260712/](./tracks/telemetry_owner_reporting_20260712/)*
+
+- [ ] **Track: Integrate Teams roster and delegation controls**
+  *Link: [./tracks/teams_roster_delegation_20260712/](./tracks/teams_roster_delegation_20260712/)*
+
+- [ ] **Track: Assess Dataverse review surface integration**
+  *Link: [./tracks/dataverse_review_surface_20260712/](./tracks/dataverse_review_surface_20260712/)*
+
+- [ ] **Track: Prepare approved desktop intranet boundary**
+  *Link: [./tracks/desktop_intranet_boundary_20260712/](./tracks/desktop_intranet_boundary_20260712/)*
