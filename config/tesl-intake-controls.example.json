@@ -1,0 +1,29 @@
+{
+  "status": "tenant-neutral-blueprint",
+  "idempotency": {
+    "key": ["sourceMessageId", "teslId"],
+    "duplicateAction": "retain-first-submission-and-approval",
+    "duplicateStatus": "Duplicate",
+    "replayMustNotCreateApproval": true
+  },
+  "routing": {
+    "processedFolder": "tenant-provided processed TESL folder",
+    "failedFolder": "tenant-provided failed extraction folder",
+    "invalidInputAction": "preserve-source-route-failed-alert-owner",
+    "outboundEmail": false
+  },
+  "telemetry": {
+    "store": "tenant-provided Flow Telemetry list or table",
+    "fields": ["correlationId", "sourceMessageId", "teslId", "processingState", "errorCode", "recordedAt"],
+    "rawEmailBody": false,
+    "sensitivePayloads": false
+  },
+  "manualCorrection": {
+    "enabled": true,
+    "reviewer": "workflowOwner",
+    "allowedFields": ["teslId", "teslTitle", "teslStatus", "teslSummary", "teslCategory", "teslDueDate"],
+    "createsApprovalOnlyAfterCorrection": true,
+    "nativeApprovalRemainsAuthoritative": true
+  },
+  "tenantConfiguration": "Folders, telemetry store, connection references, and identifiers are tenant-provided and excluded from source control."
+}

@@ -1,0 +1,8 @@
+{
+  "track_id": "tesl_intake_reuse_hardening_20260712",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-07-12T00:00:00Z",
+  "updated_at": "2026-07-12T00:00:00Z",
+  "description": "Carry the verified TESL intake, idempotency, failure-routing, telemetry, and manual-correction patterns into CareOps Approve without importing tenant-specific data."
+}

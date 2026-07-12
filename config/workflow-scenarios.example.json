@@ -11,5 +11,10 @@
     { "name": "duplicate active primary fails", "primary": "primary@example.invalid", "fallback": "fallback@example.invalid", "duplicateActive": true, "expected": "configuration-error" },
     { "name": "empty configuration fails", "primary": "", "fallback": "", "expected": "configuration-error" },
     { "name": "inactive without fallback fails", "primary": "primary@example.invalid", "fallback": "", "primaryStatus": "Inactive", "expected": "configuration-error" }
+  ],
+  "teslIntakeScenarios": [
+    { "name": "duplicate TESL email", "expected": "retain-first-submission-and-no-second-approval" },
+    { "name": "malformed TESL email", "expected": "failed-extraction-route-and-owner-correction-queue" },
+    { "name": "processed TESL email", "expected": "processed-archive-and-sanitized-telemetry" }
   ]
 }

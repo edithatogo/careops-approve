@@ -10,6 +10,7 @@ $templates = Get-Content -Raw -LiteralPath (Join-Path $root 'config/approval-tem
 $roles = Get-Content -Raw -LiteralPath (Join-Path $root 'config/role-assignments.example.json') | ConvertFrom-Json
 $desktop = Get-Content -Raw -LiteralPath (Join-Path $root 'config/desktop-intranet-execution.example.json') | ConvertFrom-Json
 $reuse = Get-Content -Raw -LiteralPath (Join-Path $root 'config/power-automate-reuse.example.json') | ConvertFrom-Json
+$intake = Get-Content -Raw -LiteralPath (Join-Path $root 'config/tesl-intake-controls.example.json') | ConvertFrom-Json
 $bpmn = [System.Xml.Linq.XDocument]::Load((Join-Path $root 'workflows/tesl-email-to-approval.bpmn'))
 
 if ($contract.status -ne 'blueprint') { throw 'TESL flow must remain a blueprint until tenant export is approved.' }
@@ -17,7 +18,7 @@ if ($contract.deploymentStatus -ne 'executive-confirmed-live') { throw 'TESL dep
 foreach ($surface in @('Office 365 Outlook', 'SharePoint', 'Power Automate', 'Teams Approvals')) {
     if ($contract.surfaces -notcontains $surface) { throw "TESL flow is missing surface: $surface" }
 }
-foreach ($step in @('match-tesl-email', 'parse-tesl-details', 'load-template', 'validate-tesl-details', 'load-configuration', 'resolve-roster-and-delegation', 'create-submission', 'run-ai-pre-review', 'persist-ai-assessment', 'create-approval', 'present-teams-card', 'wait-for-decision', 'check-still-pending', 'create-edms-escalation', 'wait-for-edms-decision', 'record-verbal-delegation', 'persist-outcome', 'notify-requester', 'run-desktop-intranet', 'build-weekly-owner-summary', 'finalize')) {
+foreach ($step in @('match-tesl-email', 'deduplicate-source-message', 'parse-tesl-details', 'persist-intake-telemetry', 'load-template', 'validate-tesl-details', 'route-invalid-intake', 'manual-correction-review', 'load-configuration', 'resolve-roster-and-delegation', 'create-submission', 'run-ai-pre-review', 'persist-ai-assessment', 'create-approval', 'present-teams-card', 'wait-for-decision', 'check-still-pending', 'create-edms-escalation', 'wait-for-edms-decision', 'record-verbal-delegation', 'persist-outcome', 'notify-requester', 'run-desktop-intranet', 'build-weekly-owner-summary', 'finalize')) {
     if (@($contract.steps | Where-Object id -eq $step).Count -ne 1) { throw "TESL flow is missing step: $step" }
 }
 foreach ($field in @('teslId', 'teslTitle', 'teslStatus', 'teslSummary')) {
@@ -42,6 +43,13 @@ if ($desktop.notifications.email -ne $false -or $desktop.action -ne 'Run a flow 
 foreach ($patternId in @('sharepoint-action-state', 'teams-adaptive-card-presentation', 'dynamic-roster-resolution', 'delegate-assignment-resolution', 'weekly-teams-summary')) {
     if (@($reuse.patterns | Where-Object patternId -eq $patternId).Count -ne 1) { throw "Missing reusable Power Automate pattern: $patternId" }
 }
+foreach ($patternId in @('idempotent-email-intake', 'failed-extraction-routing', 'sanitized-flow-telemetry', 'manual-correction-review')) {
+    if (@($reuse.patterns | Where-Object patternId -eq $patternId).Count -ne 1) { throw "Missing reused TESL pattern: $patternId" }
+}
+if ($contract.intakeControls -ne 'config/tesl-intake-controls.example.json') { throw 'TESL intake controls are not linked.' }
+if (-not $intake.idempotency.replayMustNotCreateApproval) { throw 'Duplicate TESL intake must not create an approval.' }
+if ($intake.routing.outboundEmail -ne $false -or $intake.telemetry.rawEmailBody -ne $false -or $intake.telemetry.sensitivePayloads -ne $false) { throw 'TESL intake controls must remain email-free and sanitized.' }
+if (-not $intake.manualCorrection.createsApprovalOnlyAfterCorrection -or -not $intake.manualCorrection.nativeApprovalRemainsAuthoritative) { throw 'Manual correction must remain human-gated and subordinate to native approval.' }
 $card = @($contract.steps | Where-Object id -eq 'present-teams-card')[0]
 if ($card.authoritativeDecisionSource -ne 'native-teams-approval' -or $card.email -ne $false) { throw 'Teams card must be email-free and subordinate to native Approvals.' }
 $summary = @($contract.steps | Where-Object id -eq 'build-weekly-owner-summary')[0]

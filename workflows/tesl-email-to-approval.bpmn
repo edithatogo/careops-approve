@@ -11,10 +11,17 @@
     <serviceTask id="Task_Match_Email" name="Match TESL mailbox, folder, sender, and subject" />
     <exclusiveGateway id="Gateway_Is_TESL" name="TESL email?" />
     <endEvent id="End_Ignore_Email" name="Ignore non-TESL email" />
+    <serviceTask id="Task_Deduplicate" name="Check source message and TESL idempotency key" />
+    <exclusiveGateway id="Gateway_Is_Duplicate" name="Duplicate message?" />
+    <serviceTask id="Task_Record_Duplicate" name="Record duplicate telemetry and retain first approval" />
+    <endEvent id="End_Duplicate" name="Duplicate safely ignored" />
     <serviceTask id="Task_Parse_TESL" name="Parse TESL details using configured aliases" />
+    <serviceTask id="Task_Intake_Telemetry" name="Record sanitized intake telemetry" />
     <serviceTask id="Task_Validate_TESL" name="Validate TESL ID, title, status, and summary" />
     <exclusiveGateway id="Gateway_Valid_TESL" name="TESL details valid?" />
     <serviceTask id="Task_Preserve_Alert" name="Preserve source and alert workflow owner" />
+    <serviceTask id="Task_Failed_Route" name="Route failed extraction to configured failure state" />
+    <serviceTask id="Task_Manual_Correction" name="Workflow owner corrects extracted fields" />
     <endEvent id="End_Invalid_TESL" name="TESL validation failure" />
     <serviceTask id="Task_Resolve_Approver" name="Resolve active CareOps approver" />
     <serviceTask id="Task_Create_Submission" name="Create immutable SharePoint submission" />
@@ -39,11 +46,18 @@
     <sequenceFlow id="Flow_Start_Match" sourceRef="Start_TESL_Email" targetRef="Task_Match_Email" />
     <sequenceFlow id="Flow_Match_Gateway" sourceRef="Task_Match_Email" targetRef="Gateway_Is_TESL" />
     <sequenceFlow id="Flow_Non_TESL" name="No" sourceRef="Gateway_Is_TESL" targetRef="End_Ignore_Email" />
-    <sequenceFlow id="Flow_Is_TESL" name="Yes" sourceRef="Gateway_Is_TESL" targetRef="Task_Parse_TESL" />
-    <sequenceFlow id="Flow_Parse_Validate" sourceRef="Task_Parse_TESL" targetRef="Task_Validate_TESL" />
+    <sequenceFlow id="Flow_Is_TESL" name="Yes" sourceRef="Gateway_Is_TESL" targetRef="Task_Deduplicate" />
+    <sequenceFlow id="Flow_Deduplicate_Gateway" sourceRef="Task_Deduplicate" targetRef="Gateway_Is_Duplicate" />
+    <sequenceFlow id="Flow_Duplicate_Record" name="Yes" sourceRef="Gateway_Is_Duplicate" targetRef="Task_Record_Duplicate" />
+    <sequenceFlow id="Flow_Duplicate_End" sourceRef="Task_Record_Duplicate" targetRef="End_Duplicate" />
+    <sequenceFlow id="Flow_Not_Duplicate" name="No" sourceRef="Gateway_Is_Duplicate" targetRef="Task_Parse_TESL" />
+    <sequenceFlow id="Flow_Parse_Telemetry" sourceRef="Task_Parse_TESL" targetRef="Task_Intake_Telemetry" />
+    <sequenceFlow id="Flow_Telemetry_Validate" sourceRef="Task_Intake_Telemetry" targetRef="Task_Validate_TESL" />
     <sequenceFlow id="Flow_Validate_Gateway" sourceRef="Task_Validate_TESL" targetRef="Gateway_Valid_TESL" />
     <sequenceFlow id="Flow_Invalid_TESL" name="No" sourceRef="Gateway_Valid_TESL" targetRef="Task_Preserve_Alert" />
-    <sequenceFlow id="Flow_Invalid_End" sourceRef="Task_Preserve_Alert" targetRef="End_Invalid_TESL" />
+    <sequenceFlow id="Flow_Invalid_Route" sourceRef="Task_Preserve_Alert" targetRef="Task_Failed_Route" />
+    <sequenceFlow id="Flow_Route_Correction" sourceRef="Task_Failed_Route" targetRef="Task_Manual_Correction" />
+    <sequenceFlow id="Flow_Invalid_End" sourceRef="Task_Manual_Correction" targetRef="End_Invalid_TESL" />
     <sequenceFlow id="Flow_Valid_TESL" name="Yes" sourceRef="Gateway_Valid_TESL" targetRef="Task_Resolve_Approver" />
     <sequenceFlow id="Flow_Resolve_Create" sourceRef="Task_Resolve_Approver" targetRef="Task_Create_Submission" />
     <sequenceFlow id="Flow_Submission_AI" sourceRef="Task_Create_Submission" targetRef="Task_AI_PreReview" />

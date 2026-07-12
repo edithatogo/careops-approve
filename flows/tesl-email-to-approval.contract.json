@@ -13,6 +13,7 @@
     "sharePointStatus": true
   },
   "postApprovalExecution": "config/desktop-intranet-execution.example.json",
+  "intakeControls": "config/tesl-intake-controls.example.json",
   "reusePatterns": "config/power-automate-reuse.example.json",
   "trigger": {
     "type": "outlook-email-arrival",
@@ -22,9 +23,13 @@
   },
   "steps": [
     { "id": "match-tesl-email", "type": "subject-sender-folder-filter", "onFailure": "ignore-non-tesl-email" },
+    { "id": "deduplicate-source-message", "type": "idempotency-check-by-source-message-and-tesl-id", "onDuplicate": "record-duplicate-and-do-not-create-approval" },
     { "id": "parse-tesl-details", "type": "alias-aware-header-and-body-parser", "mapping": "config/tesl-email-mapping.example.json", "onFailure": "preserve-and-alert-owner" },
+    { "id": "persist-intake-telemetry", "type": "create-sanitized-flow-telemetry", "email": false },
     { "id": "load-template", "type": "resolve-template-by-source-and-category", "onFailure": "preserve-and-alert-owner" },
     { "id": "validate-tesl-details", "type": "require-tesl-id-title-status-summary", "onFailure": "preserve-and-alert-owner" },
+    { "id": "route-invalid-intake", "type": "move-source-to-failed-extraction-state", "when": "validation-or-parsing-fails", "email": false },
+    { "id": "manual-correction-review", "type": "workflow-owner-corrects-approved-fields", "when": "failed-extraction-is-reviewable", "createsApprovalOnlyAfterCorrection": true },
     { "id": "load-configuration", "type": "sharepoint-read-active-approver", "onFailure": "preserve-and-alert-owner" },
     { "id": "resolve-roster-and-delegation", "type": "sharepoint-roster-exception-and-delegate-resolution", "onFailure": "preserve-and-alert-owner" },
     { "id": "generate-request-id", "type": "idempotent-request-id" },
@@ -47,9 +52,11 @@
   "failurePaths": [
     "non-tesl-email-is-ignored",
     "invalid-tesl-details-preserves-email-and-alerts-owner",
+    "invalid-tesl-details-routes-to-failed-extraction-and-correction-queue",
     "invalid-configuration-preserves-submission-and-alerts-owner",
     "connector-failure-preserves-request-and-reports-actionable-error",
     "duplicate-message-does-not-create-second-approval",
+    "duplicate-message-records-sanitized-telemetry",
     "pending-approval-escalates-to-edms-after-14-days",
     "urgent-delegation-requires-auditable-verbal-delegation-record",
     "approved-outcome-runs-intranet-stage-only",

@@ -17,6 +17,12 @@ flow structure plus the validated CareOps contracts.
 | Leader Rounding - Dual Calendar Sync and Delegate Invite | Roster/leader reads and delegate assignment resolution; definition reports invalid parameters | Adapt only the delegate-resolution design; exclude calendar creation |
 | MSCG - M+M - Action Overdue Escalation | Flow list reports corrupted data | Exclude from reuse |
 
+The existing TESL capture solution also contributes four safe patterns to the
+CareOps intake boundary: idempotent message/reference keys, processed and
+failed-extraction routing, sanitized flow telemetry, and an owner-only manual
+correction queue. These are now represented in
+`config/tesl-intake-controls.example.json` and the TESL BPMN/visual artefacts.
+
 The Teams escalation v2 flow is off, has a flow-checker warning, and exposes
 invalid SharePoint/Teams parameters. The earlier escalation flow is a draft with
 an invalid SharePoint connection. Co-owner sharing is disabled in the personal
@@ -37,3 +43,8 @@ post to a broad channel or send email.
 
 The machine inventory remains empty, so no existing desktop-flow or intranet
 gateway can be reused for the post-approval execution stage.
+
+The existing Dataverse submission app remains a possible future correction and
+reporting surface, but it is not made authoritative: native Teams Approvals
+continues to own the decision, and no app-side correction can create or finalize
+an approval without the normal human path.

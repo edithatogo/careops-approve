@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1650" height="620" viewBox="0 0 1650 620" role="img" aria-labelledby="title desc">
   <title id="title">TESL email to CareOps approval process</title>
-  <desc id="desc">A TESL email is matched and validated, routed to Teams approval, escalated after fourteen days, and surfaced without email before a future desktop boundary.</desc>
+  <desc id="desc">A TESL email is matched, deduplicated, parsed with sanitized telemetry, routed through owner correction when needed, and sent to Teams approval before fourteen-day escalation and a future desktop boundary.</desc>
   <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#334155"/></marker></defs>
   <rect width="1500" height="620" fill="#f8fafc"/>
   <text x="45" y="45" font-family="Segoe UI,Arial" font-size="26" font-weight="700" fill="#0f172a">TESL email to CareOps approval</text>
   <text x="45" y="72" font-family="Segoe UI,Arial" font-size="14" fill="#475569">BPMN 2.0 companion visual · tenant-neutral · future desktop boundary</text>
   <g font-family="Segoe UI,Arial" font-size="15" text-anchor="middle">
     <ellipse cx="90" cy="170" rx="48" ry="28" fill="#dcfce7" stroke="#166534" stroke-width="2"/><text x="90" y="175" fill="#14532d">TESL email</text>
-    <rect x="160" y="135" width="170" height="70" rx="12" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/><text x="245" y="165" fill="#1e3a8a">Match source</text><text x="245" y="186" fill="#1e3a8a">and subject</text>
-    <rect x="380" y="135" width="150" height="70" rx="12" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/><text x="455" y="165" fill="#1e3a8a">Parse and</text><text x="455" y="186" fill="#1e3a8a">validate</text>
+    <rect x="160" y="135" width="170" height="70" rx="12" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/><text x="245" y="165" fill="#1e3a8a">Match + dedupe</text><text x="245" y="186" fill="#1e3a8a">source message</text>
+    <rect x="380" y="135" width="150" height="70" rx="12" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/><text x="455" y="165" fill="#1e3a8a">Parse + telemetry</text><text x="455" y="186" fill="#1e3a8a">sanitized</text>
     <rect x="580" y="135" width="170" height="70" rx="12" fill="#dbeafe" stroke="#1d4ed8" stroke-width="2"/><text x="665" y="165" fill="#1e3a8a">Resolve approver</text><text x="665" y="186" fill="#1e3a8a">and delegation</text>
     <rect x="780" y="135" width="170" height="70" rx="12" fill="#fef3c7" stroke="#a16207" stroke-width="2"/><text x="865" y="165" fill="#713f12">Advisory AI</text><text x="865" y="186" fill="#713f12">flag only</text>
     <rect x="980" y="135" width="180" height="70" rx="12" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"/><text x="1070" y="165" fill="#4c1d95">Teams approval</text><text x="1070" y="186" fill="#4c1d95">no email</text>
@@ -16,6 +16,7 @@
     <rect x="1410" y="135" width="170" height="70" rx="12" fill="#e2e8f0" stroke="#475569" stroke-width="2"/><text x="1495" y="165" fill="#1e293b">Desktop boundary</text><text x="1495" y="186" fill="#1e293b">future intranet</text>
     <rect x="830" y="360" width="220" height="70" rx="12" fill="#fce7f3" stroke="#be185d" stroke-width="2"/><text x="940" y="390" fill="#831843">14-day timeout</text><text x="940" y="411" fill="#831843">EDMS escalation</text>
     <rect x="500" y="360" width="220" height="70" rx="12" fill="#fef3c7" stroke="#a16207" stroke-width="2"/><text x="610" y="390" fill="#713f12">Urgent delegate</text><text x="610" y="411" fill="#713f12">record verbal delegation</text>
+    <rect x="180" y="360" width="240" height="70" rx="12" fill="#fee2e2" stroke="#b91c1c" stroke-width="2"/><text x="300" y="390" fill="#7f1d1d">Failed extraction</text><text x="300" y="411" fill="#7f1d1d">owner correction queue</text>
   </g>
   <g stroke="#334155" stroke-width="2" fill="none" marker-end="url(#arrow)"><path d="M138 170 H160"/><path d="M330 170 H380"/><path d="M530 170 H580"/><path d="M750 170 H780"/><path d="M950 170 H980"/><path d="M1160 170 H1210"/><path d="M1390 170 H1410"/><path d="M1070 205 V360 H720"/><path d="M940 360 V205"/><path d="M865 205 V280 H720 V360"/><path d="M1050 395 H1300 V205"/></g>
   <g font-family="Segoe UI,Arial" font-size="13" fill="#475569"><text x="963" y="280">timeout</text><text x="737" y="340">urgent delegate</text></g>

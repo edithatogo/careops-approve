@@ -22,3 +22,8 @@ plan in its respective folder.
 
 - [x] **Track: Reproducible tooling and measurable harness coverage**
   *Link: [./tracks/reproducible_tooling_coverage_20260712/](./tracks/reproducible_tooling_coverage_20260712/)*
+
+---
+
+- [x] **Track: Reuse verified TESL intake safeguards in CareOps Approve**
+  *Link: [./tracks/tesl_intake_reuse_hardening_20260712/](./tracks/tesl_intake_reuse_hardening_20260712/)*

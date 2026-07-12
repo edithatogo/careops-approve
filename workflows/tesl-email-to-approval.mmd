@@ -2,20 +2,24 @@ flowchart LR
   A([TESL email received]) --> B[Match mailbox, folder,<br/>sender and subject]
   B --> C{TESL email?}
   C -- No --> Z0([Ignore])
-  C -- Yes --> D[Parse configured aliases]
-  D --> E[Validate TESL details]
-  E --> F{Valid?}
-  F -- No --> G[Preserve source and alert owner] --> Z1([Validation failure])
-  F -- Yes --> H[Resolve approver and delegation]
-  H --> I[Create immutable submission]
-  I --> AI[Optional advisory AI review<br/>extract / summarize / flag]
+  C -- Yes --> D[Check source message + TESL idempotency key]
+  D --> DD{Duplicate?}
+  DD -- Yes --> DX[Record duplicate telemetry<br/>retain first approval] --> DZ([Duplicate safely ignored])
+  DD -- No --> E[Parse configured aliases]
+  E --> ET[Record sanitized intake telemetry]
+  ET --> F[Validate TESL details]
+  F --> G{Valid?}
+  G -- No --> H[Preserve source and alert owner] --> HF[Route failed extraction] --> HC[Owner manual correction queue] --> Z1([Validation failure / correction pending])
+  G -- Yes --> I[Resolve approver and delegation]
+  I --> J[Create immutable submission]
+  J --> AI[Optional advisory AI review<br/>extract / summarize / flag]
   AI --> AIP[Persist assessment<br/>human decision required]
-  AIP --> J[Create Teams approval<br/>email disabled]
-  J --> K{Decision}
-  K -- Approve/Reject --> N[Persist decision and audit]
-  K -- Urgent delegate --> L[Record verbal delegation] --> N
-  K -- 14-day timeout --> M[Cancel primary and create EDMS approval]
-  M --> N
-  N --> O[Teams/SharePoint status<br/>owner-only summary]
-  O --> P[Approved desktop boundary<br/>future intranet execution]
-  P --> Z2([Complete])
+  AIP --> K[Create Teams approval<br/>email disabled]
+  K --> L{Decision}
+  L -- Approve/Reject --> N[Persist decision and audit]
+  L -- Urgent delegate --> M[Record verbal delegation] --> N
+  L -- 14-day timeout --> O[Cancel primary and create EDMS approval]
+  O --> N
+  N --> P[Teams/SharePoint status<br/>owner-only summary]
+  P --> Q[Approved desktop boundary<br/>future intranet execution]
+  Q --> Z2([Complete])

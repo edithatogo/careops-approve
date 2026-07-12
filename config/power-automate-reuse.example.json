@@ -3,6 +3,37 @@
   "environment": "tenant-provided personal or approved pilot environment",
   "patterns": [
     {
+      "patternId": "idempotent-email-intake",
+      "observedIn": ["TESL Email Capture"],
+      "decision": "adapt",
+      "sourceActions": ["Outlook email-arrival trigger", "derive reference key", "duplicate lookup", "processed/duplicate archive"],
+      "careOpsUse": ["deduplicate source messages", "retain first approval", "record duplicate telemetry"],
+      "constraint": "source message identity and TESL reference are tenant-runtime values"
+    },
+    {
+      "patternId": "failed-extraction-routing",
+      "observedIn": ["TESL Email Capture"],
+      "decision": "adapt",
+      "sourceActions": ["preserve source email", "route failed extraction", "record actionable error"],
+      "careOpsUse": ["preserve malformed submissions", "owner-only correction queue", "prevent invalid approval creation"]
+    },
+    {
+      "patternId": "sanitized-flow-telemetry",
+      "observedIn": ["TESL Email Capture"],
+      "decision": "adapt",
+      "sourceActions": ["write processing state", "write correlation and error code", "record processed or duplicate outcome"],
+      "careOpsUse": ["audit intake state", "support reconciliation and operational reporting"],
+      "constraint": "raw email body and sensitive payloads are excluded"
+    },
+    {
+      "patternId": "manual-correction-review",
+      "observedIn": ["Document Submission Center"],
+      "decision": "adapt-design-only",
+      "sourceActions": ["surface review-required record", "correct mapped fields", "reprocess after human review"],
+      "careOpsUse": ["owner corrects failed TESL extraction before native Teams approval"],
+      "constraint": "correction cannot finalize or bypass the native approval"
+    },
+    {
       "patternId": "sharepoint-action-state",
       "observedIn": ["Leader Rounding - Teams Escalation Approvals v2"],
       "decision": "adapt",
