@@ -1,0 +1,31 @@
+{
+  "status": "pending-live-evidence",
+  "owner": "tenant-provided workflow owner",
+  "controls": [
+    {
+      "id": "tenant-authentication",
+      "requiredEvidence": ["PAC profile exists", "target environment is identified", "profile owner is authorised"],
+      "verificationCommand": "scripts/Invoke-Pac.ps1 auth list",
+      "sourceOfTruth": "PAC profile output; never commit tokens"
+    },
+    {
+      "id": "teams-approval-pilot",
+      "requiredEvidence": ["valid submission", "approve", "reject", "14-day escalation", "visibility restriction", "no outbound email"],
+      "verificationProcedure": "docs/pilot-test-matrix.md",
+      "sourceOfTruth": "organisation-approved evidence location"
+    },
+    {
+      "id": "power-automate-live-flow",
+      "requiredEvidence": ["flow identity", "trigger and connections", "flow checker", "run history", "solution mapping"],
+      "verificationProcedure": "docs/tenant-handoff-runbook.md",
+      "sourceOfTruth": "sanitized tenant export and run evidence"
+    },
+    {
+      "id": "desktop-intranet-gateway",
+      "requiredEvidence": ["registered machine or gateway", "approved connection", "approved-only trigger", "retry and rollback test"],
+      "verificationProcedure": "conductor/tracks/desktop_intranet_boundary_20260712/plan.md",
+      "sourceOfTruth": "tenant owner and gateway evidence"
+    }
+  ],
+  "privacyRule": "Do not commit screenshots, UPNs, tenant IDs, URLs, payloads, tokens, cookies, or raw email."
+}

@@ -16,7 +16,9 @@
     "scripts/Invoke-Pac.ps1",
     "config/integration-roadmap.example.json",
     "config/dataverse-review-surface.example.json",
-    "scripts/Test-IntegrationRoadmap.ps1"
+    "scripts/Test-IntegrationRoadmap.ps1",
+    "config/tenant-pilot-evidence.example.json",
+    "scripts/Test-TenantReadiness.ps1"
   ],
   "forbiddenTrackedPrefixes": [".env", ".pac/", "logs/", "test-results/"],
   "workflowFiles": [

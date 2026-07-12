@@ -61,6 +61,7 @@ $required = @(
     'config/power-automate-reuse.example.json',
     'config/integration-roadmap.example.json',
     'config/dataverse-review-surface.example.json',
+    'config/tenant-pilot-evidence.example.json',
     'docs/dataverse-review-surface.md',
     'docs/power-automate-reuse-assessment.md',
     'workflows/tesl-email-to-approval.bpmn',
@@ -73,6 +74,7 @@ $required = @(
     'scripts/Test-BpmnArtifacts.ps1',
     'scripts/Test-TeslApprovalArtifacts.ps1',
     'scripts/Test-IntegrationRoadmap.ps1',
+    'scripts/Test-TenantReadiness.ps1',
     'docs/tesl-email-approval.md',
     'config/decision-scenarios.example.json',
     'scripts/Test-DecisionScenarios.ps1',
@@ -164,6 +166,7 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-FlowBlueprint.ps1')
 & (Join-Path $root 'scripts/Test-TeslApprovalArtifacts.ps1')
 & (Join-Path $root 'scripts/Test-IntegrationRoadmap.ps1')
+& (Join-Path $root 'scripts/Test-TenantReadiness.ps1')
 & (Join-Path $root 'scripts/Test-BpmnArtifacts.ps1')
 & (Join-Path $root 'scripts/Test-DecisionScenarios.ps1')
 & (Join-Path $root 'scripts/Test-AdministrationScenarios.ps1')
