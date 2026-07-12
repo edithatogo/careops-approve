@@ -12,7 +12,8 @@
     "scripts/Test-Repository.ps1",
     "tooling/powerplatform-tools.json",
     "scripts/Install-PowerPlatformTooling.ps1",
-    "scripts/Test-Coverage.ps1"
+    "scripts/Test-Coverage.ps1",
+    "scripts/Invoke-Pac.ps1"
   ],
   "forbiddenTrackedPrefixes": [".env", ".pac/", "logs/", "test-results/"],
   "workflowFiles": [
