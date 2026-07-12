@@ -13,6 +13,12 @@
     "credentials": "use an approved desktop-flow connection; never store credentials here"
   },
   "inputs": ["requestId", "teslId", "decisionId", "decisionComment", "teslLink"],
-  "controls": ["approved-outcome-only", "idempotency-key-requestId", "run-log-persisted", "failure-alerts-owner-in-Teams"],
+  "controls": ["approved-outcome-only", "idempotency-key-requestId", "run-log-persisted", "failure-alerts-owner-in-Teams", "no-secret-storage", "no-silent-retry"],
+  "execution": {
+    "stateValues": ["NotStarted", "Queued", "Running", "Succeeded", "Failed", "RequiresOwnerReview"],
+    "retry": "owner-authorised-requestId-idempotent-retry-only",
+    "rollback": "tenant-provided compensating action or owner review before retry",
+    "auditFields": ["requestId", "decisionId", "machineOrGroupReference", "startedAt", "completedAt", "state", "errorCode"]
+  },
   "notifications": { "email": false, "teams": true }
 }

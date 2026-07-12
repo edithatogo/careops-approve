@@ -1,22 +1,22 @@
 # Implementation plan
 
-- [ ] Phase 1: Foundation
-    - [ ] Complete `tesl_email_intake_20260712`.
-    - [ ] Complete `idempotency_duplicate_safety_20260712`.
-    - [ ] Verify contracts, schemas, and intake BPMN.
+- [~] Phase 1: Foundation
+    - [x] Complete repo-local `tesl_email_intake_20260712` implementation.
+    - [x] Complete repo-local `idempotency_duplicate_safety_20260712` implementation.
+    - [x] Verify contracts, schemas, and intake BPMN.
     - [ ] Conductor - User Manual Verification 'Foundation' (Protocol in workflow.md)
-- [ ] Phase 2: Operational controls
-    - [ ] Complete `failure_correction_queue_20260712`.
-    - [ ] Complete `telemetry_owner_reporting_20260712`.
-    - [ ] Verify failure, correction, telemetry, and summary scenarios.
+- [~] Phase 2: Operational controls
+    - [x] Complete repo-local `failure_correction_queue_20260712` implementation.
+    - [x] Complete repo-local `telemetry_owner_reporting_20260712` implementation.
+    - [x] Verify failure, correction, telemetry, and summary scenarios.
     - [ ] Conductor - User Manual Verification 'Operational controls' (Protocol in workflow.md)
-- [ ] Phase 3: Teams and data surfaces
-    - [ ] Complete `teams_roster_delegation_20260712`.
-    - [ ] Complete `dataverse_review_surface_20260712`.
-    - [ ] Verify visibility, delegation, escalation, and correction permissions.
+- [~] Phase 3: Teams and data surfaces
+    - [x] Complete repo-local `teams_roster_delegation_20260712` implementation.
+    - [x] Complete repo-local `dataverse_review_surface_20260712` assessment and boundary.
+    - [x] Verify visibility, delegation, escalation, and correction contracts.
     - [ ] Conductor - User Manual Verification 'Teams and data surfaces' (Protocol in workflow.md)
-- [ ] Phase 4: Approved execution and release
-    - [ ] Complete `desktop_intranet_boundary_20260712` only after a supported gateway exists.
-    - [ ] Revalidate existing AI and lifecycle tracks.
-    - [ ] Run child and portfolio harnesses and capture tenant pilot evidence.
+- [~] Phase 4: Approved execution and release
+    - [x] Define the repo-local `desktop_intranet_boundary_20260712` release gate.
+    - [x] Revalidate existing AI and lifecycle tracks.
+    - [x] Run child and portfolio harnesses; tenant pilot evidence remains open.
     - [ ] Conductor - User Manual Verification 'Approved execution and release' (Protocol in workflow.md)

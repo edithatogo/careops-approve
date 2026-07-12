@@ -13,7 +13,10 @@
     "tooling/powerplatform-tools.json",
     "scripts/Install-PowerPlatformTooling.ps1",
     "scripts/Test-Coverage.ps1",
-    "scripts/Invoke-Pac.ps1"
+    "scripts/Invoke-Pac.ps1",
+    "config/integration-roadmap.example.json",
+    "config/dataverse-review-surface.example.json",
+    "scripts/Test-IntegrationRoadmap.ps1"
   ],
   "forbiddenTrackedPrefixes": [".env", ".pac/", "logs/", "test-results/"],
   "workflowFiles": [

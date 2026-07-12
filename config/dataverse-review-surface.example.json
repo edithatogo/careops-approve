@@ -1,0 +1,13 @@
+{
+  "status": "tenant-fit-gated",
+  "candidateApp": "existing tenant-provided Document Submission Center",
+  "candidateTables": ["TESL Submission", "Flow Telemetry"],
+  "allowedUses": ["owner correction queue", "sanitized telemetry reporting", "read-only reconciliation"],
+  "notAuthoritativeFor": ["approval decision", "approver assignment", "delegation authority"],
+  "fieldBoundary": {
+    "allowed": ["requestId", "teslId", "teslTitle", "teslStatus", "teslSummary", "processingState", "errorCode", "correlationId"],
+    "excluded": ["rawEmailBody", "credentials", "connectionReferences", "tenantIdentifiers"]
+  },
+  "fallback": "SharePoint lists and native Teams Approvals",
+  "activationGates": ["Dataverse licensing", "DLP approval", "owner-only permissions", "tenant app-fit decision"]
+}

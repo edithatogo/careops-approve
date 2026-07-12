@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "decisionAuthority": "native-teams-approval",
+  "capabilities": [
+    {
+      "trackId": "tesl_email_intake_20260712",
+      "name": "TESL Outlook intake",
+      "sourceArtifacts": ["flows/tesl-email-to-approval.contract.json", "config/tesl-email-mapping.example.json"],
+      "test": "scripts/Test-TeslApprovalArtifacts.ps1",
+      "liveGate": "PAC-authenticated pilot mailbox evidence",
+      "status": "repo-blueprint-ready"
+    },
+    {
+      "trackId": "idempotency_duplicate_safety_20260712",
+      "name": "Idempotency and duplicate safety",
+      "sourceArtifacts": ["config/tesl-intake-controls.example.json", "workflows/tesl-email-to-approval.bpmn"],
+      "test": "scripts/Test-TeslApprovalArtifacts.ps1",
+      "liveGate": "controlled duplicate-email pilot evidence",
+      "status": "repo-blueprint-ready"
+    },
+    {
+      "trackId": "failure_correction_queue_20260712",
+      "name": "Failed extraction and owner correction",
+      "sourceArtifacts": ["config/tesl-intake-controls.example.json", "config/workflow-scenarios.example.json"],
+      "test": "scripts/Test-TeslApprovalArtifacts.ps1",
+      "liveGate": "owner-only correction and reprocess evidence",
+      "status": "repo-blueprint-ready"
+    },
+    {
+      "trackId": "telemetry_owner_reporting_20260712",
+      "name": "Sanitized telemetry and owner summary",
+      "sourceArtifacts": ["config/tesl-intake-controls.example.json", "flows/tesl-email-to-approval.contract.json"],
+      "test": "scripts/Test-TeslApprovalArtifacts.ps1",
+      "liveGate": "telemetry retention and Teams visibility evidence",
+      "status": "repo-blueprint-ready"
+    },
+    {
+      "trackId": "teams_roster_delegation_20260712",
+      "name": "Teams escalation, roster, and delegation",
+      "sourceArtifacts": ["config/power-automate-reuse.example.json", "config/role-assignments.example.json", "flows/submit-and-route.contract.json"],
+      "test": "scripts/Test-AdministrationScenarios.ps1",
+      "liveGate": "visibility, delegation, and 14-day escalation pilot evidence",
+      "status": "repo-blueprint-ready"
+    },
+    {
+      "trackId": "dataverse_review_surface_20260712",
+      "name": "Dataverse review surface",
+      "sourceArtifacts": ["config/dataverse-review-surface.example.json", "docs/dataverse-review-surface.md"],
+      "test": "scripts/Test-IntegrationRoadmap.ps1",
+      "liveGate": "licensing, DLP, permissions, and app-fit decision",
+      "status": "tenant-fit-gated"
+    },
+    {
+      "trackId": "desktop_intranet_boundary_20260712",
+      "name": "Approved desktop/intranet execution",
+      "sourceArtifacts": ["config/desktop-intranet-execution.example.json", "flows/tesl-email-to-approval.contract.json"],
+      "test": "scripts/Test-FlowBlueprint.ps1",
+      "liveGate": "registered gateway, machine, rollback, and owner approval",
+      "status": "deferred-tenant-gate"
+    }
+  ],
+  "safetyRules": [
+    "native-teams-approval-remains-authoritative",
+    "no-autonomous-ai-decision",
+    "no-outbound-email",
+    "no-silent-in-flight-reassignment",
+    "no-tenant-secrets-or-identifiers-in-source"
+  ]
+}
