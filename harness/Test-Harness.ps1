@@ -1,9 +1,11 @@
 [CmdletBinding()]
-param([string]$PolicyPath = "$PSScriptRoot/policy.json")
+param([string]$PolicyPath)
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$policy = Get-Content -Raw -LiteralPath $PolicyPath | ConvertFrom-Json
+if (-not $PolicyPath) { $PolicyPath = Join-Path $PSScriptRoot 'policy.json' }
+$policyPathResolved = (Resolve-Path -LiteralPath $PolicyPath).Path
+$policy = Get-Content -Raw -LiteralPath $policyPathResolved | ConvertFrom-Json
 
 foreach ($path in $policy.required) {
     if (-not (Test-Path -LiteralPath (Join-Path $root $path) -PathType Leaf)) {

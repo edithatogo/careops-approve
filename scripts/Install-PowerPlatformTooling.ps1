@@ -1,11 +1,14 @@
 [CmdletBinding()]
 param(
-    [string]$ManifestPath = "$PSScriptRoot/../tooling/powerplatform-tools.json",
+    [string]$ManifestPath,
     [switch]$SkipRuntimeInstall
 )
 
 $ErrorActionPreference = 'Stop'
-$manifest = Get-Content -Raw -LiteralPath $ManifestPath | ConvertFrom-Json
+$root = Split-Path -Parent $PSScriptRoot
+if (-not $ManifestPath) { $ManifestPath = Join-Path $root 'tooling\powerplatform-tools.json' }
+$manifestPathResolved = (Resolve-Path -LiteralPath $ManifestPath).Path
+$manifest = Get-Content -Raw -LiteralPath $manifestPathResolved | ConvertFrom-Json
 $toolsDir = Join-Path $HOME '.dotnet/tools'
 $sdkRoot = [Environment]::ExpandEnvironmentVariables($manifest.tools.dotnetSdk.installRoot)
 $runtimeRoot = [Environment]::ExpandEnvironmentVariables($manifest.tools.dotnetRuntime.installRoot)

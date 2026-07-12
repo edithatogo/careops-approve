@@ -2,6 +2,7 @@
 param()
 
 $ErrorActionPreference = 'Stop'
+$null = Add-Type -AssemblyName System.Xml.Linq
 $root = Split-Path -Parent $PSScriptRoot
 $ns = [System.Xml.Linq.XNamespace]::Get('http://www.omg.org/spec/BPMN/20100524/MODEL')
 $models = @(

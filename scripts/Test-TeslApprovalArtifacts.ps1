@@ -2,6 +2,7 @@
 param()
 
 $ErrorActionPreference = 'Stop'
+$null = Add-Type -AssemblyName System.Xml.Linq
 $root = Split-Path -Parent $PSScriptRoot
 $contract = Get-Content -Raw -LiteralPath (Join-Path $root 'flows/tesl-email-to-approval.contract.json') | ConvertFrom-Json
 $mapping = Get-Content -Raw -LiteralPath (Join-Path $root 'config/tesl-email-mapping.example.json') | ConvertFrom-Json

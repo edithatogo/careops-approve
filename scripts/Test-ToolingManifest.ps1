@@ -1,8 +1,11 @@
 [CmdletBinding()]
-param([string]$ManifestPath = "$PSScriptRoot/../tooling/powerplatform-tools.json")
+param([string]$ManifestPath)
 
 $ErrorActionPreference = 'Stop'
-$manifest = Get-Content -Raw -LiteralPath $ManifestPath | ConvertFrom-Json
+$root = Split-Path -Parent $PSScriptRoot
+if (-not $ManifestPath) { $ManifestPath = Join-Path $root 'tooling\powerplatform-tools.json' }
+$manifestPathResolved = (Resolve-Path -LiteralPath $ManifestPath).Path
+$manifest = Get-Content -Raw -LiteralPath $manifestPathResolved | ConvertFrom-Json
 if ($manifest.schemaVersion -ne 1) { throw 'Unsupported Power Platform tooling manifest schema.' }
 if ($manifest.installMode -ne 'user-local') { throw 'Tooling must use user-local installation.' }
 foreach ($name in @('dotnetSdk', 'dotnetRuntime', 'pac', 'pacx')) {

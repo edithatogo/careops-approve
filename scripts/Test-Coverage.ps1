@@ -1,9 +1,11 @@
 [CmdletBinding()]
-param([string]$MatrixPath = "$PSScriptRoot/../harness/coverage-matrix.json")
+param([string]$MatrixPath)
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
-$matrix = Get-Content -Raw -LiteralPath $MatrixPath | ConvertFrom-Json
+if (-not $MatrixPath) { $MatrixPath = Join-Path $root 'harness\coverage-matrix.json' }
+$matrixPathResolved = (Resolve-Path -LiteralPath $MatrixPath).Path
+$matrix = Get-Content -Raw -LiteralPath $matrixPathResolved | ConvertFrom-Json
 $ids = @($matrix.controls | ForEach-Object id)
 if ($ids.Count -ne (@($ids | Sort-Object -Unique).Count)) { throw 'Coverage matrix contains duplicate control IDs.' }
 foreach ($control in $matrix.controls) {
