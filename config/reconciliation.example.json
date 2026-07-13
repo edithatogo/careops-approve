@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "mode": "read-only-by-default",
+  "comparisonKey": ["requestId", "approvalId"],
+  "states": ["consistent", "missing-approval", "missing-state", "stale-pending", "conflicting-final", "duplicate-replay"],
+  "safeRepairs": ["recreate-missing-state", "record-missing-approval-exception", "record-stale-pending-exception"],
+  "forbiddenRepairs": ["overwrite-final-decision", "delete-approval", "change-assigned-approver", "auto-approve", "auto-reject"],
+  "repairPolicy": {"requiresIndividualOwnerApproval": true, "idempotencyKey": ["requestId", "approvalId", "repairType"], "onDuplicate": "retain-first-repair", "auditFields": ["beforeState", "afterState", "reason", "actor", "correlationId", "approvedAt", "repairedAt"]},
+  "privacy": {"rawRequestContent": false, "ownerOnlyExceptions": true, "email": false}
+}

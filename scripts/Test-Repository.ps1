@@ -73,6 +73,9 @@ $required = @(
     'config/service-metrics-fixtures.example.json',
     'contracts/requester-status.schema.json',
     'config/requester-status-scenarios.example.json',
+    'config/reconciliation.example.json',
+    'config/reconciliation-fixtures.example.json',
+    'scripts/Test-Reconciliation.ps1',
     'config/ai-decision-annotation.example.json',
     'config/ai-decision-annotation-scenarios.example.json',
     'scripts/Test-AiDecisionAnnotation.ps1',
@@ -202,5 +205,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-ServiceMetrics.ps1')
 & (Join-Path $root 'scripts/Test-RequesterStatus.ps1')
 & (Join-Path $root 'scripts/Test-AiDecisionAnnotation.ps1')
+& (Join-Path $root 'scripts/Test-Reconciliation.ps1')
 
 Write-Output 'Repository validation passed.'

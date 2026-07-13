@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {"name":"consistent","request":{"requestId":"r1","approvalId":"a1","state":"Approved"},"approval":{"approvalId":"a1","outcome":"Approve"},"expected":"consistent"},
+    {"name":"missing-approval","request":{"requestId":"r2","approvalId":"a2","state":"Pending"},"approval":null,"expected":"missing-approval"},
+    {"name":"missing-state","request":null,"approval":{"approvalId":"a3","outcome":"Reject"},"expected":"missing-state"},
+    {"name":"stale-pending","request":{"requestId":"r4","approvalId":"a4","state":"Pending"},"approval":{"approvalId":"a4","outcome":"Pending"},"expected":"stale-pending"},
+    {"name":"conflicting-final","request":{"requestId":"r5","approvalId":"a5","state":"Approved"},"approval":{"approvalId":"a5","outcome":"Reject"},"expected":"conflicting-final"},
+    {"name":"duplicate-replay","request":{"requestId":"r6","approvalId":"a6","state":"Approved"},"approval":{"approvalId":"a6","outcome":"Approve"},"replay":true,"expected":"duplicate-replay"}
+  ]
+}

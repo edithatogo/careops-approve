@@ -144,9 +144,9 @@
     },
     {
       "trackId": "operational_reconciliation_20260713",
-      "firstPendingTask": "Define comparison states, exception schema and safe repair actions",
+      "firstPendingTask": "Run read-only reconciliation against authorised pilot records",
       "startFiles": ["conductor/tracks/operational_reconciliation_20260713/index.md", "config/decision-scenarios.example.json"],
-      "writeScope": ["conductor/tracks/operational_reconciliation_20260713/", "config/reconciliation.example.json", "scripts/Test-Reconciliation.ps1"],
+      "writeScope": ["conductor/tracks/operational_reconciliation_20260713/", "config/reconciliation.example.json", "config/reconciliation-fixtures.example.json", "scripts/Test-Reconciliation.ps1"],
       "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-Reconciliation.ps1"],
       "prerequisites": ["Authorised read access to approval and state records"],
       "tenantGate": true,
