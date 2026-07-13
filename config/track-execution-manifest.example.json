@@ -155,7 +155,7 @@
     },
     {
       "trackId": "privacy_retention_accessibility_20260713",
-      "firstPendingTask": "Define role visibility, retention evidence and accessibility criteria",
+      "firstPendingTask": "Apply permitted item-level sharing and confirm retention ownership",
       "startFiles": ["conductor/tracks/privacy_retention_accessibility_20260713/index.md", "docs/tenant-fit-checklist.md"],
       "writeScope": ["conductor/tracks/privacy_retention_accessibility_20260713/", "config/visibility-accessibility.example.json", "scripts/Test-VisibilityAccessibility.ps1"],
       "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-VisibilityAccessibility.ps1"],

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {"name":"assigned-approver-allowed","role":"assignedApprover","expected":"allow"},
+    {"name":"unlisted-user-denied","role":"generalTeamMember","expected":"deny"},
+    {"name":"subject-role-disabled","role":"futureSubject","expected":"deny"},
+    {"name":"keyboard-labels","labels":true,"keyboard":true,"expected":"pass"},
+    {"name":"mobile-logical-order","mobile":true,"logicalOrder":true,"expected":"pass"}
+  ]
+}

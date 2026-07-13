@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "visibility": {"allowedRoles": ["workflowOwner", "requester", "assignedApprover", "authorisedEditor"], "futureSubjectRole": "disabled", "denyUnlistedUsers": true},
+  "retention": {"policyOwner": "tenant-owner", "sourceControlledPolicyChange": false, "retainDecisionAudit": true, "disposalRequiresTenantEvidence": true},
+  "accessibility": {"requiredLabels": true, "keyboardOperable": true, "mobileLayout": true, "conciseApprovalDetails": true, "screenReaderOrder": "logical"},
+  "privacy": {"internalCommentsExcludedFromRequesterSurface": true, "broadChannelPosting": false, "email": false, "rawSensitiveContentInTelemetry": false}
+}
