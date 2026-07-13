@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "status": "tenant-neutral-blueprint",
+  "decisionAuthority": "native-teams-approval",
+  "eventContract": {"requiredFields":["eventId","requestId","eventType","occurredAt"],"allowedEventTypes":["submitted","decision","exception"],"deduplicationKey":"eventId","rawRequestContent":false,"individualRanking":false},
+  "metrics": {
+    "demand":{"numerator":"distinct submitted requestId","denominator":"none"},
+    "throughput":{"numerator":"distinct decision requestId","denominator":"distinct submitted requestId"},
+    "leadTimeHours":{"numerator":"decision minus submission","denominator":"matched decisions"},
+    "overdueRate":{"numerator":"requests due before decision or asOfTime","denominator":"distinct submitted requestId"},
+    "exceptionRate":{"numerator":"distinct requestId with exception","denominator":"distinct submitted requestId"},
+    "queueAgeHours":{"numerator":"maximum asOfTime minus pending submission","denominator":"pending requests"}
+  },
+  "ownerWarnings":{"overdueRateAtLeast":0.25,"exceptionRateAtLeast":0.10,"queueAgeHoursAtLeast":72,"channel":"owner-only-teams-summary","email":false},
+  "tenantConfiguration":"Thresholds, owner audience and telemetry source are tenant-provided and excluded from source control."
+}

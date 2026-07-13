@@ -79,7 +79,7 @@ plan in its respective folder.
 - [~] **Track: Synchronize approvals into Microsoft Planner**
   *Link: [./tracks/planner_task_sync_20260713/](./tracks/planner_task_sync_20260713/)*
 
-- [ ] **Track: Add privacy-safe service metrics and queue capacity signals**
+- [~] **Track: Add privacy-safe service metrics and queue capacity signals**
   *Link: [./tracks/service_metrics_capacity_20260713/](./tracks/service_metrics_capacity_20260713/)*
 
 - [ ] **Track: Add requester status, correction and process feedback**

@@ -69,6 +69,8 @@ $required = @(
     'config/tenant-pilot-evidence.example.json',
     'config/planner-sync.example.json',
     'config/track-execution-manifest.example.json',
+    'config/service-metrics.example.json',
+    'config/service-metrics-fixtures.example.json',
     'docs/dataverse-review-surface.md',
     'docs/power-automate-reuse-assessment.md',
     'workflows/tesl-email-to-approval.bpmn',
@@ -102,6 +104,7 @@ $required = @(
     'scripts/Test-CapabilityMatrix.ps1',
     'scripts/Test-PlannerSync.ps1',
     'scripts/Test-TrackExecutionManifest.ps1',
+    'scripts/Test-ServiceMetrics.ps1',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -188,5 +191,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-CapabilityMatrix.ps1')
 & (Join-Path $root 'scripts/Test-PlannerSync.ps1')
 & (Join-Path $root 'scripts/Test-TrackExecutionManifest.ps1')
+& (Join-Path $root 'scripts/Test-ServiceMetrics.ps1')
 
 Write-Output 'Repository validation passed.'
