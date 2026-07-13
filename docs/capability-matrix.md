@@ -1,6 +1,9 @@
 # CareOps Approve capability matrix
 
 Status values distinguish source-controlled capability from live tenant evidence.
+The platform owner has authorized the tenant-gated capabilities; an account-level
+execution block means the current session lacks the required Entra/admin role,
+not that the capability lacks owner approval.
 "Conditional" means the feature is technically available but cannot be activated
 with the current no-admin, no-Entra-app authority.
 

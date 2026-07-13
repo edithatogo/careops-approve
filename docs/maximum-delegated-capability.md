@@ -32,7 +32,13 @@ separate from tenant-admin or Entra-dependent ambitions.
 - PAC/PACX can support export, inspection, and reconciliation after delegated
   maker access is available; it cannot grant deployment or admin rights.
 
-## Not available without additional authority
+## Authorized but paused pending the right account or session
+
+The platform/tenant owner has authorized these capabilities. They are paused
+only because the current signed-in account does not have the required Entra or
+administrator permissions. Do not attempt workarounds or create substitute
+identities; resume these tracks when an appropriately privileged, approved
+session is available.
 
 - Microsoft Graph Approvals automation requiring Entra app registration,
   application permissions, or admin consent.
@@ -44,6 +50,10 @@ separate from tenant-admin or Entra-dependent ambitions.
   and administrator setup.
 - Unattended or centrally hosted intranet automation without an approved
   registered machine, gateway, or service identity.
+
+These are not rejected or unauthorized. They are execution-blocked for the
+current account and must remain paused until the required platform session is
+available.
 
 ## Execution order
 
