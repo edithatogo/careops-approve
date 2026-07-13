@@ -12,12 +12,15 @@
 
 ## Phase 2: Plan and flow binding
 
-- [~] Task: Select or create the approved Planner basic plan
-    - [ ] Confirm plan membership includes only authorised workflow participants.
-    - [ ] Record plan and bucket identifiers in tenant configuration, not Git.
+- [x] Task: Select or create the approved Planner basic plan [tenant verified 2026-07-13]
+    - [x] Create and pin the `CareOps Approvals` basic plan as `Private to you`.
+    - [x] Confirm the owner-managed Planner connector is connected in Power Automate.
+    - [x] Record plan and environment identifiers in ignored tenant configuration, not Git.
 - [ ] Task: Add Planner actions to the live solution-aware flow
     - [ ] Bind the owner-managed Planner connection reference.
     - [ ] Persist Planner task ID and last-sync fields in the approved state store.
+    - [ ] Bind after the approval creation/lifecycle action, not in the intake-only
+          `TESL Email Capture` flow.
 - [ ] Task: Conductor - User Manual Verification 'Plan and flow binding' (Protocol in workflow.md)
 
 ## Phase 3: Pilot and reconciliation
@@ -27,4 +30,3 @@
     - [ ] Confirm Planner edits cannot alter approval decisions.
 - [ ] Task: Record sanitized evidence and enable the tenant configuration
 - [ ] Task: Conductor - User Manual Verification 'Pilot and reconciliation' (Protocol in workflow.md)
-
