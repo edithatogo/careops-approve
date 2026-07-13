@@ -4,15 +4,16 @@
     "workflowOwner": { "displayName": "Tenant-provided workflow owner", "upn": "tenant-provided-upn" },
     "requester": { "displayName": "Any authorised requester", "upn": "tenant-provided-upn" },
     "executiveAssistant": { "displayName": "Natalie Degidio", "upn": "tenant-provided-upn" },
+    "alternateExecutiveAssistant": { "displayName": "KristineMarie Rivero", "upn": "tenant-provided-upn" },
     "medicalWorkforceManager": { "displayName": "Kathryn Meharg", "upn": "tenant-provided-upn" },
     "primaryApprover": { "displayName": "Configured primary approver", "upn": "tenant-provided-upn" },
     "edmsEscalationApprover": { "displayName": "Elaine Pretorius", "upn": "tenant-provided-upn" }
   },
   "permissions": {
-    "submitters": ["requester", "executiveAssistant", "medicalWorkforceManager"],
-    "workflowEditors": ["workflowOwner"],
+    "submitters": ["requester", "executiveAssistant", "alternateExecutiveAssistant", "medicalWorkforceManager"],
+    "workflowEditors": ["workflowOwner", "executiveAssistant", "alternateExecutiveAssistant"],
     "normalApprovers": ["primaryApprover", "edmsEscalationApprover"],
-    "urgentDelegatedApprovers": ["executiveAssistant", "medicalWorkforceManager"]
+    "urgentDelegatedApprovers": ["executiveAssistant", "alternateExecutiveAssistant", "medicalWorkforceManager"]
   },
   "delegationPolicy": {
     "mode": "recorded-verbal-delegation-only",
