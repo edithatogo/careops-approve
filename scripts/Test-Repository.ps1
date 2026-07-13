@@ -25,6 +25,7 @@ $required = @(
     'docs/ai-assisted-review.md',
     'docs/low-privilege-architecture.md',
     'docs/frontier-capability-assessment.md',
+    'docs/capability-matrix.md',
     'contracts/request.schema.json',
     'contracts/decision.schema.json',
     'contracts/approver-configuration.schema.json',
@@ -91,6 +92,7 @@ $required = @(
     'scripts/Test-ToolingManifest.ps1',
     'harness/coverage-matrix.json',
     'scripts/Test-Coverage.ps1',
+    'scripts/Test-CapabilityMatrix.ps1',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -173,5 +175,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-HandoffPackage.ps1')
 & (Join-Path $root 'scripts/Test-ToolingManifest.ps1')
 & (Join-Path $root 'scripts/Test-Coverage.ps1')
+& (Join-Path $root 'scripts/Test-CapabilityMatrix.ps1')
 
 Write-Output 'Repository validation passed.'

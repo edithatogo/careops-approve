@@ -20,6 +20,7 @@
     {"id":"toolchain-reproducibility","scope":"repo","test":"scripts/Test-ToolingManifest.ps1"},
     {"id":"publication-boundary","scope":"repo","test":"harness/Test-Harness.ps1"},
     {"id":"integration-roadmap","scope":"repo","test":"scripts/Test-IntegrationRoadmap.ps1"},
+    {"id":"capability-authority-matrix","scope":"repo","test":"scripts/Test-CapabilityMatrix.ps1"},
     {"id":"tenant-authentication","scope":"tenant","test":"docs/tooling.md","covered":false},
     {"id":"teams-approval-pilot","scope":"tenant","test":"docs/pilot-test-matrix.md","covered":false},
     {"id":"power-automate-live-flow","scope":"tenant","test":"docs/tenant-handoff-runbook.md","covered":false},

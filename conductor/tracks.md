@@ -53,3 +53,23 @@ plan in its respective folder.
 
 - [~] **Track: Prepare approved desktop intranet boundary**
   *Link: [./tracks/desktop_intranet_boundary_20260712/](./tracks/desktop_intranet_boundary_20260712/)*
+
+---
+
+- [ ] **Track: Reconcile live Power Automate flows with source**
+  *Link: [./tracks/live_flow_reconciliation_20260713/](./tracks/live_flow_reconciliation_20260713/)*
+
+- [ ] **Track: Add a governed template catalogue and request-type routing**
+  *Link: [./tracks/template_catalog_routing_20260713/](./tracks/template_catalog_routing_20260713/)*
+
+- [ ] **Track: Add business-calendar and absence-aware routing**
+  *Link: [./tracks/business_calendar_absence_routing_20260713/](./tracks/business_calendar_absence_routing_20260713/)*
+
+- [ ] **Track: Add submission-quality and evidence checks**
+  *Link: [./tracks/submission_quality_evidence_20260713/](./tracks/submission_quality_evidence_20260713/)*
+
+- [ ] **Track: Add operational reconciliation and orphan repair**
+  *Link: [./tracks/operational_reconciliation_20260713/](./tracks/operational_reconciliation_20260713/)*
+
+- [ ] **Track: Harden privacy, retention and accessibility**
+  *Link: [./tracks/privacy_retention_accessibility_20260713/](./tracks/privacy_retention_accessibility_20260713/)*
