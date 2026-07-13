@@ -177,7 +177,7 @@
     },
     {
       "trackId": "service_metrics_capacity_20260713",
-      "firstPendingTask": "Add service metric configuration and synthetic fixtures",
+      "firstPendingTask": "Pilot empty, normal, overdue and exception-heavy periods",
       "startFiles": ["conductor/tracks/service_metrics_capacity_20260713/index.md", "conductor/tracks/telemetry_owner_reporting_20260712/spec.md"],
       "writeScope": ["conductor/tracks/service_metrics_capacity_20260713/", "config/service-metrics.example.json", "scripts/Test-ServiceMetrics.ps1", "docs/service-metrics.md"],
       "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-ServiceMetrics.ps1"],
@@ -188,7 +188,7 @@
     },
     {
       "trackId": "requester_status_feedback_20260713",
-      "firstPendingTask": "Add requester-visible status and comment-separation contracts",
+      "firstPendingTask": "Apply permitted item-level access to pilot records",
       "startFiles": ["conductor/tracks/requester_status_feedback_20260713/index.md", "config/sharepoint-lists.example.json"],
       "writeScope": ["conductor/tracks/requester_status_feedback_20260713/", "config/requester-status.example.json", "scripts/Test-RequesterStatus.ps1", "docs/requester-status.md"],
       "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-RequesterStatus.ps1"],

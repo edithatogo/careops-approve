@@ -4,7 +4,7 @@
 
 - [x] Task: Define template schema, fixtures and lifecycle rules
 - [x] Task: Add deterministic routing and configuration-failure tests
-- [ ] Task: Conductor - User Manual Verification 'Catalogue contract' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Catalogue contract' (Protocol in workflow.md)
 
 ## Phase 2: Tenant pilot
 

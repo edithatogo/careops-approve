@@ -5,7 +5,7 @@
 - [x] Task: Add requester-visible status and comment-separation contracts
 - [x] Task: Add role, correction, replay and feedback tests
 - [x] Task: Document least-privilege sharing and future-subject boundary
-- [ ] Task: Conductor - User Manual Verification 'Visibility contract and tests' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Visibility contract and tests' (Protocol in workflow.md)
 
 ## Phase 2: Tenant pilot
 
