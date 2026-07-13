@@ -94,6 +94,7 @@ $required = @(
     'scripts/Test-AdministrationScenarios.ps1',
     'config/approver-resolution.example.json',
     'docs/tenant-handoff-runbook.md',
+    'docs/desktop-host-setup-checklist.md',
     'docs/pilot-test-matrix.md',
     'scripts/Test-HandoffPackage.ps1',
     'docs/approver-administration.md',

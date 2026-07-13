@@ -1,6 +1,8 @@
 # Implementation plan
 
-- [ ] Discover whether an approved desktop gateway or intranet connector exists.
+- [~] Discover whether an approved desktop gateway or intranet connector exists.
+    - [x] Confirm the current laptop is not the intended execution host.
+    - [ ] Register and inspect the approved desktop tomorrow using `docs/desktop-host-setup-checklist.md`.
 - [x] Define approved-only execution, retry, audit, and rollback contracts.
 - [x] Add a mocked execution contract and failure scenarios using the tenant-neutral blueprint.
 - [ ] Activate only after tenant owner and gateway evidence are available.
