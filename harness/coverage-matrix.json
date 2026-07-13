@@ -13,6 +13,7 @@
     {"id":"scenario-coverage","scope":"repo","test":"scripts/Test-WorkflowScenarios.ps1"},
     {"id":"flow-blueprints","scope":"repo","test":"scripts/Test-FlowBlueprint.ps1"},
     {"id":"tesl-email-mapping","scope":"repo","test":"scripts/Test-TeslApprovalArtifacts.ps1"},
+    {"id":"template-catalogue-routing","scope":"repo","test":"scripts/Test-TemplateCatalog.ps1"},
     {"id":"bpmn-visual-pairs","scope":"repo","test":"scripts/Test-BpmnArtifacts.ps1"},
     {"id":"decision-outcomes","scope":"repo","test":"scripts/Test-DecisionScenarios.ps1"},
     {"id":"administration-and-delegation","scope":"repo","test":"scripts/Test-AdministrationScenarios.ps1"},

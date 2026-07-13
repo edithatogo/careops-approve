@@ -1,10 +1,23 @@
 {
+  "schemaVersion": 1,
   "status": "blueprint",
+  "catalogVersion": "2026.07.13",
+  "decisionAuthority": "native-teams-approval",
+  "lifecycleStates": ["draft", "active", "retired"],
   "templates": [
     {
       "templateId": "tesl-review",
+      "version": "1.0.0",
+      "status": "active",
       "displayName": "TESL review",
+      "approvalClass": "administrative",
       "source": "tesl-email",
+      "eligibleSubmitterRoles": ["submitter", "workflowOwner", "executiveAssistant", "medicalWorkforceManager"],
+      "approverRole": "primaryApprover",
+      "slaDays": 14,
+      "escalationTemplateId": "edms-escalation",
+      "visibility": "submitter-and-assigned-approver",
+      "amendmentPolicy": "draft-only-before-submission",
       "requiredFields": ["teslId", "teslTitle", "teslStatus", "teslSummary"],
       "stages": [
         { "id": "primary", "assignedToRole": "primaryApprover", "timeoutDays": 14 },
@@ -19,8 +32,17 @@
     },
     {
       "templateId": "edms-escalation",
+      "version": "1.0.0",
+      "status": "active",
       "displayName": "EDMS escalation",
+      "approvalClass": "administrative",
       "source": "manual-or-tesl-escalation",
+      "eligibleSubmitterRoles": ["workflowOwner", "executiveAssistant", "medicalWorkforceManager"],
+      "approverRole": "edmsEscalationApprover",
+      "slaDays": 14,
+      "escalationTemplateId": null,
+      "visibility": "workflow-owner-and-assigned-approver",
+      "amendmentPolicy": "draft-only-before-submission",
       "requiredFields": ["requestId", "escalationReason", "sourceLink"],
       "stages": [
         { "id": "edms", "assignedToRole": "edmsEscalationApprover" }

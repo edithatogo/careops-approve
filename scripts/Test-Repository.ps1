@@ -60,6 +60,7 @@ $required = @(
     'flows/planner-task-sync.contract.json',
     'config/tesl-email-mapping.example.json',
     'config/approval-templates.example.json',
+    'config/template-routing-scenarios.example.json',
     'config/role-assignments.example.json',
     'config/desktop-intranet-execution.example.json',
     'config/power-automate-reuse.example.json',
@@ -79,6 +80,7 @@ $required = @(
     'workflows/INDEX.md',
     'scripts/Test-BpmnArtifacts.ps1',
     'scripts/Test-TeslApprovalArtifacts.ps1',
+    'scripts/Test-TemplateCatalog.ps1',
     'scripts/Test-IntegrationRoadmap.ps1',
     'scripts/Test-TenantReadiness.ps1',
     'docs/tesl-email-approval.md',
@@ -174,6 +176,7 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-WorkflowScenarios.ps1')
 & (Join-Path $root 'scripts/Test-FlowBlueprint.ps1')
 & (Join-Path $root 'scripts/Test-TeslApprovalArtifacts.ps1')
+& (Join-Path $root 'scripts/Test-TemplateCatalog.ps1')
 & (Join-Path $root 'scripts/Test-IntegrationRoadmap.ps1')
 & (Join-Path $root 'scripts/Test-TenantReadiness.ps1')
 & (Join-Path $root 'scripts/Test-BpmnArtifacts.ps1')

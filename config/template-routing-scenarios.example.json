@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {"name":"active-tesl-template","templateId":"tesl-review","expected":"route"},
+    {"name":"active-edms-template","templateId":"edms-escalation","expected":"route"},
+    {"name":"unknown-template","templateId":"does-not-exist","expected":"reject-unknown"},
+    {"name":"retired-template","templateId":"retired-fixture","expected":"reject-inactive"},
+    {"name":"missing-template","templateId":"","expected":"reject-missing"}
+  ]
+}
