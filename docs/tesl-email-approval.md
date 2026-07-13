@@ -46,13 +46,14 @@ This repository therefore provides a tenant-neutral implementation boundary:
 
 ## Urgent verbal delegation
 
-Natalie Degidio and Kathryn Meharg are represented as the executive-assistant
-and medical-workforce-manager submitter/delegate roles. Dylan remains the sole
-Power Automate owner/editor. Natalie and Kathryn may respond in an urgent
-case only when the delegated approval record captures the delegator, delegate,
-request ID, reason, and time, and notifies the workflow owner. This is an audit
-and routing control; it does not silently reassign an existing approval or
-create unrestricted approval authority.
+Natalie Degidio and KristineMarie Rivero are represented as the executive-
+assistant submitter/editor/delegate roles, while Kathryn Meharg is represented
+as the medical-workforce-manager submitter/delegate. Dylan remains the sole
+Power Automate owner/editor. Natalie, KristineMarie, and Kathryn may respond
+in an urgent case only when the delegated approval record captures the
+delegator, delegate, request ID, reason, and time, and notifies the workflow
+owner. This is an audit and routing control; it does not silently reassign an
+existing approval or create unrestricted approval authority.
 
 ## Tenant setup still required
 
