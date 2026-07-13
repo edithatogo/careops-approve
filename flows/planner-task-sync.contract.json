@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "status": "blueprint",
+  "deploymentStatus": "tenant-activation-pending",
+  "trigger": "careops-submission-or-decision-state-change",
+  "connector": "Planner",
+  "connectorTier": "standard",
+  "supportedPlanType": "basic",
+  "steps": [
+    { "id": "load-submission", "action": "read-authorised-state-record" },
+    { "id": "validate-projection", "action": "reject-sensitive-or-invalid-task-content" },
+    { "id": "resolve-plan", "action": "load-tenant-plan-and-bucket-configuration" },
+    { "id": "find-existing-task", "action": "read-stored-planner-task-id" },
+    { "id": "create-task-once", "action": "planner-create-task-if-no-task-id" },
+    { "id": "persist-task-id", "action": "write-planner-task-id-with-correlation-key" },
+    { "id": "update-task", "action": "planner-update-task-and-details-idempotently" },
+    { "id": "record-sync", "action": "persist-sanitized-sync-status-and-timestamp" },
+    { "id": "route-failure", "action": "owner-only-exception-queue-without-email" }
+  ],
+  "invariants": [
+    "native-teams-approval-remains-authoritative",
+    "one-planner-task-per-careops-request",
+    "planner-task-completion-does-not-approve-or-reject",
+    "no-sensitive-payload-in-planner",
+    "no-outbound-email"
+  ]
+}
+

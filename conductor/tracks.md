@@ -73,3 +73,14 @@ plan in its respective folder.
 
 - [ ] **Track: Harden privacy, retention and accessibility**
   *Link: [./tracks/privacy_retention_accessibility_20260713/](./tracks/privacy_retention_accessibility_20260713/)*
+
+---
+
+- [~] **Track: Synchronize approvals into Microsoft Planner**
+  *Link: [./tracks/planner_task_sync_20260713/](./tracks/planner_task_sync_20260713/)*
+
+- [ ] **Track: Add privacy-safe service metrics and queue capacity signals**
+  *Link: [./tracks/service_metrics_capacity_20260713/](./tracks/service_metrics_capacity_20260713/)*
+
+- [ ] **Track: Add requester status, correction and process feedback**
+  *Link: [./tracks/requester_status_feedback_20260713/](./tracks/requester_status_feedback_20260713/)*

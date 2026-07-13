@@ -26,6 +26,8 @@ $required = @(
     'docs/low-privilege-architecture.md',
     'docs/frontier-capability-assessment.md',
     'docs/capability-matrix.md',
+    'docs/planner-integration.md',
+    'docs/model-execution-playbook.md',
     'contracts/request.schema.json',
     'contracts/decision.schema.json',
     'contracts/approver-configuration.schema.json',
@@ -55,6 +57,7 @@ $required = @(
     'flows/submit-and-route.contract.json',
     'scripts/Test-FlowBlueprint.ps1',
     'flows/tesl-email-to-approval.contract.json',
+    'flows/planner-task-sync.contract.json',
     'config/tesl-email-mapping.example.json',
     'config/approval-templates.example.json',
     'config/role-assignments.example.json',
@@ -63,6 +66,8 @@ $required = @(
     'config/integration-roadmap.example.json',
     'config/dataverse-review-surface.example.json',
     'config/tenant-pilot-evidence.example.json',
+    'config/planner-sync.example.json',
+    'config/track-execution-manifest.example.json',
     'docs/dataverse-review-surface.md',
     'docs/power-automate-reuse-assessment.md',
     'workflows/tesl-email-to-approval.bpmn',
@@ -93,6 +98,8 @@ $required = @(
     'harness/coverage-matrix.json',
     'scripts/Test-Coverage.ps1',
     'scripts/Test-CapabilityMatrix.ps1',
+    'scripts/Test-PlannerSync.ps1',
+    'scripts/Test-TrackExecutionManifest.ps1',
     '.github/workflows/validate.yml',
     '.github/workflows/deploy-pilot.yml',
     'config/pilot.deploymentSettings.example.json'
@@ -176,5 +183,7 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-ToolingManifest.ps1')
 & (Join-Path $root 'scripts/Test-Coverage.ps1')
 & (Join-Path $root 'scripts/Test-CapabilityMatrix.ps1')
+& (Join-Path $root 'scripts/Test-PlannerSync.ps1')
+& (Join-Path $root 'scripts/Test-TrackExecutionManifest.ps1')
 
 Write-Output 'Repository validation passed.'

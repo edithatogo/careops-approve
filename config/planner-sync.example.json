@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "status": "blueprint",
+  "enabled": false,
+  "planType": "basic",
+  "connectionOwner": "tenant-configured-workflow-owner",
+  "planId": "tenant-configured-plan-id",
+  "groupId": "tenant-configured-group-id-if-required",
+  "decisionAuthority": "native-teams-approval",
+  "taskKey": "careops-request-id",
+  "titleTemplate": "[{requestId}] {requestTitle}",
+  "descriptionFields": ["requestId", "templateName", "approvalStatus", "dueAt", "approvedSourceLink"],
+  "prohibitedTaskContent": ["raw-email-body", "attachment-content", "clinical-data", "credentials", "tenant-identifiers-in-source"],
+  "buckets": {
+    "pending": "Awaiting decision",
+    "followUp": "Approved follow-up",
+    "completed": "Completed",
+    "exception": "Exceptions"
+  },
+  "stateMapping": {
+    "Submitted": { "bucket": "pending", "percentComplete": 0 },
+    "Pending": { "bucket": "pending", "percentComplete": 0 },
+    "Approved": { "bucket": "completed", "percentComplete": 100 },
+    "ApprovedFollowUp": { "bucket": "followUp", "percentComplete": 0 },
+    "Rejected": { "bucket": "completed", "percentComplete": 100 },
+    "Cancelled": { "bucket": "completed", "percentComplete": 100 },
+    "Escalated": { "bucket": "exception", "percentComplete": 0 },
+    "Failed": { "bucket": "exception", "percentComplete": 0 }
+  },
+  "rules": [
+    "create-once-after-request-id-is-persisted",
+    "store-planner-task-id-on-submission-record",
+    "updates-must-be-idempotent",
+    "planner-completion-must-not-finalize-an-approval",
+    "no-email-actions",
+    "connection-references-remain-outside-source-control"
+  ]
+}
+

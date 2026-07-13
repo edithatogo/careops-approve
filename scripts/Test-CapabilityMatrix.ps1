@@ -12,7 +12,10 @@ $requiredTracks = @(
     'business_calendar_absence_routing_20260713',
     'submission_quality_evidence_20260713',
     'operational_reconciliation_20260713',
-    'privacy_retention_accessibility_20260713'
+    'privacy_retention_accessibility_20260713',
+    'planner_task_sync_20260713',
+    'service_metrics_capacity_20260713',
+    'requester_status_feedback_20260713'
 )
 
 foreach ($trackId in $requiredTracks) {
@@ -32,4 +35,3 @@ if ($matrix -match '[A-Za-z0-9._%+-]+@health\.nsw\.gov\.au') {
 }
 
 Write-Output 'Capability matrix validation passed.'
-

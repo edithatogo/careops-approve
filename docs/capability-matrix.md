@@ -21,6 +21,9 @@ with the current no-admin, no-Entra-app authority.
 | Submission quality and evidence checks | Proposed | Deterministic validation and advisory AI boundary | Yes | Approved field rules and safe link policy | `submission_quality_evidence_20260713` |
 | Operational reconciliation and orphan repair | Proposed | Immutable outcome and failure-state contracts | Yes | Live approval and state-store access | `operational_reconciliation_20260713` |
 | Privacy, retention and accessible/mobile operation | Proposed | Restricted visibility and publication boundary | Partly | Tenant retention labels and policy confirmation | `privacy_retention_accessibility_20260713` |
+| Planner task projection | Source contract implemented; live binding pending | Basic-plan configuration, idempotent projection contract and tests | Yes | Approved basic plan, restricted membership and owner connection | `planner_task_sync_20260713` |
+| Service metrics and queue capacity | Proposed | Existing sanitized telemetry and owner-reporting boundary | Yes | Approved metric definitions and owner audience | `service_metrics_capacity_20260713` |
+| Requester status, correction and feedback | Proposed | Existing item-level visibility and correction contracts | Yes | Approved item-level access model | `requester_status_feedback_20260713` |
 | Business Approvals Kit | Conditional; evaluate only | Microsoft kit supports versioned stages, conditions and OOF handling | No | Non-default Dataverse environment, licenses, managed solution installation and elevated environment roles | No implementation track until prerequisites are approved |
 | Microsoft Graph Approvals API | Blocked | API could create, update, list and subscribe to approvals | No | Entra application registration, OAuth permissions and consent | No implementation track under current authority |
 | Custom Teams app, bot or Microsoft 365 agent | Blocked | Local Agents Toolkit is diagnostic only | No | Custom-app upload policy, Entra identity and tenant approval | No implementation track under current authority |
@@ -59,6 +62,9 @@ GHE is the current work authority; GitHub.com is the private continuity mirror.
 | `submission_quality_evidence_20260713` | [#16](https://nswhealth.ghe.com/60217257/careops-approve/issues/16) | [#18](https://github.com/edithatogo/careops-approve/issues/18) |
 | `operational_reconciliation_20260713` | [#17](https://nswhealth.ghe.com/60217257/careops-approve/issues/17) | [#19](https://github.com/edithatogo/careops-approve/issues/19) |
 | `privacy_retention_accessibility_20260713` | [#18](https://nswhealth.ghe.com/60217257/careops-approve/issues/18) | [#20](https://github.com/edithatogo/careops-approve/issues/20) |
+| `planner_task_sync_20260713` | [#19](https://nswhealth.ghe.com/60217257/careops-approve/issues/19) | [#23](https://github.com/edithatogo/careops-approve/issues/23) |
+| `service_metrics_capacity_20260713` | [#20](https://nswhealth.ghe.com/60217257/careops-approve/issues/20) | [#24](https://github.com/edithatogo/careops-approve/issues/24) |
+| `requester_status_feedback_20260713` | [#21](https://nswhealth.ghe.com/60217257/careops-approve/issues/21) | [#25](https://github.com/edithatogo/careops-approve/issues/25) |
 
 ## Microsoft capability references
 
@@ -67,3 +73,5 @@ GHE is the current work authority; GitHub.com is the private continuity mirror.
 - [Configure preset approvals](https://learn.microsoft.com/en-us/power-automate/guidance/business-approvals-templates/configure-preset-approvals)
 - [Business Approvals Kit setup](https://learn.microsoft.com/en-us/power-automate/guidance/business-approvals-templates/setup)
 - [Custom pipelines host prerequisites](https://learn.microsoft.com/en-us/power-platform/alm/custom-host-pipelines)
+- [Planner connector](https://learn.microsoft.com/en-au/connectors/planner/)
+- [Planner in Teams](https://learn.microsoft.com/en-us/microsoftteams/manage-planner-app)

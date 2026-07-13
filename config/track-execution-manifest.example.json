@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Deterministic execution instructions for smaller coding models",
+  "globalRules": {
+    "workflow": "conductor/workflow.md",
+    "playbook": "docs/model-execution-playbook.md",
+    "baselineValidation": "pwsh -NoProfile -File ./scripts/Test-Repository.ps1",
+    "forbiddenInGit": ["UPNs", "tenant IDs", "environment URLs", "connection references", "runtime payloads", "credentials"],
+    "oneActiveTaskPerTrack": true,
+    "tenantEvidenceMustBeSanitized": true
+  },
+  "tracks": [
+    {
+      "trackId": "basic_submit_approve_20260710",
+      "firstPendingTask": "Verify Teams Approvals, connectors, DLP, retention and authorised owners",
+      "startFiles": ["conductor/tracks/basic_submit_approve_20260710/index.md", "docs/tenant-fit-checklist.md"],
+      "writeScope": ["conductor/tracks/basic_submit_approve_20260710/", "docs/tenant-fit-checklist.md", "docs/pilot-test-matrix.md"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-HandoffPackage.ps1"],
+      "prerequisites": ["Delegated tenant access", "Approved pilot scope"],
+      "tenantGate": true,
+      "stopConditions": ["No authorised environment", "DLP or licensing unknown"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/1","github":"https://github.com/edithatogo/careops-approve/issues/3"}
+    },
+    {
+      "trackId": "approvals_app_integration_roadmap_20260712",
+      "firstPendingTask": "Complete Foundation manual verification",
+      "startFiles": ["conductor/tracks/approvals_app_integration_roadmap_20260712/index.md", "config/integration-roadmap.example.json"],
+      "writeScope": ["conductor/tracks/approvals_app_integration_roadmap_20260712/", "config/integration-roadmap.example.json"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-IntegrationRoadmap.ps1"],
+      "prerequisites": ["Linked capability track evidence"],
+      "tenantGate": true,
+      "stopConditions": ["Any linked capability lacks its required gate"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/4","github":"https://github.com/edithatogo/careops-approve/issues/6"}
+    },
+    {
+      "trackId": "tesl_email_intake_20260712",
+      "firstPendingTask": "Validate intake in a controlled pilot mailbox",
+      "startFiles": ["conductor/tracks/tesl_email_intake_20260712/index.md", "flows/tesl-email-to-approval.contract.json"],
+      "writeScope": ["conductor/tracks/tesl_email_intake_20260712/", "flows/tesl-email-to-approval.contract.json", "config/tesl-email-mapping.example.json", "docs/tesl-email-approval.md"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-TeslApprovalArtifacts.ps1"],
+      "prerequisites": ["Authorised mailbox folder", "Outlook and SharePoint connections"],
+      "tenantGate": true,
+      "stopConditions": ["Mailbox scope is not approved", "Raw email would enter Git"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/5","github":"https://github.com/edithatogo/careops-approve/issues/7"}
+    },
+    {
+      "trackId": "idempotency_duplicate_safety_20260712",
+      "firstPendingTask": "Pilot a controlled duplicate email pair",
+      "startFiles": ["conductor/tracks/idempotency_duplicate_safety_20260712/index.md", "config/tesl-intake-controls.example.json"],
+      "writeScope": ["conductor/tracks/idempotency_duplicate_safety_20260712/", "config/tesl-intake-controls.example.json", "flows/tesl-email-to-approval.contract.json"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-TeslApprovalArtifacts.ps1"],
+      "prerequisites": ["Controlled test messages", "Run-history access"],
+      "tenantGate": true,
+      "stopConditions": ["Duplicate test could affect production records"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/6","github":"https://github.com/edithatogo/careops-approve/issues/8"}
+    },
+    {
+      "trackId": "failure_correction_queue_20260712",
+      "firstPendingTask": "Pilot malformed and corrected TESL submissions",
+      "startFiles": ["conductor/tracks/failure_correction_queue_20260712/index.md", "config/tesl-intake-controls.example.json"],
+      "writeScope": ["conductor/tracks/failure_correction_queue_20260712/", "config/tesl-intake-controls.example.json", "flows/tesl-email-to-approval.contract.json"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-TeslApprovalArtifacts.ps1"],
+      "prerequisites": ["Owner-only correction queue", "Controlled malformed sample"],
+      "tenantGate": true,
+      "stopConditions": ["Queue visibility is broader than approved owners"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/7","github":"https://github.com/edithatogo/careops-approve/issues/9"}
+    },
+    {
+      "trackId": "telemetry_owner_reporting_20260712",
+      "firstPendingTask": "Pilot owner summary visibility and no-email behaviour",
+      "startFiles": ["conductor/tracks/telemetry_owner_reporting_20260712/index.md", "config/integration-roadmap.example.json"],
+      "writeScope": ["conductor/tracks/telemetry_owner_reporting_20260712/", "config/integration-roadmap.example.json", "docs/power-automate-reuse-assessment.md"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-IntegrationRoadmap.ps1"],
+      "prerequisites": ["Sanitized telemetry store", "Owner-only Teams destination"],
+      "tenantGate": true,
+      "stopConditions": ["Raw request data appears in telemetry", "Destination is broadly visible"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/8","github":"https://github.com/edithatogo/careops-approve/issues/10"}
+    },
+    {
+      "trackId": "teams_roster_delegation_20260712",
+      "firstPendingTask": "Pilot normal, urgent and 14-day escalation paths",
+      "startFiles": ["conductor/tracks/teams_roster_delegation_20260712/index.md", "config/role-assignments.example.json"],
+      "writeScope": ["conductor/tracks/teams_roster_delegation_20260712/", "config/role-assignments.example.json", "config/approval-templates.example.json"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-AdministrationScenarios.ps1", "pwsh -NoProfile -File ./scripts/Test-TeslApprovalArtifacts.ps1"],
+      "prerequisites": ["Authorised role roster", "No-email tenant configuration"],
+      "tenantGate": true,
+      "stopConditions": ["Delegation authority is unclear", "Change would reassign an in-flight approval"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/9","github":"https://github.com/edithatogo/careops-approve/issues/11"}
+    },
+    {
+      "trackId": "dataverse_review_surface_20260712",
+      "firstPendingTask": "Confirm Dataverse availability, licensing and role boundary",
+      "startFiles": ["conductor/tracks/dataverse_review_surface_20260712/index.md", "config/dataverse-review-surface.example.json"],
+      "writeScope": ["conductor/tracks/dataverse_review_surface_20260712/", "config/dataverse-review-surface.example.json", "docs/dataverse-review-surface.md"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-IntegrationRoadmap.ps1"],
+      "prerequisites": ["Dataverse environment", "Approved table permissions and licensing"],
+      "tenantGate": true,
+      "stopConditions": ["Dataverse unavailable", "Environment role not granted", "Premium dependency not approved"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/10","github":"https://github.com/edithatogo/careops-approve/issues/12"}
+    },
+    {
+      "trackId": "desktop_intranet_boundary_20260712",
+      "firstPendingTask": "Discover an approved desktop machine, group or gateway",
+      "startFiles": ["conductor/tracks/desktop_intranet_boundary_20260712/index.md", "config/desktop-intranet-execution.example.json"],
+      "writeScope": ["conductor/tracks/desktop_intranet_boundary_20260712/", "config/desktop-intranet-execution.example.json"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-IntegrationRoadmap.ps1"],
+      "prerequisites": ["Registered machine or approved gateway", "Intranet access owner"],
+      "tenantGate": true,
+      "stopConditions": ["No approved execution host", "Approval outcome is not immutable"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/11","github":"https://github.com/edithatogo/careops-approve/issues/13"}
+    },
+    {
+      "trackId": "live_flow_reconciliation_20260713",
+      "firstPendingTask": "Establish delegated PAC or maker authentication",
+      "startFiles": ["conductor/tracks/live_flow_reconciliation_20260713/index.md", "docs/tooling.md"],
+      "writeScope": ["conductor/tracks/live_flow_reconciliation_20260713/", "src/solutions/CareOpsApprove/", "docs/deployment-attestation.md"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-SolutionSource.ps1", "pwsh -NoProfile -File ./scripts/Test-WorkflowContracts.ps1"],
+      "prerequisites": ["Working delegated authentication", "Maker access to the authorised solution"],
+      "tenantGate": true,
+      "stopConditions": ["Authentication fails", "Target solution is not authorised", "Export contains secrets or tenant identifiers"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/13","github":"https://github.com/edithatogo/careops-approve/issues/15"}
+    },
+    {
+      "trackId": "template_catalog_routing_20260713",
+      "firstPendingTask": "Define template schema, fixtures and lifecycle rules",
+      "startFiles": ["conductor/tracks/template_catalog_routing_20260713/index.md", "config/approval-templates.example.json"],
+      "writeScope": ["conductor/tracks/template_catalog_routing_20260713/", "config/approval-templates.example.json", "contracts/", "scripts/Test-TemplateCatalog.ps1"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-TemplateCatalog.ps1"],
+      "prerequisites": ["Approved low-risk template types"],
+      "tenantGate": true,
+      "stopConditions": ["Template implies financial, procurement or clinical authority", "Approver role is ambiguous"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/14","github":"https://github.com/edithatogo/careops-approve/issues/16"}
+    },
+    {
+      "trackId": "business_calendar_absence_routing_20260713",
+      "firstPendingTask": "Define calendar, absence and degraded-mode contracts",
+      "startFiles": ["conductor/tracks/business_calendar_absence_routing_20260713/index.md", "config/role-assignments.example.json"],
+      "writeScope": ["conductor/tracks/business_calendar_absence_routing_20260713/", "config/business-calendar.example.json", "scripts/Test-BusinessCalendar.ps1"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-BusinessCalendar.ps1"],
+      "prerequisites": ["Approved calendar source and fallback policy"],
+      "tenantGate": true,
+      "stopConditions": ["Calendar requires unapproved Graph permissions", "Fallback authority is unclear"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/15","github":"https://github.com/edithatogo/careops-approve/issues/17"}
+    },
+    {
+      "trackId": "submission_quality_evidence_20260713",
+      "firstPendingTask": "Define field, evidence-link and classification rules",
+      "startFiles": ["conductor/tracks/submission_quality_evidence_20260713/index.md", "contracts/request.schema.json"],
+      "writeScope": ["conductor/tracks/submission_quality_evidence_20260713/", "config/submission-quality.example.json", "contracts/", "scripts/Test-SubmissionQuality.ps1"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-SubmissionQuality.ps1"],
+      "prerequisites": ["Approved required fields and safe link locations"],
+      "tenantGate": true,
+      "stopConditions": ["Validation requires reading sensitive attachment content", "Classification rules are not approved"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/16","github":"https://github.com/edithatogo/careops-approve/issues/18"}
+    },
+    {
+      "trackId": "operational_reconciliation_20260713",
+      "firstPendingTask": "Define comparison states, exception schema and safe repair actions",
+      "startFiles": ["conductor/tracks/operational_reconciliation_20260713/index.md", "config/decision-scenarios.example.json"],
+      "writeScope": ["conductor/tracks/operational_reconciliation_20260713/", "config/reconciliation.example.json", "scripts/Test-Reconciliation.ps1"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-Reconciliation.ps1"],
+      "prerequisites": ["Authorised read access to approval and state records"],
+      "tenantGate": true,
+      "stopConditions": ["Repair would overwrite a final decision", "Owner has not approved a repair action"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/17","github":"https://github.com/edithatogo/careops-approve/issues/19"}
+    },
+    {
+      "trackId": "privacy_retention_accessibility_20260713",
+      "firstPendingTask": "Define role visibility, retention evidence and accessibility criteria",
+      "startFiles": ["conductor/tracks/privacy_retention_accessibility_20260713/index.md", "docs/tenant-fit-checklist.md"],
+      "writeScope": ["conductor/tracks/privacy_retention_accessibility_20260713/", "config/visibility-accessibility.example.json", "scripts/Test-VisibilityAccessibility.ps1"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-VisibilityAccessibility.ps1"],
+      "prerequisites": ["Approved role visibility matrix", "Retention policy owner"],
+      "tenantGate": true,
+      "stopConditions": ["Compliance policy change requires admin", "Unrelated users can enumerate requests"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/18","github":"https://github.com/edithatogo/careops-approve/issues/20"}
+    },
+    {
+      "trackId": "planner_task_sync_20260713",
+      "firstPendingTask": "Select or create the approved Planner basic plan",
+      "startFiles": ["conductor/tracks/planner_task_sync_20260713/index.md", "config/planner-sync.example.json", "docs/planner-integration.md"],
+      "writeScope": ["conductor/tracks/planner_task_sync_20260713/", "config/planner-sync.example.json", "flows/planner-task-sync.contract.json", "docs/planner-integration.md", "scripts/Test-PlannerSync.ps1"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-PlannerSync.ps1"],
+      "prerequisites": ["Approved basic plan", "Owner-managed Planner connection", "Restricted plan membership"],
+      "tenantGate": true,
+      "stopConditions": ["Only a premium plan is available", "Plan membership is too broad", "Planner connection cannot be authorised"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/19","github":"https://github.com/edithatogo/careops-approve/issues/23"}
+    },
+    {
+      "trackId": "service_metrics_capacity_20260713",
+      "firstPendingTask": "Add service metric configuration and synthetic fixtures",
+      "startFiles": ["conductor/tracks/service_metrics_capacity_20260713/index.md", "conductor/tracks/telemetry_owner_reporting_20260712/spec.md"],
+      "writeScope": ["conductor/tracks/service_metrics_capacity_20260713/", "config/service-metrics.example.json", "scripts/Test-ServiceMetrics.ps1", "docs/service-metrics.md"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-ServiceMetrics.ps1"],
+      "prerequisites": ["Approved metric definitions and owner audience"],
+      "tenantGate": true,
+      "stopConditions": ["Metric becomes individual performance ranking", "Raw request data is required"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/20","github":"https://github.com/edithatogo/careops-approve/issues/24"}
+    },
+    {
+      "trackId": "requester_status_feedback_20260713",
+      "firstPendingTask": "Add requester-visible status and comment-separation contracts",
+      "startFiles": ["conductor/tracks/requester_status_feedback_20260713/index.md", "config/sharepoint-lists.example.json"],
+      "writeScope": ["conductor/tracks/requester_status_feedback_20260713/", "config/requester-status.example.json", "scripts/Test-RequesterStatus.ps1", "docs/requester-status.md"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-RequesterStatus.ps1"],
+      "prerequisites": ["Approved item-level access model"],
+      "tenantGate": true,
+      "stopConditions": ["Internal comments would be exposed", "Subject visibility has not been approved", "Unrelated users can enumerate records"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/21","github":"https://github.com/edithatogo/careops-approve/issues/25"}
+    }
+  ]
+}
+
