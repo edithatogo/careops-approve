@@ -98,6 +98,7 @@ $required = @(
     'config/approver-resolution.example.json',
     'docs/tenant-handoff-runbook.md',
     'docs/desktop-host-setup-checklist.md',
+    'docs/maximum-delegated-capability.md',
     'docs/pilot-test-matrix.md',
     'scripts/Test-HandoffPackage.ps1',
     'docs/approver-administration.md',
