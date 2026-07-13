@@ -30,7 +30,7 @@ plan in its respective folder.
 
 ---
 
-- [~] **Track: CareOps approvals app integration roadmap**
+- [x] **Track: CareOps approvals app integration roadmap**
   *Link: [./tracks/approvals_app_integration_roadmap_20260712/](./tracks/approvals_app_integration_roadmap_20260712/)*
 
 - [~] **Track: Integrate TESL Outlook intake**

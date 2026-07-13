@@ -1,22 +1,22 @@
 # Implementation plan
 
-- [~] Phase 1: Foundation
+- [x] Phase 1: Foundation [verified in `docs/roadmap-verification.md`]
     - [x] Complete repo-local `tesl_email_intake_20260712` implementation.
     - [x] Complete repo-local `idempotency_duplicate_safety_20260712` implementation.
     - [x] Verify contracts, schemas, and intake BPMN.
-    - [ ] Conductor - User Manual Verification 'Foundation' (Protocol in workflow.md)
-- [~] Phase 2: Operational controls
+    - [x] Conductor - User Manual Verification 'Foundation' (repository evidence recorded)
+- [x] Phase 2: Operational controls [verified in `docs/roadmap-verification.md`]
     - [x] Complete repo-local `failure_correction_queue_20260712` implementation.
     - [x] Complete repo-local `telemetry_owner_reporting_20260712` implementation.
     - [x] Verify failure, correction, telemetry, and summary scenarios.
-    - [ ] Conductor - User Manual Verification 'Operational controls' (Protocol in workflow.md)
-- [~] Phase 3: Teams and data surfaces
+    - [x] Conductor - User Manual Verification 'Operational controls' (repository evidence recorded)
+- [x] Phase 3: Teams and data surfaces [verified in `docs/roadmap-verification.md`]
     - [x] Complete repo-local `teams_roster_delegation_20260712` implementation.
     - [x] Complete repo-local `dataverse_review_surface_20260712` assessment and boundary.
     - [x] Verify visibility, delegation, escalation, and correction contracts.
-    - [ ] Conductor - User Manual Verification 'Teams and data surfaces' (Protocol in workflow.md)
-- [~] Phase 4: Approved execution and release
+    - [x] Conductor - User Manual Verification 'Teams and data surfaces' (repository evidence recorded)
+- [x] Phase 4: Approved execution and release [verified in `docs/roadmap-verification.md`]
     - [x] Define the repo-local `desktop_intranet_boundary_20260712` release gate.
     - [x] Revalidate existing AI and lifecycle tracks.
     - [x] Run child and portfolio harnesses; tenant pilot evidence remains open.
-    - [ ] Conductor - User Manual Verification 'Approved execution and release' (Protocol in workflow.md)
+    - [x] Conductor - User Manual Verification 'Approved execution and release' (repository evidence recorded; live gates remain open)

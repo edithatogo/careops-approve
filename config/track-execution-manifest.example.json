@@ -22,17 +22,6 @@
       "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/1","github":"https://github.com/edithatogo/careops-approve/issues/3"}
     },
     {
-      "trackId": "approvals_app_integration_roadmap_20260712",
-      "firstPendingTask": "Complete Foundation manual verification",
-      "startFiles": ["conductor/tracks/approvals_app_integration_roadmap_20260712/index.md", "config/integration-roadmap.example.json"],
-      "writeScope": ["conductor/tracks/approvals_app_integration_roadmap_20260712/", "config/integration-roadmap.example.json"],
-      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-IntegrationRoadmap.ps1"],
-      "prerequisites": ["Linked capability track evidence"],
-      "tenantGate": true,
-      "stopConditions": ["Any linked capability lacks its required gate"],
-      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/4","github":"https://github.com/edithatogo/careops-approve/issues/6"}
-    },
-    {
       "trackId": "tesl_email_intake_20260712",
       "firstPendingTask": "Validate intake in a controlled pilot mailbox",
       "startFiles": ["conductor/tracks/tesl_email_intake_20260712/index.md", "flows/tesl-email-to-approval.contract.json"],
@@ -210,4 +199,3 @@
     }
   ]
 }
-
