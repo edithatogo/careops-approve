@@ -82,5 +82,5 @@ plan in its respective folder.
 - [~] **Track: Add privacy-safe service metrics and queue capacity signals**
   *Link: [./tracks/service_metrics_capacity_20260713/](./tracks/service_metrics_capacity_20260713/)*
 
-- [ ] **Track: Add requester status, correction and process feedback**
+- [~] **Track: Add requester status, correction and process feedback**
   *Link: [./tracks/requester_status_feedback_20260713/](./tracks/requester_status_feedback_20260713/)*

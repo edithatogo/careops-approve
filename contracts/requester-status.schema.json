@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Requester-visible approval status",
+  "type": "object",
+  "required": ["requestId", "requesterUpn", "safeStatus", "currentStage", "nextAction"],
+  "properties": {
+    "requestId": {"type":"string","minLength":1},
+    "requesterUpn": {"type":"string","minLength":1},
+    "safeStatus": {"enum":["Submitted","Pending","Approved","Rejected","Correction required","Escalated","Cancelled"]},
+    "currentStage": {"type":"string","minLength":1},
+    "dueState": {"enum":["Not due","Due soon","Overdue","Not applicable"]},
+    "nextAction": {"type":"string","minLength":1},
+    "requesterVisibleReason": {"type":"string"},
+    "internalComments": {"type":"null"}
+  },
+  "additionalProperties": false
+}

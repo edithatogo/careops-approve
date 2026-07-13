@@ -25,6 +25,7 @@
     {"id":"planner-task-projection","scope":"repo","test":"scripts/Test-PlannerSync.ps1"},
     {"id":"small-model-track-execution","scope":"repo","test":"scripts/Test-TrackExecutionManifest.ps1"},
     {"id":"service-metrics-capacity","scope":"repo","test":"scripts/Test-ServiceMetrics.ps1"},
+    {"id":"requester-status-visibility","scope":"repo","test":"scripts/Test-RequesterStatus.ps1"},
     {"id":"tenant-authentication","scope":"tenant","test":"docs/tooling.md","covered":false},
     {"id":"teams-approval-pilot","scope":"tenant","test":"docs/pilot-test-matrix.md","covered":false},
     {"id":"power-automate-live-flow","scope":"tenant","test":"docs/tenant-handoff-runbook.md","covered":false},

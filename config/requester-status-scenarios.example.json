@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "visibility": {
+    "allowedRoles": ["workflowOwner","requester","assignedApprover","executiveAssistant","medicalWorkforceManager"],
+    "deniedRoles": ["unrelatedUser","futureSubject"],
+    "excludedFields": ["internalComments","approverPrivateNotes","rawEmailBody"],
+    "futureSubjectEnabled": false
+  },
+  "scenarios": [
+    {"name":"owner-can-view","role":"workflowOwner","expected":"allow"},
+    {"name":"requester-can-view-own-item","role":"requester","expected":"allow"},
+    {"name":"assigned-approver-can-view","role":"assignedApprover","expected":"allow"},
+    {"name":"ea-can-view-authorised-item","role":"executiveAssistant","expected":"allow"},
+    {"name":"unrelated-user-denied","role":"unrelatedUser","expected":"deny"},
+    {"name":"future-subject-denied","role":"futureSubject","expected":"deny"},
+    {"name":"correction-replay-is-idempotent","operation":"correction","eventId":"c-001","replay":true,"expected":"ignore-replay"},
+    {"name":"feedback-replay-is-idempotent","operation":"feedback","eventId":"f-001","replay":true,"expected":"ignore-replay"}
+  ]
+}
