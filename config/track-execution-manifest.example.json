@@ -133,7 +133,7 @@
     },
     {
       "trackId": "submission_quality_evidence_20260713",
-      "firstPendingTask": "Define field, evidence-link and classification rules",
+      "firstPendingTask": "Configure approved rules and safe evidence locations",
       "startFiles": ["conductor/tracks/submission_quality_evidence_20260713/index.md", "contracts/request.schema.json"],
       "writeScope": ["conductor/tracks/submission_quality_evidence_20260713/", "config/submission-quality.example.json", "contracts/", "scripts/Test-SubmissionQuality.ps1"],
       "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-SubmissionQuality.ps1"],

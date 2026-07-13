@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {"name":"valid","input":{"title":"TESL request","description":"Complete","requesterEmail":"owner@example.test","teslId":"T-1","classification":"internal","evidenceUrl":"https://tenant-configured-sharepoint/sites/careops/item/1"},"expected":"pass"},
+    {"name":"missing-field","input":{"title":"","description":"Complete","requesterEmail":"owner@example.test","teslId":"T-2"},"expected":"block"},
+    {"name":"malformed-email","input":{"title":"TESL","description":"Complete","requesterEmail":"not-an-email","teslId":"T-3"},"expected":"block"},
+    {"name":"unsafe-link","input":{"title":"TESL","description":"Complete","requesterEmail":"owner@example.test","teslId":"T-4","evidenceUrl":"http://public.example/item"},"expected":"block"},
+    {"name":"blocked-classification","input":{"title":"TESL","description":"Complete","requesterEmail":"owner@example.test","teslId":"T-5","classification":"clinical-sensitive"},"expected":"block"},
+    {"name":"warning-only","input":{"title":"TESL","description":"Short","requesterEmail":"owner@example.test","teslId":"T-6","classification":"internal"},"expected":"warn"}
+  ]
+}

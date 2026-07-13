@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "requiredFields": ["title", "description", "requesterEmail", "teslId"],
+  "classification": {"allowed": ["internal", "official"], "blocked": ["secret", "clinical-sensitive"], "unknownAction": "correction-queue"},
+  "evidenceLinks": {"allowedHosts": ["tenant-configured-sharepoint", "tenant-configured-intranet"], "requireHttps": true, "copyContent": false},
+  "rules": {"contradictoryDates": "block", "missingRequiredField": "block", "malformedEmail": "block", "unsafeEvidenceLink": "block", "nonBlockingWarning": "annotate-and-continue"},
+  "failureRoute": "owner-correction-queue",
+  "aiFailureAction": "continue-deterministic-human-review",
+  "privacy": {"rawEmail": false, "rawAttachments": false, "sensitivePayload": false}
+}
