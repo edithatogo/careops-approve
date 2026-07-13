@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "calendarSource": "tenant-configured-approved-calendar",
+  "routingMode": "prospective-only",
+  "businessDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+  "absenceResolution": {"source": "tenant-configured-absence-list", "requiresAuthorisedFallback": true, "inFlightAction": "do-not-reassign"},
+  "degradedMode": {"calendarUnavailable": "elapsed-day-sla", "absenceSourceUnavailable": "configured-fallback-or-owner-exception"},
+  "reminders": {"beforeDueDays": [3, 1], "sendEmail": false, "surface": "teams-or-sharepoint"},
+  "privacy": {"organisationWideCalendarRead": false, "rawCalendarContent": false}
+}

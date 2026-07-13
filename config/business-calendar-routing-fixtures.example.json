@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {"name":"weekend-skipped","start":"2026-07-17","businessDaysToAdd":1,"holidays":[],"expectedDue":"2026-07-20"},
+    {"name":"holiday-skipped","start":"2026-07-20","businessDaysToAdd":1,"holidays":["2026-07-21"],"expectedDue":"2026-07-22"},
+    {"name":"absence-before-creation","absence":"primary","fallback":"ea","inFlight":false,"expected":"route-to-ea"},
+    {"name":"calendar-unavailable","calendarAvailable":false,"expected":"elapsed-day-sla"},
+    {"name":"in-flight-absence","absence":"primary","fallback":"ea","inFlight":true,"expected":"retain-primary-and-record-exception"}
+  ]
+}

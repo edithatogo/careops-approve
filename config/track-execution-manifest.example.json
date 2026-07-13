@@ -122,7 +122,7 @@
     },
     {
       "trackId": "business_calendar_absence_routing_20260713",
-      "firstPendingTask": "Define calendar, absence and degraded-mode contracts",
+      "firstPendingTask": "Bind an approved calendar source and fallback roster",
       "startFiles": ["conductor/tracks/business_calendar_absence_routing_20260713/index.md", "config/role-assignments.example.json"],
       "writeScope": ["conductor/tracks/business_calendar_absence_routing_20260713/", "config/business-calendar.example.json", "scripts/Test-BusinessCalendar.ps1"],
       "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-BusinessCalendar.ps1"],

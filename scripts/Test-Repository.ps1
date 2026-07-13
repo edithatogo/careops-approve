@@ -79,6 +79,9 @@ $required = @(
     'config/submission-quality.example.json',
     'config/submission-quality-fixtures.example.json',
     'scripts/Test-SubmissionQuality.ps1',
+    'config/business-calendar-routing.example.json',
+    'config/business-calendar-routing-fixtures.example.json',
+    'scripts/Test-BusinessCalendarRouting.ps1',
     'config/ai-decision-annotation.example.json',
     'config/ai-decision-annotation-scenarios.example.json',
     'scripts/Test-AiDecisionAnnotation.ps1',
@@ -210,5 +213,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-AiDecisionAnnotation.ps1')
 & (Join-Path $root 'scripts/Test-Reconciliation.ps1')
 & (Join-Path $root 'scripts/Test-SubmissionQuality.ps1')
+& (Join-Path $root 'scripts/Test-BusinessCalendarRouting.ps1')
 
 Write-Output 'Repository validation passed.'

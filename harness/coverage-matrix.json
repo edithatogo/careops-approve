@@ -29,6 +29,7 @@
     {"id":"ai-decision-annotation","scope":"repo","test":"scripts/Test-AiDecisionAnnotation.ps1"},
     {"id":"operational-reconciliation","scope":"repo","test":"scripts/Test-Reconciliation.ps1"},
     {"id":"submission-quality-evidence","scope":"repo","test":"scripts/Test-SubmissionQuality.ps1"},
+    {"id":"business-calendar-routing","scope":"repo","test":"scripts/Test-BusinessCalendarRouting.ps1"},
     {"id":"tenant-authentication","scope":"tenant","test":"docs/tooling.md","covered":false},
     {"id":"teams-approval-pilot","scope":"tenant","test":"docs/pilot-test-matrix.md","covered":false},
     {"id":"power-automate-live-flow","scope":"tenant","test":"docs/tenant-handoff-runbook.md","covered":false},
