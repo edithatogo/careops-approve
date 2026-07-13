@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {"name":"owner-correction","surface":"dataverse","role":"workflowOwner","operation":"correct-approved-field","expected":"allow"},
+    {"name":"sanitized-report","surface":"dataverse","role":"workflowOwner","operation":"read-telemetry","expected":"allow"},
+    {"name":"decision-write","surface":"dataverse","role":"workflowOwner","operation":"change-approval-outcome","expected":"deny"},
+    {"name":"raw-email-read","surface":"dataverse","role":"workflowOwner","operation":"read-raw-email","expected":"deny"},
+    {"name":"sharepoint-fallback","surface":"sharepoint","role":"assignedApprover","operation":"read-request","expected":"allow"}
+  ]
+}

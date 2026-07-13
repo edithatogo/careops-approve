@@ -85,6 +85,8 @@ $required = @(
     'config/privacy-retention-accessibility.example.json',
     'config/privacy-retention-accessibility-fixtures.example.json',
     'scripts/Test-PrivacyRetentionAccessibility.ps1',
+    'config/dataverse-review-surface-fixtures.example.json',
+    'scripts/Test-DataverseReviewSurface.ps1',
     'config/ai-decision-annotation.example.json',
     'config/ai-decision-annotation-scenarios.example.json',
     'scripts/Test-AiDecisionAnnotation.ps1',
@@ -218,5 +220,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-SubmissionQuality.ps1')
 & (Join-Path $root 'scripts/Test-BusinessCalendarRouting.ps1')
 & (Join-Path $root 'scripts/Test-PrivacyRetentionAccessibility.ps1')
+& (Join-Path $root 'scripts/Test-DataverseReviewSurface.ps1')
 
 Write-Output 'Repository validation passed.'
