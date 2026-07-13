@@ -196,6 +196,17 @@
       "tenantGate": true,
       "stopConditions": ["Internal comments would be exposed", "Subject visibility has not been approved", "Unrelated users can enumerate records"],
       "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/21","github":"https://github.com/edithatogo/careops-approve/issues/25"}
+    },
+    {
+      "trackId": "tesl_ai_assessment_decision_annotation_20260713",
+      "firstPendingTask": "Bind the approved AI action and policy prompt in the tenant",
+      "startFiles": ["conductor/tracks/tesl_ai_assessment_decision_annotation_20260713/index.md", "config/ai-decision-annotation.example.json"],
+      "writeScope": ["conductor/tracks/tesl_ai_assessment_decision_annotation_20260713/", "config/ai-decision-annotation.example.json", "config/ai-decision-annotation-scenarios.example.json", "flows/tesl-email-to-approval.contract.json", "flows/submit-and-route.contract.json", "scripts/Test-AiDecisionAnnotation.ps1"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-AiDecisionAnnotation.ps1", "pwsh -NoProfile -File ./scripts/Test-Repository.ps1"],
+      "prerequisites": ["Approved AI Builder/Copilot capacity and policy prompt", "Human Teams approval remains authoritative"],
+      "tenantGate": true,
+      "stopConditions": ["AI would make a final decision", "Sensitive or clinical data is sent without approval", "Native approval record would be mutated"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/22","github":"https://github.com/edithatogo/careops-approve/issues/26"}
     }
   ]
 }

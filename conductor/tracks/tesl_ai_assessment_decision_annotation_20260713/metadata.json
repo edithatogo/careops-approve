@@ -1,0 +1,8 @@
+{
+  "track_id": "tesl_ai_assessment_decision_annotation_20260713",
+  "type": "feature",
+  "status": "in_progress",
+  "created_at": "2026-07-13T00:00:00Z",
+  "updated_at": "2026-07-13T00:00:00Z",
+  "description": "Surface advisory AI policy assessment in the native Teams approval and persist a human-decision annotation after approval or rejection."
+}

@@ -1,0 +1,9 @@
+{
+  "scenarios": [
+    {"name":"completed-assessment-human-approve","assessmentStatus":"completed","humanOutcome":"Approved","expected":"annotate"},
+    {"name":"completed-assessment-human-reject","assessmentStatus":"completed","humanOutcome":"Rejected","expected":"annotate"},
+    {"name":"ai-unavailable-human-review","assessmentStatus":"unavailable","humanOutcome":"Approved","expected":"annotate-with-fallback"},
+    {"name":"low-confidence-human-review","assessmentStatus":"needs-information","humanOutcome":"Rejected","expected":"annotate-with-fallback"},
+    {"name":"duplicate-post-decision-event","assessmentStatus":"completed","humanOutcome":"Approved","replay":true,"expected":"retain-first-annotation"}
+  ]
+}

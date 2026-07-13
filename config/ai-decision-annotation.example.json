@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "status": "tenant-neutral-blueprint",
+  "decisionAuthority": "native-teams-approval",
+  "assessment": {"inputPolicy":"redacted-approved-fields-only","requiredOutputs":["assessmentStatus","summary","missingInformation","flags","confidence","promptVersion","evaluatedAt","inputHash"],"allowedStatuses":["completed","needs-information","blocked-by-policy","unavailable"],"failureRoute":"ordinary-human-approval"},
+  "approvalPresentation": {"includeFields":["assessmentStatus","summary","missingInformation","flags","confidence","promptVersion","evaluatedAt"],"humanDecisionRequired":true,"email":false},
+  "postDecisionAnnotation": {"idempotencyKey":["requestId","approvalId"],"requiredFields":["requestId","approvalId","assessmentSummary","assessmentFlags","humanOutcome","humanComment","annotatedAt"],"authority":"human-decision-and-native-approval-record","nativeApprovalMutation":false,"email":false},
+  "tenantConfiguration": "AI capacity, prompt, policy reference, region, retention and connection ownership are tenant-provided."
+}

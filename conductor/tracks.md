@@ -84,3 +84,6 @@ plan in its respective folder.
 
 - [~] **Track: Add requester status, correction and process feedback**
   *Link: [./tracks/requester_status_feedback_20260713/](./tracks/requester_status_feedback_20260713/)*
+
+- [~] **Track: Add TESL advisory AI assessment and decision annotation**
+  *Link: [./tracks/tesl_ai_assessment_decision_annotation_20260713/](./tracks/tesl_ai_assessment_decision_annotation_20260713/)*

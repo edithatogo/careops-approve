@@ -73,6 +73,9 @@ $required = @(
     'config/service-metrics-fixtures.example.json',
     'contracts/requester-status.schema.json',
     'config/requester-status-scenarios.example.json',
+    'config/ai-decision-annotation.example.json',
+    'config/ai-decision-annotation-scenarios.example.json',
+    'scripts/Test-AiDecisionAnnotation.ps1',
     'docs/dataverse-review-surface.md',
     'docs/power-automate-reuse-assessment.md',
     'workflows/tesl-email-to-approval.bpmn',
@@ -197,5 +200,6 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-TrackExecutionManifest.ps1')
 & (Join-Path $root 'scripts/Test-ServiceMetrics.ps1')
 & (Join-Path $root 'scripts/Test-RequesterStatus.ps1')
+& (Join-Path $root 'scripts/Test-AiDecisionAnnotation.ps1')
 
 Write-Output 'Repository validation passed.'
