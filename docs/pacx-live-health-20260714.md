@@ -29,6 +29,17 @@ The recommended PACX changes are tracked in:
   ([GitHub #29](https://github.com/edithatogo/careops-approve/issues/29),
   [GHE #25](https://nswhealth.ghe.com/60217257/careops-approve/issues/25)).
 
+## Bearer-authentication implementation status
+
+The PACX fork now has a pushed implementation branch,
+`codex/pacx-bearer-auth-20260714`, at commit `f41168d`. It adds a device-code
+fallback for the management resource so the flow client can obtain a standard
+bearer token instead of relying on broker-issued proof-of-possession tokens.
+Focused scope tests passed and the net10.0 build passed. A live flow-list
+smoke test is still pending interactive device-code sign-in. Automated pull
+request creation was denied by the PACX repository permission boundary, so the
+branch is not represented as merged upstream.
+
 ## Solution state
 
 | State | Count | Meaning |
