@@ -1,8 +1,8 @@
 # PACX fork toolchain evidence
 
-Check date: 2026-07-14  
-Source repository: `edithatogo/pacx`  
-Source commit: `f57880eb10acfd0d7004f048082e3179f649bad9`  
+Check date: 2026-07-14
+Source repository: `edithatogo/pacx`
+Source commit: `f57880eb10acfd0d7004f048082e3179f649bad9`
 Selected target: `net10.0` fallback; the preferred `net11.0` SDK is not installed
 on this workstation.
 
