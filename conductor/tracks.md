@@ -87,3 +87,14 @@ plan in its respective folder.
 
 - [~] **Track: Add TESL advisory AI assessment and decision annotation**
   *Link: [./tracks/tesl_ai_assessment_decision_annotation_20260713/](./tracks/tesl_ai_assessment_decision_annotation_20260713/)*
+
+---
+
+- [ ] **Track: Repair PACX management-plane bearer authentication**
+  *Link: [./tracks/pacx_management_bearer_auth_20260714/](./tracks/pacx_management_bearer_auth_20260714/)*
+
+- [ ] **Track: Make the PACX fork reproducible on user-local toolchains**
+  *Link: [./tracks/pacx_fork_toolchain_20260714/](./tracks/pacx_fork_toolchain_20260714/)*
+
+- [ ] **Track: Add read-only PACX flow health and reconciliation commands**
+  *Link: [./tracks/pacx_flow_health_reconciliation_20260714/](./tracks/pacx_flow_health_reconciliation_20260714/)*

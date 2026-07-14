@@ -17,16 +17,28 @@ or connection secrets are stored here.
   by that API because it was issued with an unsupported proof-of-possession
   authentication scheme. No flow was changed.
 
+The recommended PACX changes are tracked in:
+
+- [PACX bearer authentication](../conductor/tracks/pacx_management_bearer_auth_20260714/)
+  ([GitHub #27](https://github.com/edithatogo/careops-approve/issues/27),
+  [GHE #23](https://nswhealth.ghe.com/60217257/careops-approve/issues/23)).
+- [PACX fork toolchain](../conductor/tracks/pacx_fork_toolchain_20260714/)
+  ([GitHub #28](https://github.com/edithatogo/careops-approve/issues/28),
+  [GHE #24](https://nswhealth.ghe.com/60217257/careops-approve/issues/24)).
+- [PACX flow health reconciliation](../conductor/tracks/pacx_flow_health_reconciliation_20260714/)
+  ([GitHub #29](https://github.com/edithatogo/careops-approve/issues/29),
+  [GHE #25](https://nswhealth.ghe.com/60217257/careops-approve/issues/25)).
+
 ## Solution state
 
 | State | Count | Meaning |
 | --- | ---: | --- |
-| Activated | 7 | Dataverse records report activated state; runtime success still requires recent run evidence. |
-| Draft | 10 | Not production-ready and must not be activated without definition and connection review. |
+| Activated | 8 | Dataverse records report activated state; runtime success still requires recent run evidence. |
+| Draft | 9 | Not production-ready and must not be activated without definition and connection review. |
 | Total | 17 | Modern-flow records in the named solution. |
 
-The activated records include the four TESL flows, `Shift Reports Intake`,
-`Locum Queued Import Processor`, and `Email Mining Engine FINAL`. The draft
+The activated records include the four TESL flows, `ExtractUrls Child Flow`,
+`Shift Reports Intake`, `Locum Queued Import Processor`, and `Email Mining Engine FINAL`. The draft
 records include the Form2/intake family and other operational prototypes.
 
 ## CareOps reconciliation finding

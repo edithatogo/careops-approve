@@ -1,0 +1,1 @@
+{"track_id":"pacx_fork_toolchain_20260714","type":"tooling","status":"new","created_at":"2026-07-14T06:00:00Z","updated_at":"2026-07-14T06:00:00Z","description":"Make the edithatogo PACX fork reproducible with user-local .NET toolchains, diagnostics and safe installation guidance."}

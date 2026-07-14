@@ -1,0 +1,1 @@
+{"track_id":"pacx_management_bearer_auth_20260714","type":"tooling","status":"new","created_at":"2026-07-14T06:00:00Z","updated_at":"2026-07-14T06:00:00Z","description":"Make PACX cloud-flow commands acquire a bearer-compatible management-plane token, with safe interactive fallbacks and read-only verification."}
