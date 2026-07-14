@@ -13,9 +13,13 @@ $inventory = Get-Content -Raw -LiteralPath (Resolve-Path -LiteralPath $Inventory
 if ($config.schemaVersion -ne 1 -or $inventory.schemaVersion -ne 1) { throw 'Unsupported PACX flow-health schema.' }
 if ($config.reportMode -ne 'read-only') { throw 'Flow-health reports must be read-only.' }
 if (-not $inventory.PSObject.Properties.Name.Contains('flows')) { throw 'Flow-health inventory must contain a flows collection.' }
+$flowItems = @($inventory.flows)
+if ($null -eq $inventory.flows -or $flowItems.Count -eq 0) { throw 'Flow-health inventory must contain at least one flow.' }
 
 $allowedProperties = @('name', 'state', 'definitionStatus', 'recentRunEvidence', 'connectionStatus', 'corruptionWarning')
-$forbiddenPattern = '(?i)(token|secret|password|environmentid|connectionreference|payload|upn|email|url)'
+$redactedFields = @($config.redactedFields | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
+if ($redactedFields.Count -eq 0) { throw 'Flow-health configuration must define redacted fields.' }
+$forbiddenPattern = '(?i)(' + (($redactedFields | ForEach-Object { [regex]::Escape([string]$_) }) -join '|') + ')'
 $mappings = @{}
 foreach ($mapping in @($config.sourceMappings)) {
     if (-not (Test-Path -LiteralPath (Join-Path $root $mapping.sourceContract))) { throw "Source contract mapping is missing: $($mapping.sourceContract)" }
@@ -27,6 +31,7 @@ $rows = @()
 
 foreach ($flow in @($inventory.flows)) {
     $properties = @($flow.PSObject.Properties.Name)
+    if ($flow.name -isnot [string] -or [string]::IsNullOrWhiteSpace($flow.name)) { throw 'Every flow-health record must have a non-empty string name.' }
     $unexpected = @($properties | Where-Object { $_ -notin $allowedProperties })
     if ($unexpected.Count -gt 0 -or ($properties | Where-Object { $_ -match $forbiddenPattern })) { throw "Inventory contains forbidden or unexpected fields for flow '$($flow.name)'." }
     if ($flow.state -notin $config.allowedStates -or $flow.definitionStatus -notin $config.allowedDefinitionStatuses -or $flow.recentRunEvidence -notin $config.allowedRunEvidence -or $flow.connectionStatus -notin $config.allowedConnectionStatuses) { throw "Inventory contains an unsupported status for flow '$($flow.name)'." }

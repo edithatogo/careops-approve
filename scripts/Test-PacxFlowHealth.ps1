@@ -15,10 +15,10 @@ foreach ($case in @($fixtures.cases)) {
     $inventoryPath = Join-Path $tempRoot "inventory-$index.json"
     $outputPath = Join-Path $tempRoot "report-$index.json"
     [pscustomobject]@{ schemaVersion = 1; flows = @($case.inventory) } | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $inventoryPath -Encoding utf8
-    $failed = $false
+    $commandFailed = $false
     try {
         & $reportScript -InventoryPath $inventoryPath -OutputPath $outputPath
-        if ($case.expectError) { throw "Fixture '$($case.name)' should have failed." }
+        if ($case.expectError) { throw [InvalidOperationException]::new("Fixture '$($case.name)' should have failed.") }
         $report = Get-Content -Raw -LiteralPath $outputPath | ConvertFrom-Json
         $actual = @($report.flows | ForEach-Object health)
         if ((ConvertTo-Json $actual -Compress) -ne (ConvertTo-Json @($case.expectedHealth) -Compress)) { throw "Fixture '$($case.name)' returned unexpected health states." }
@@ -26,8 +26,9 @@ foreach ($case in @($fixtures.cases)) {
     }
     catch {
         if (-not $case.expectError) { throw }
-        $failed = $true
+        if ($_.Exception.Message -like "Fixture '$($case.name)' should have failed.*") { throw }
+        $commandFailed = $true
     }
-    if ($case.expectError -and -not $failed) { throw "Fixture '$($case.name)' did not fail closed." }
+    if ($case.expectError -and -not $commandFailed) { throw "Fixture '$($case.name)' did not fail closed." }
 }
 Write-Output "PACX flow-health validation passed: $(@($fixtures.cases).Count) fixtures."
