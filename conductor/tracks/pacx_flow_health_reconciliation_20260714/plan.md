@@ -16,4 +16,13 @@
     - [x] Record unresolved external gates without marking reconciliation complete.
 
 Checkpoint: sanitised report path and nine fixture scenarios passed; live pilot remains externally gated.
+
+## Review fixes
+
+- [x] Task: Correct failure-path assertions and inventory-shape validation (a8baa56)
+    - [x] Prove the forbidden-field fixture fails in the report command itself.
+    - [x] Prove malformed or empty inventory inputs fail closed.
+    - [x] Record the review-fix commit SHA.
+
+Review-fix checkpoint: a8baa56. Focused fixtures, PowerShell parsing, malformed-inventory probes, repository validation, and portfolio harness all passed.
 - [ ] Task: Conductor - User Manual Verification 'PACX flow health reconciliation' (Protocol in workflow.md)
