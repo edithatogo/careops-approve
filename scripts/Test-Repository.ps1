@@ -119,6 +119,13 @@ $required = @(
     'tooling/powerplatform-tools.json',
     'docs/tooling.md',
     'scripts/Install-PowerPlatformTooling.ps1',
+    'scripts/Install-PacxFork.ps1',
+    'scripts/Test-PacxForkToolchain.ps1',
+    'docs/pacx-toolchain-evidence-20260714.md',
+    'config/pacx-flow-health.example.json',
+    'config/pacx-flow-health-fixtures.example.json',
+    'scripts/New-PacxFlowHealthReport.ps1',
+    'scripts/Test-PacxFlowHealth.ps1',
     'scripts/Test-ToolingManifest.ps1',
     'harness/coverage-matrix.json',
     'scripts/Test-Coverage.ps1',
@@ -209,6 +216,8 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-AdministrationScenarios.ps1')
 & (Join-Path $root 'scripts/Test-HandoffPackage.ps1')
 & (Join-Path $root 'scripts/Test-ToolingManifest.ps1')
+& (Join-Path $root 'scripts/Test-PacxForkToolchain.ps1')
+& (Join-Path $root 'scripts/Test-PacxFlowHealth.ps1')
 & (Join-Path $root 'scripts/Test-Coverage.ps1')
 & (Join-Path $root 'scripts/Test-CapabilityMatrix.ps1')
 & (Join-Path $root 'scripts/Test-PlannerSync.ps1')

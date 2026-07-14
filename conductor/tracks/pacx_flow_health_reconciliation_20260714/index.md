@@ -7,3 +7,5 @@ This track turns PACX into a safe evidence producer for live Power Automate reco
 - GHE issue: [#25](https://nswhealth.ghe.com/60217257/careops-approve/issues/25)
 - Current evidence: `docs/pacx-live-health-20260714.md`
 - Related track: `pacx_management_bearer_auth_20260714`
+- Report command: `scripts/New-PacxFlowHealthReport.ps1`
+- Fixture validation: `scripts/Test-PacxFlowHealth.ps1`

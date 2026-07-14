@@ -29,6 +29,20 @@ The recommended PACX changes are tracked in:
   ([GitHub #29](https://github.com/edithatogo/careops-approve/issues/29),
   [GHE #25](https://nswhealth.ghe.com/60217257/careops-approve/issues/25)).
 
+The repository now includes a read-only sanitised report path:
+
+```powershell
+pwsh -File scripts/New-PacxFlowHealthReport.ps1 `
+  -InventoryPath ./path/to/sanitised-pacx-inventory.json `
+  -OutputPath ./out/pacx-flow-health.json
+```
+
+It accepts only the tenant-neutral inventory fields, maps approved CareOps
+names to source contracts, emits stable health states, and refuses forbidden
+fields or mutation metadata. Fixture validation covers nine normal and failure
+scenarios. The live inventory remains blocked until bearer authentication and
+interactive device-code sign-in are completed.
+
 ## Bearer-authentication implementation status
 
 The PACX fork now has a pushed implementation branch,

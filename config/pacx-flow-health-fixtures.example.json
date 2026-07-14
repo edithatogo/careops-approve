@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "name": "activated-complete",
+      "inventory": [{ "name": "CareOps Submit and Route", "state": "activated", "definitionStatus": "found", "recentRunEvidence": "observed", "connectionStatus": "resolved", "corruptionWarning": false }],
+      "expectedHealth": ["healthy"]
+    },
+    {
+      "name": "draft-review",
+      "inventory": [{ "name": "CareOps Submit and Route", "state": "draft", "definitionStatus": "found", "recentRunEvidence": "not-observed", "connectionStatus": "resolved", "corruptionWarning": false }],
+      "expectedHealth": ["draft-review"]
+    },
+    {
+      "name": "duplicate-flow",
+      "inventory": [
+        { "name": "CareOps Submit and Route", "state": "activated", "definitionStatus": "found", "recentRunEvidence": "observed", "connectionStatus": "resolved", "corruptionWarning": false },
+        { "name": "CareOps Submit and Route", "state": "activated", "definitionStatus": "found", "recentRunEvidence": "observed", "connectionStatus": "resolved", "corruptionWarning": false }
+      ],
+      "expectedHealth": ["duplicate", "duplicate"]
+    },
+    {
+      "name": "missing-definition",
+      "inventory": [{ "name": "CareOps TESL Email to Approval", "state": "activated", "definitionStatus": "missing", "recentRunEvidence": "not-requested", "connectionStatus": "not-requested", "corruptionWarning": false }],
+      "expectedHealth": ["definition-missing"]
+    },
+    {
+      "name": "malformed-definition",
+      "inventory": [{ "name": "CareOps TESL Email to Approval", "state": "activated", "definitionStatus": "malformed", "recentRunEvidence": "not-requested", "connectionStatus": "not-requested", "corruptionWarning": false }],
+      "expectedHealth": ["malformed-definition"]
+    },
+    {
+      "name": "corruption-warning",
+      "inventory": [{ "name": "CareOps Submit and Route", "state": "activated", "definitionStatus": "found", "recentRunEvidence": "observed", "connectionStatus": "resolved", "corruptionWarning": true }],
+      "expectedHealth": ["corruption-warning"]
+    },
+    {
+      "name": "unresolved-connection",
+      "inventory": [{ "name": "CareOps Submit and Route", "state": "activated", "definitionStatus": "found", "recentRunEvidence": "observed", "connectionStatus": "unresolved", "corruptionWarning": false }],
+      "expectedHealth": ["connection-unresolved"]
+    },
+    {
+      "name": "unknown-flow",
+      "inventory": [{ "name": "Unmapped Prototype", "state": "unknown", "definitionStatus": "not-requested", "recentRunEvidence": "not-requested", "connectionStatus": "not-requested", "corruptionWarning": false }],
+      "expectedHealth": ["unknown-flow"]
+    },
+    {
+      "name": "forbidden-token-field",
+      "inventory": [{ "name": "CareOps Submit and Route", "state": "activated", "definitionStatus": "found", "recentRunEvidence": "observed", "connectionStatus": "resolved", "corruptionWarning": false, "token": "redacted-test-value" }],
+      "expectError": true
+    }
+  ]
+}

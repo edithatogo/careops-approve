@@ -6,7 +6,7 @@
     "dotnetRuntime": {"version": "8.0.28", "installRoot": "%USERPROFILE%\\.dotnet\\runtime8"},
     "pac": {"package": "Microsoft.PowerApps.CLI.Tool", "version": "2.9.3", "executable": "pac.exe", "runtime": "dotnetSdk"},
     "pacx": {"package": "Greg.Xrm.Command", "version": "1.2026.6.220", "executable": "pacx.exe", "runtime": "dotnetRuntime"},
-    "pacxFork": {"repository": "https://github.com/edithatogo/pacx.git", "branch": "master", "targetFramework": "net10.0", "buildGuide": "tooling/pacx-fork-build.md"}
+    "pacxFork": {"repository": "https://github.com/edithatogo/pacx.git", "branch": "master", "sourceCommit": "f57880eb10acfd0d7004f048082e3179f649bad9", "preferredTargetFramework": "net11.0", "fallbackTargetFramework": "net10.0", "buildProject": "Greg.Xrm.Command/Greg.Xrm.Command/Greg.Xrm.Command.csproj", "installRoot": "%LOCALAPPDATA%\\CareOps\\pacx", "buildGuide": "tooling/pacx-fork-build.md"}
   },
   "authentication": {
     "mode": "interactive-device-code",

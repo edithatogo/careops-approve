@@ -7,3 +7,4 @@ This track makes the locally tested `edithatogo/pacx` fork straightforward to bu
 - GHE issue: [#24](https://nswhealth.ghe.com/60217257/careops-approve/issues/24)
 - Build guide: `tooling/pacx-fork-build.md`
 - Tool manifest: `tooling/powerplatform-tools.json`
+- Verification evidence: `docs/pacx-toolchain-evidence-20260714.md`

@@ -13,6 +13,10 @@ foreach ($name in @('dotnetSdk', 'dotnetRuntime', 'pac', 'pacx')) {
 }
 if ($manifest.tools.pac.package -ne 'Microsoft.PowerApps.CLI.Tool') { throw 'Unexpected PAC package.' }
 if ($manifest.tools.pacx.package -ne 'Greg.Xrm.Command') { throw 'Unexpected PACX package.' }
+foreach ($property in @('repository', 'branch', 'sourceCommit', 'preferredTargetFramework', 'fallbackTargetFramework', 'buildProject', 'installRoot', 'buildGuide')) {
+    if (-not $manifest.tools.pacxFork.$property) { throw "PACX fork manifest field is missing: $property" }
+}
+if ($manifest.tools.pacxFork.sourceCommit -notmatch '^[0-9a-f]{40}$') { throw 'PACX fork sourceCommit must be a full commit SHA.' }
 if ($manifest.authentication.command -notmatch '^pac auth create ') { throw 'Authentication must remain explicit and interactive.' }
 if ($manifest.authentication.secretPolicy -notmatch 'never commit') { throw 'Secret policy must forbid committed auth state.' }
 Write-Output 'Power Platform tooling manifest validation passed.'

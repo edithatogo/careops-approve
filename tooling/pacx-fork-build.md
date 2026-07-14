@@ -3,8 +3,18 @@
 The repository uses the Microsoft PAC package for baseline solution operations
 and records `edithatogo/pacx` as the optional cloud-flow automation surface.
 
-The fork currently targets both `net10.0` and `net11.0`. On a workstation with
-the pinned .NET 10 SDK, build the `net10.0` executable from a disposable clone:
+The manifest pins the reviewed source commit and prefers `net11.0` when the
+preview SDK is installed, with a verified `net10.0` fallback. The repeatable
+wrapper keeps source and build output under `%LOCALAPPDATA%`:
+
+```powershell
+pwsh -File scripts/Install-PacxFork.ps1 -Diagnostics
+pwsh -File scripts/Install-PacxFork.ps1 -Version
+```
+
+For a workstation with only the pinned .NET 10 SDK, the wrapper builds the
+`net10.0` executable from a disposable clone and restores the source clone's
+`global.json` unchanged. The equivalent manual commands are:
 
 ```powershell
 $clone = Join-Path $env:TEMP 'edithatogo-pacx'
