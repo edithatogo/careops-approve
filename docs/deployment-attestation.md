@@ -5,11 +5,17 @@ Attested by: executive workflow owner (user confirmation in the implementation r
 
 ## Runtime status
 
-The following workflows are deployed in the Microsoft Teams/Power Automate
-environment:
+The following names were previously recorded as executive-confirmed deployment
+claims in the Microsoft Teams/Power Automate environment:
 
 1. CareOps Submit and Route
 2. CareOps TESL Email to Approval
+
+The authenticated PACX/PAC inventory on 2026-07-14 did not find either exact
+name in the `MSCG_OperationalInbox` modern-flow records. The latest live
+inventory therefore treats these as requiring reconciliation rather than as
+currently verified runtime deployments. Existing similarly named TESL flows are
+documented separately in `docs/pacx-live-health-20260714.md`.
 
 The advisory AI review stage is implemented in source contracts but remains
 not yet invoked in the live workflows pending AI Builder licensing, region, data
