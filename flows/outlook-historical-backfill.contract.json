@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "status": "blueprint",
+  "deploymentStatus": "tenant-activation-pending",
+  "surfaces": ["Office 365 Outlook", "Power Automate", "Dataverse"],
+  "connectionPolicy": "reuse-existing-approved-workflow-owner-connection",
+  "trigger": {
+    "type": "manual-backfill-run",
+    "action": "Get emails (V3)",
+    "dateFilter": null,
+    "scope": "all-authorised-mailbox-folders"
+  },
+  "folderInventory": {
+    "action": "enumerate-authorised-folders-including-nested",
+    "freezeBeforeExtraction": true,
+    "hashBeforeExtraction": true,
+    "excludedFolders": ["Deleted Items", "Junk Email", "Recoverable Items", "system-folders-unless-approved"],
+    "recordExclusions": true
+  },
+  "pagination": {
+    "pageSize": 1000,
+    "followContinuationUntilExhausted": true,
+    "exhaustionRequiredPerFolder": true,
+    "checkpointKey": "runId|folderId|cursor|watermark"
+  },
+  "steps": [
+    {"id": "create-run", "action": "create-dataverse-backfill-run"},
+    {"id": "freeze-folder-inventory", "action": "persist-folder-inventory-hash"},
+    {"id": "iterate-folders", "action": "apply-authorised-folder-policy"},
+    {"id": "get-emails-page", "action": "outlook-get-emails-v3"},
+    {"id": "project-minimized-fact", "action": "reject-raw-message-fields"},
+    {"id": "deduplicate-message", "action": "idempotency-by-message-and-folder"},
+    {"id": "write-dataverse-fact", "action": "create-minimized-event-record"},
+    {"id": "write-folder-manifest", "action": "persist-counts-hashes-and-exhaustion"},
+    {"id": "reconcile-run", "action": "require-source-to-projection-accounting"},
+    {"id": "close-run", "action": "allow-discovery-only-after-all-manifests-pass"},
+    {"id": "route-failure", "action": "owner-only-minimized-dead-letter"}
+  ],
+  "allowedMetadata": ["id", "internetMessageId", "receivedDateTime", "conversationId", "hasAttachments", "importance", "parentFolderId"],
+  "forbiddenPersistentFields": ["body", "bodyPreview", "subject", "from", "sender", "to", "cc", "bcc", "attachments", "displayName", "phone"],
+  "requiredManifestFields": ["runId", "folderId", "pagesRead", "candidateCount", "acquiredCount", "duplicateCount", "rejectedCount", "deadLetterCount", "minTimestampUtc", "maxTimestampUtc", "contentHash", "nextLinkExhausted", "checkpointState"],
+  "completionRules": [
+    "folder-inventory-frozen-and-hashed",
+    "every-authorised-folder-exhausted",
+    "all-candidates-accounted-for",
+    "source-and-projection-counts-reconcile",
+    "unchanged-rerun-produces-zero-new-identities"
+  ],
+  "failurePaths": [
+    "inaccessible-folder-is-unknown-not-zero",
+    "pagination-not-exhausted-keeps-run-open",
+    "privacy-validation-failure-does-not-write-fact",
+    "duplicate-does-not-create-second-fact",
+    "connector-failure-does-not-advance-checkpoint",
+    "unreconciled-run-cannot-feed-process-discovery"
+  ],
+  "tenantConfiguration": "not stored in source control",
+  "noDesktopCom": true
+}
