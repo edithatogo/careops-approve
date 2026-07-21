@@ -11,6 +11,17 @@
   },
   "tracks": [
     {
+      "trackId": "harness_engineering_20260711",
+      "firstPendingTask": "Complete repository harness verification and manual checkpoint",
+      "startFiles": ["conductor/tracks/harness_engineering_20260711/index.md", "scripts/Test-Repository.ps1"],
+      "writeScope": ["conductor/tracks/harness_engineering_20260711/", "scripts/"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-Repository.ps1 -SkipRemoteTopology"],
+      "prerequisites": ["User-local Power Platform tooling"],
+      "tenantGate": false,
+      "stopConditions": ["Generated output contains credentials or tenant data"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/2","github":"https://github.com/edithatogo/careops-approve/issues/4"}
+    },
+    {
       "trackId": "basic_submit_approve_20260710",
       "firstPendingTask": "Verify Teams Approvals, connectors, DLP, retention and authorised owners",
       "startFiles": ["conductor/tracks/basic_submit_approve_20260710/index.md", "docs/tenant-fit-checklist.md"],
