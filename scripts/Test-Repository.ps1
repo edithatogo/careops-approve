@@ -21,6 +21,7 @@ $required = @(
     'docs/technology-radar.md',
     'docs/repository-topology.md',
     'docs/tenant-fit-checklist.md',
+    'docs/corpus-scale-process-discovery-handoff.md',
     'docs/deployment-attestation.md',
     'docs/ai-assisted-review.md',
     'docs/low-privilege-architecture.md',
