@@ -1,0 +1,51 @@
+{
+  "name": "CareOps Outlook Historical Backfill",
+  "status": "blueprint",
+  "deploymentStatus": "tenant-activation-pending",
+  "connectionReferences": {
+    "outlook": "tenant-provided-existing-office365-outlook-connection",
+    "dataverse": "tenant-provided-careops-dataverse-connection"
+  },
+  "trigger": {
+    "type": "manual",
+    "operation": "button",
+    "inputs": ["runId", "authorisedMailboxScope", "folderInventoryHash"]
+  },
+  "variables": [
+    {"name": "nextLink", "type": "string", "initialValue": ""},
+    {"name": "currentFolderId", "type": "string", "initialValue": ""},
+    {"name": "runStatus", "type": "string", "initialValue": "Open"}
+  ],
+  "actions": [
+    {"id": "CreateRun", "type": "Dataverse.CreateRow", "table": "careops_backfill_run", "fields": ["runId", "scopeHash", "configurationVersion", "status"]},
+    {"id": "EnumerateFolders", "type": "Office365Outlook.ListMailFolders", "connection": "outlook", "includeNested": true, "output": "folderInventory"},
+    {"id": "FreezeInventory", "type": "Dataverse.CreateRow", "table": "careops_backfill_folder_manifest", "fields": ["runId", "folderId", "folderPathHash", "included", "exclusionReason"]},
+    {"id": "ForEachIncludedFolder", "type": "Foreach", "items": "includedFolderInventory", "actions": [
+      {"id": "ResetCursor", "type": "SetVariable", "name": "nextLink", "value": ""},
+      {"id": "UntilPagesExhausted", "type": "DoUntil", "condition": "empty(variables('nextLink')) and pageRead = true", "actions": [
+        {"id": "GetEmailsPage", "type": "Office365Outlook.GetEmailsV3", "connection": "outlook", "folder": "currentFolderId", "top": 1000, "nextLink": "variables('nextLink')", "select": ["id", "internetMessageId", "receivedDateTime", "conversationId", "hasAttachments", "importance", "parentFolderId"]},
+        {"id": "ForEachMessage", "type": "Foreach", "items": "body('GetEmailsPage')?['value']", "actions": [
+          {"id": "ProjectFact", "type": "Compose", "forbiddenInputs": ["body", "bodyPreview", "subject", "from", "sender", "to", "cc", "bcc", "attachments"]},
+          {"id": "ValidatePrivacy", "type": "Condition", "onFalse": "DeadLetterPrivacy", "rule": "projectionContainsOnlyAllowedMetadata"},
+          {"id": "WriteFactIfNew", "type": "Dataverse.CreateRowIfAbsent", "table": "careops_process_event", "idempotencyKey": "pseudonym(message.id)|folder.id", "onDuplicate": "recordDuplicateTelemetry"}
+        ]},
+        {"id": "AdvanceCursor", "type": "SetVariable", "name": "nextLink", "value": "body('GetEmailsPage')?['@odata.nextLink']"},
+        {"id": "UpdateManifest", "type": "Dataverse.UpdateRow", "table": "careops_backfill_folder_manifest", "fields": ["pagesRead", "candidateCount", "acquiredCount", "duplicateCount", "rejectedCount", "nextLinkExhausted"]}
+      ]}
+    ]},
+    {"id": "ReconcileRun", "type": "Dataverse.ExecuteAction", "action": "careops_ReconcileBackfill", "requires": ["allIncludedFoldersExhausted", "allCandidatesAccountedFor", "sourceProjectionCountsReconcile"]},
+    {"id": "CloseRun", "type": "Dataverse.UpdateRow", "table": "careops_backfill_run", "when": "ReconcileRun.status == 'Passed'", "fields": ["status=Closed", "contentHash", "closedAtUtc"]},
+    {"id": "DeadLetterPrivacy", "type": "Dataverse.CreateRow", "table": "careops_process_dead_letter", "fields": ["runId", "folderId", "reason=privacy", "retryable=false"]},
+    {"id": "FailClosed", "type": "Dataverse.UpdateRow", "table": "careops_backfill_run", "when": "anyFolderUnexhausted or reconciliationFailed", "fields": ["status=Failed", "stopDiscovery=true"]}
+  ],
+  "invariants": [
+    "no-date-filter-for-historical-backfill",
+    "all-authorised-folders-including-nested-are-inventory-controlled",
+    "pagination-exhausted-per-included-folder",
+    "raw-message-content-never-enters-persistent-fact",
+    "unreconciled-run-cannot-feed-ocel-discovery",
+    "no-outbound-email",
+    "no-desktop-com"
+  ],
+  "tenantConfiguration": "not stored in source control"
+}

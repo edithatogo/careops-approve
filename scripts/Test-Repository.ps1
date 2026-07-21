@@ -60,6 +60,8 @@ $required = @(
     'flows/planner-task-sync.contract.json',
     'flows/outlook-historical-backfill.contract.json',
     'scripts/Test-OutlookHistoricalBackfill.ps1',
+    'flows/outlook-historical-backfill.definition.json',
+    'scripts/Test-OutlookHistoricalBackfillDefinition.ps1',
     'config/tesl-email-mapping.example.json',
     'config/approval-templates.example.json',
     'config/template-routing-scenarios.example.json',
@@ -210,6 +212,7 @@ foreach ($file in $trackedFiles) {
 & (Join-Path $root 'scripts/Test-WorkflowScenarios.ps1')
 & (Join-Path $root 'scripts/Test-FlowBlueprint.ps1')
 & (Join-Path $root 'scripts/Test-OutlookHistoricalBackfill.ps1')
+& (Join-Path $root 'scripts/Test-OutlookHistoricalBackfillDefinition.ps1')
 & (Join-Path $root 'scripts/Test-TeslApprovalArtifacts.ps1')
 & (Join-Path $root 'scripts/Test-TemplateCatalog.ps1')
 & (Join-Path $root 'scripts/Test-IntegrationRoadmap.ps1')
