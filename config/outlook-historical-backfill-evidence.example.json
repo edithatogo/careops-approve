@@ -1,0 +1,21 @@
+{
+  "status": "pending-live-evidence",
+  "runIdHash": "<sha256>",
+  "scopeClass": "authorised-mailbox-complete-history",
+  "folderCount": 0,
+  "pageCount": 0,
+  "candidateCount": 0,
+  "acquiredCount": 0,
+  "duplicateCount": 0,
+  "rejectedCount": 0,
+  "deadLetterCount": 0,
+  "earliestTimestamp": "<utc-iso8601>",
+  "latestTimestamp": "<utc-iso8601>",
+  "paginationExhausted": false,
+  "reconciled": false,
+  "idempotencyReplayVerified": false,
+  "noRawContentStored": true,
+  "externalEvidenceReference": "<approved-location-reference>",
+  "operatorRole": "<role>",
+  "approvalRole": "<role>"
+}
