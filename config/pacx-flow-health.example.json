@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "reportMode": "read-only",
+  "sourceMappings": [
+    { "flowName": "CareOps Submit and Route", "sourceContract": "flows/submit-and-route.contract.json" },
+    { "flowName": "CareOps TESL Email to Approval", "sourceContract": "flows/tesl-email-to-approval.contract.json" }
+  ],
+  "allowedStates": ["activated", "draft", "unknown"],
+  "allowedDefinitionStatuses": ["found", "missing", "malformed", "not-requested"],
+  "allowedRunEvidence": ["observed", "not-observed", "not-requested"],
+  "allowedConnectionStatuses": ["resolved", "unresolved", "not-requested"],
+  "redactedFields": ["token", "secret", "password", "environmentId", "connectionReference", "payload", "upn", "email", "url"]
+}

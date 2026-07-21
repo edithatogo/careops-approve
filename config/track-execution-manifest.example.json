@@ -207,6 +207,39 @@
       "tenantGate": true,
       "stopConditions": ["AI would make a final decision", "Sensitive or clinical data is sent without approval", "Native approval record would be mutated"],
       "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/22","github":"https://github.com/edithatogo/careops-approve/issues/26"}
+    },
+    {
+      "trackId": "pacx_management_bearer_auth_20260714",
+      "firstPendingTask": "Inspect PACX token resource selection and add a regression test",
+      "startFiles": ["conductor/tracks/pacx_management_bearer_auth_20260714/index.md", "tooling/pacx-fork-build.md", "docs/pacx-live-health-20260714.md"],
+      "writeScope": ["conductor/tracks/pacx_management_bearer_auth_20260714/", "tooling/", "docs/pacx-live-health-20260714.md"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-Repository.ps1"],
+      "prerequisites": ["User-local PACX fork source", "Delegated non-production read access"],
+      "tenantGate": true,
+      "stopConditions": ["Bearer-compatible token cannot be acquired", "Management API requires unapproved permission", "Any test would mutate a live flow"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/23","github":"https://github.com/edithatogo/careops-approve/issues/27"}
+    },
+    {
+      "trackId": "pacx_fork_toolchain_20260714",
+      "firstPendingTask": "Define the supported PACX SDK and fallback matrix",
+      "startFiles": ["conductor/tracks/pacx_fork_toolchain_20260714/index.md", "tooling/pacx-fork-build.md", "tooling/powerplatform-tools.json"],
+      "writeScope": ["conductor/tracks/pacx_fork_toolchain_20260714/", "tooling/", "scripts/"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-Repository.ps1"],
+      "prerequisites": ["User-local .NET SDK", "Network access to the reviewed PACX source"],
+      "tenantGate": false,
+      "stopConditions": ["Required SDK is unavailable", "Build would require administrator rights", "Generated output contains credentials or tenant data"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/24","github":"https://github.com/edithatogo/careops-approve/issues/28"}
+    },
+    {
+      "trackId": "pacx_flow_health_reconciliation_20260714",
+      "firstPendingTask": "Define the sanitised flow-health schema and source-contract mapping",
+      "startFiles": ["conductor/tracks/pacx_flow_health_reconciliation_20260714/index.md", "docs/pacx-live-health-20260714.md", "conductor/tracks/live_flow_reconciliation_20260713/spec.md"],
+      "writeScope": ["conductor/tracks/pacx_flow_health_reconciliation_20260714/", "docs/", "scripts/", "contracts/"],
+      "validationCommands": ["pwsh -NoProfile -File ./scripts/Test-Repository.ps1"],
+      "prerequisites": ["Bearer-authentication track complete", "Approved read-only pilot scope"],
+      "tenantGate": true,
+      "stopConditions": ["Live definition cannot be read safely", "Source mapping is ambiguous", "A proposed command would mutate a flow"],
+      "issues": {"ghe":"https://nswhealth.ghe.com/60217257/careops-approve/issues/25","github":"https://github.com/edithatogo/careops-approve/issues/29"}
     }
   ]
 }
