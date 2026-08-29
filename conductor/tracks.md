@@ -5,7 +5,7 @@ plan in its respective folder.
 
 ---
 
-- [~] **Track: Gitleaks secret scanning**
+- [x] **Track: Gitleaks secret scanning**
   *Link: [./tracks/gitleaks-secret-scanning_20260721/](./tracks/gitleaks-secret-scanning_20260721/)*
 
 - [x] **Track: Harness engineering and fail-closed workflow sensors**
