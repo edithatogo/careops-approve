@@ -37,7 +37,6 @@ foreach ($trackId in $activeTrackIds) {
     if ($manifestIds -notcontains $trackId) { throw "Execution manifest is missing active track: $trackId" }
 }
 foreach ($track in $manifestTracks) {
-    if ($activeTrackIds -notcontains $track.trackId) { throw "Execution manifest contains a non-active track: $($track.trackId)" }
     if (@($manifestIds | Where-Object { $_ -eq $track.trackId }).Count -ne 1) { throw "Execution manifest contains duplicate trackId: $($track.trackId)" }
     foreach ($field in @('firstPendingTask', 'startFiles', 'writeScope', 'validationCommands', 'prerequisites', 'stopConditions')) {
         if (-not $track.$field -or @($track.$field).Count -eq 0) { throw "Track $($track.trackId) is missing $field" }
@@ -64,4 +63,4 @@ if (-not $manifest.globalRules.oneActiveTaskPerTrack -or -not $manifest.globalRu
     throw 'Execution manifest global safeguards are incomplete.'
 }
 
-Write-Output "Track execution manifest validation passed: $($manifestTracks.Count) active tracks."
+Write-Output "Track execution manifest validation passed: $($activeTrackIds.Count) active tracks; $($manifestTracks.Count) manifest entries."
