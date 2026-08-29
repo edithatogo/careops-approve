@@ -32,36 +32,66 @@
     "auditor": {
       "displayName": "Read-only assurance reviewer",
       "upn": "tenant-provided-upn"
+    },
+    "executiveAssistant": {
+      "displayName": "Configured workflow coordinator",
+      "upn": "tenant-provided-upn",
+      "compatibilityAliasFor": "authorisedEditor"
+    },
+    "alternateExecutiveAssistant": {
+      "displayName": "Configured alternate workflow coordinator",
+      "upn": "tenant-provided-upn",
+      "compatibilityAliasFor": "authorisedEditor"
+    },
+    "medicalWorkforceManager": {
+      "displayName": "Configured operational coordinator",
+      "upn": "tenant-provided-upn",
+      "compatibilityAliasFor": "operationalCoordinator"
+    },
+    "edmsEscalationApprover": {
+      "displayName": "Configured escalation approver",
+      "upn": "tenant-provided-upn",
+      "compatibilityAliasFor": "escalationApprover"
     }
   },
   "permissions": {
     "submitters": [
       "requester",
       "authorisedEditor",
-      "operationalCoordinator"
+      "operationalCoordinator",
+      "executiveAssistant",
+      "alternateExecutiveAssistant",
+      "medicalWorkforceManager"
     ],
     "workflowEditors": [
       "workflowOwner",
-      "authorisedEditor"
+      "authorisedEditor",
+      "executiveAssistant",
+      "alternateExecutiveAssistant"
     ],
     "normalApprovers": [
       "primaryApprover",
-      "escalationApprover"
+      "escalationApprover",
+      "edmsEscalationApprover"
     ],
     "urgentDelegatedApprovers": [
-      "delegateApprover"
+      "delegateApprover",
+      "executiveAssistant",
+      "alternateExecutiveAssistant",
+      "medicalWorkforceManager"
     ],
     "readOnlyAssurance": [
       "auditor"
     ]
   },
   "delegationPolicy": {
-    "mode": "recorded-delegation-only",
+    "mode": "recorded-verbal-delegation-only",
     "requiredFields": [
       "delegator",
       "delegate",
       "delegationAuthority",
       "delegationReason",
+      "delegatedAt",
       "effectiveFrom",
       "effectiveTo",
       "requestId"
@@ -69,6 +99,10 @@
     "requiresOwnerNotification": true,
     "doesNotReassignExistingApproval": true,
     "cannotExpandUnderlyingAuthority": true
+  },
+  "compatibility": {
+    "legacyRoleKeysRetained": true,
+    "purpose": "Preserve existing workflow contracts while removing named individuals and organisation-specific values. New capability packs should prefer the generic role keys."
   },
   "tenantConfiguration": "Replace role references with approved identities or groups in the deployment environment. Do not commit personal email addresses or tenant identifiers."
 }
