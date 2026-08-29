@@ -1,125 +1,100 @@
-# Repository Topology and Dual Authentication
+# Repository topology and authentication
 
-Last verified: 2026-07-10
+Last reviewed: 2026-08-29
 
-## Current authority
+## Canonical repository
 
-| Role | Host | Account | Repository | Local remote |
-| --- | --- | --- | --- | --- |
-| Current authority | `nswhealth.ghe.com` | `60217257` | `60217257/careops-approve` | `origin` |
-| Private mirror | `github.com` | `edithatogo` | `edithatogo/careops-approve` | `github` |
+The canonical repository is:
 
-The local `main` branch tracks `origin/main`. Pull requests, environment secrets,
-enterprise controls, and deployment approvals should currently be managed on GHE.
-GitHub.com receives branches and tags as a private continuity mirror.
+- host: `github.com`
+- repository: `edithatogo/careops-approve`
+- default branch: `main`
 
-## Current Actions execution model
+A deployment organisation may maintain an approved enterprise mirror. Mirrors
+are environment and governance choices, not product requirements. The reusable
+repository must not embed organisation-specific host names, managed-user IDs,
+runner assumptions, tenant details, or deployment secrets.
 
-As verified on 2026-07-10, NSW Health GHE has hosted runners disabled for this
-repository and no repository self-hosted runner is assigned. The managed user cannot
-inspect organisation runner groups without additional administrative permission.
+## Local remote roles
 
-Until an approved GHE runner is assigned:
+Recommended local names are role based:
 
-- GHE remains the source and audit authority.
-- Workflows mirrored to GHE skip runner-dependent jobs using `github.server_url`.
-- GitHub.com runs credential-free validation and packaging against the identical SHA.
-- Power Platform deployment remains disabled until an approved environment, identity,
-  secrets, and runner path are configured.
-- A passing GitHub.com check is supporting evidence, not a native GHE required check.
+| Remote | Purpose |
+| --- | --- |
+| `origin` | Canonical repository for source, issues, pull requests, and releases |
+| `enterprise` | Optional organisation-managed mirror or deployment authority |
+| `archive` | Optional read-only continuity or historical remote |
 
-Do not describe the two hosts as having equivalent CI controls until GHE-native jobs
-pass and corresponding rulesets are configured. The desired end state is an approved
-GHE runner (or enabled hosted runner policy) with host-local secrets and environment
-reviewers; the personal mirror then remains a continuity check rather than the sole
-execution surface.
+Do not infer authority from a remote name alone. The deployment profile must
+record which host owns source review, release approval, deployment evidence,
+and operational support.
 
-## How GitHub CLI dual authentication works
+## Authentication
 
-GitHub CLI stores authentication independently for each hostname. Confirm both hosts
-without displaying tokens:
+GitHub CLI stores authentication independently for each hostname. Confirm a
+host without displaying tokens:
 
 ```powershell
-gh auth status --hostname nswhealth.ghe.com
 gh auth status --hostname github.com
 ```
 
-Repository-aware commands infer the host from the repository remote. Commands without
-repository context default to GitHub.com, so target GHE explicitly:
+For an optional enterprise host, specify the approved hostname explicitly:
 
 ```powershell
-gh api --hostname nswhealth.ghe.com user
-$env:GH_HOST = 'nswhealth.ghe.com'
-gh repo view 60217257/careops-approve
-Remove-Item Env:GH_HOST
+gh auth status --hostname <enterprise-host>
 ```
 
-For an explicit repository target, use `GH_REPO` in `HOST/OWNER/REPO` form:
+Repository-aware commands infer the host from the selected remote. Host-
+ambiguous automation must set `GH_HOST` or use a fully qualified repository.
+Do not export a broad `GH_TOKEN` in an interactive shell. Automation must use
+host-scoped, least-privilege credentials and protected environments.
 
-```powershell
-$env:GH_REPO = 'nswhealth.ghe.com/60217257/careops-approve'
-gh pr list
-Remove-Item Env:GH_REPO
-```
+## Validation and publication
 
-Git credential routing is configured separately for each host with:
-
-```powershell
-gh auth setup-git --hostname nswhealth.ghe.com
-gh auth setup-git --hostname github.com
-```
-
-Do not export `GH_TOKEN` globally in an interactive shell. Token environment variables
-take precedence over stored credentials and can accidentally target a command with the
-wrong identity. Automation must use host-scoped secrets and set `GH_HOST` explicitly.
-
-## Publishing
-
-Run validation before publication:
+Run repository validation before publication:
 
 ```powershell
 ./scripts/Test-Repository.ps1
-./scripts/Publish-Remotes.ps1 -WhatIf
-./scripts/Publish-Remotes.ps1
 ```
 
-The script requires a clean worktree and publishes all local branches and tags to
-`origin` first, then `github`. It does not use `git push --mirror`, force-push, or
-remote ref deletion.
+Publishing scripts must:
 
-CI uses `Test-Repository.ps1 -SkipRemoteTopology` because an Actions checkout has
-only its host-local `origin`. The default local invocation retains strict checks for
-both remotes and the `origin/main` upstream.
+- require a clean worktree;
+- avoid force pushes and remote ref deletion;
+- publish only intended branches and tags;
+- verify the target host and repository;
+- exclude secrets and environment values; and
+- record the source commit and release artifact digest.
 
-## Controls that do not mirror with Git
+## Controls that do not move with Git
 
-Maintain a separate checklist for each host covering:
+Maintain separate evidence for each host covering:
 
-- repository visibility and collaborators;
+- visibility and collaborators;
 - branch and ruleset protection;
 - Actions permissions and runner policy;
 - environments, reviewers, variables, and secrets;
 - issues, discussions, pull requests, releases, and audit history;
-- service principals, app installations, webhooks, and deployment credentials.
+- service principals, app installations, webhooks, and deployment credentials;
+- code scanning, secret scanning, dependency review, and retention; and
+- backup and recovery.
 
-Current known difference: GitHub.com hosted Actions execute successfully; NSW Health
-GHE hosted runners are disabled and no repository self-hosted runner is assigned.
+A private mirror does not override information-governance obligations. No host
+may receive practitioner, patient, workforce, mailbox, credential, tenant, or
+other sensitive material unless that host and transfer are explicitly approved.
 
-Personal GitHub must not receive NSW Health secrets, sensitive data, tenant exports,
-or content that policy prohibits from leaving the organisation. A private mirror does
-not override information-governance obligations.
+## Authority transition
 
-## Future authority transition
+A change of canonical host or owner is a governed operation:
 
-When organisational departure or an approved transition occurs:
+1. confirm ownership, licence, and information-governance authority;
+2. freeze releases and reconcile branches and tags;
+3. export or recreate only approved non-Git settings and evidence;
+4. update remotes, branch tracking, badges, links, submodule URLs, environments,
+   and documentation;
+5. validate source and release parity;
+6. create a signed transition record; and
+7. preserve or retire the prior host according to the approved plan.
 
-1. Confirm that all content is permitted to remain in or move to the personal repository.
-2. Freeze releases and reconcile branches and tags on both hosts.
-3. Export or recreate only approved non-Git settings and evidence.
-4. Rename remotes so GitHub.com becomes `origin` and GHE becomes `ghe-archive`.
-5. Set local branches to track the new `origin/main`.
-6. Update badges, links, submodule URLs, workflow environments, and documentation.
-7. Run validation and create a signed transition tag on both hosts.
-8. Preserve or retire the GHE repository according to NSW Health direction.
-
-The transition is a governed operation, not an automatic date-based switch.
+Repository history may retain historical organisation or author metadata. The
+active product documentation and configuration must remain organisation-neutral.

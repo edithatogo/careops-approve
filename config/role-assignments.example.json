@@ -1,25 +1,108 @@
 {
   "status": "blueprint",
   "roles": {
-    "workflowOwner": { "displayName": "Tenant-provided workflow owner", "upn": "tenant-provided-upn" },
-    "requester": { "displayName": "Any authorised requester", "upn": "tenant-provided-upn" },
-    "executiveAssistant": { "displayName": "Natalie Degidio", "upn": "tenant-provided-upn" },
-    "alternateExecutiveAssistant": { "displayName": "KristineMarie Rivero", "upn": "tenant-provided-upn" },
-    "medicalWorkforceManager": { "displayName": "Kathryn Meharg", "upn": "tenant-provided-upn" },
-    "primaryApprover": { "displayName": "Configured primary approver", "upn": "tenant-provided-upn" },
-    "edmsEscalationApprover": { "displayName": "Elaine Pretorius", "upn": "tenant-provided-upn" }
+    "workflowOwner": {
+      "displayName": "Configured workflow owner",
+      "upn": "tenant-provided-upn"
+    },
+    "requester": {
+      "displayName": "Authorised requester",
+      "upn": "tenant-provided-upn"
+    },
+    "authorisedEditor": {
+      "displayName": "Authorised workflow editor",
+      "upn": "tenant-provided-upn"
+    },
+    "operationalCoordinator": {
+      "displayName": "Operational coordinator",
+      "upn": "tenant-provided-upn"
+    },
+    "primaryApprover": {
+      "displayName": "Configured primary approver",
+      "upn": "tenant-provided-upn"
+    },
+    "escalationApprover": {
+      "displayName": "Configured escalation approver",
+      "upn": "tenant-provided-upn"
+    },
+    "delegateApprover": {
+      "displayName": "Authorised delegate approver",
+      "upn": "tenant-provided-upn"
+    },
+    "auditor": {
+      "displayName": "Read-only assurance reviewer",
+      "upn": "tenant-provided-upn"
+    },
+    "executiveAssistant": {
+      "displayName": "Configured workflow coordinator",
+      "upn": "tenant-provided-upn",
+      "compatibilityAliasFor": "authorisedEditor"
+    },
+    "alternateExecutiveAssistant": {
+      "displayName": "Configured alternate workflow coordinator",
+      "upn": "tenant-provided-upn",
+      "compatibilityAliasFor": "authorisedEditor"
+    },
+    "medicalWorkforceManager": {
+      "displayName": "Configured operational coordinator",
+      "upn": "tenant-provided-upn",
+      "compatibilityAliasFor": "operationalCoordinator"
+    },
+    "edmsEscalationApprover": {
+      "displayName": "Configured escalation approver",
+      "upn": "tenant-provided-upn",
+      "compatibilityAliasFor": "escalationApprover"
+    }
   },
   "permissions": {
-    "submitters": ["requester", "executiveAssistant", "alternateExecutiveAssistant", "medicalWorkforceManager"],
-    "workflowEditors": ["workflowOwner", "executiveAssistant", "alternateExecutiveAssistant"],
-    "normalApprovers": ["primaryApprover", "edmsEscalationApprover"],
-    "urgentDelegatedApprovers": ["executiveAssistant", "alternateExecutiveAssistant", "medicalWorkforceManager"]
+    "submitters": [
+      "requester",
+      "authorisedEditor",
+      "operationalCoordinator",
+      "executiveAssistant",
+      "alternateExecutiveAssistant",
+      "medicalWorkforceManager"
+    ],
+    "workflowEditors": [
+      "workflowOwner",
+      "authorisedEditor",
+      "executiveAssistant",
+      "alternateExecutiveAssistant"
+    ],
+    "normalApprovers": [
+      "primaryApprover",
+      "escalationApprover",
+      "edmsEscalationApprover"
+    ],
+    "urgentDelegatedApprovers": [
+      "delegateApprover",
+      "executiveAssistant",
+      "alternateExecutiveAssistant",
+      "medicalWorkforceManager"
+    ],
+    "readOnlyAssurance": [
+      "auditor"
+    ]
   },
   "delegationPolicy": {
     "mode": "recorded-verbal-delegation-only",
-    "requiredFields": ["delegator", "delegate", "delegationReason", "delegatedAt", "requestId"],
+    "requiredFields": [
+      "delegator",
+      "delegate",
+      "delegationAuthority",
+      "delegationReason",
+      "delegatedAt",
+      "effectiveFrom",
+      "effectiveTo",
+      "requestId"
+    ],
     "requiresOwnerNotification": true,
-    "doesNotReassignExistingApproval": true
+    "doesNotReassignExistingApproval": true,
+    "cannotExpandUnderlyingAuthority": true
   },
-  "tenantConfiguration": "Replace role references with approved UPNs in the tenant; do not commit personal email addresses."
+  "compatibility": {
+    "legacyRoleKeysRetained": true,
+    "purpose": "Preserve existing workflow contracts while removing named individuals and organisation-specific values. New capability packs should prefer the generic role keys."
+  },
+  "tenantConfiguration": "Replace role references with approved identities or groups in the deployment environment. Do not commit personal email addresses or tenant identifiers."
 }

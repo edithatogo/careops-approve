@@ -5,7 +5,7 @@ plan in its respective folder.
 
 ---
 
-- [~] **Track: Gitleaks secret scanning**
+- [x] **Track: Gitleaks secret scanning**
   *Link: [./tracks/gitleaks-secret-scanning_20260721/](./tracks/gitleaks-secret-scanning_20260721/)*
 
 - [x] **Track: Harness engineering and fail-closed workflow sensors**
@@ -101,3 +101,8 @@ plan in its respective folder.
 
 - [~] **Track: Add read-only PACX flow health and reconciliation commands**
   *Link: [./tracks/pacx_flow_health_reconciliation_20260714/](./tracks/pacx_flow_health_reconciliation_20260714/)*
+
+---
+
+- [~] **Track: Generic credentialing capability pack and CHHHS MVP**
+  *Link: [./tracks/chhhs_credentialing_capability_20260829/](./tracks/chhhs_credentialing_capability_20260829/)*
