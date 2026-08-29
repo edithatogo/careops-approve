@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/edithatogo/careops-approve/contracts/existing-system-source-record.schema.json",
+  "title": "Imported existing-system source record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contractVersion","sourceSystemId","sourceMode","sourceRecordId","sourceUri","observedAt","sourceHash","recordHash","fields","provenance","rawPayloadStored","reconciliationStatus"],
+  "properties": {
+    "contractVersion": {"const": "0.1.0"},
+    "sourceSystemId": {"type": "string", "minLength": 1},
+    "sourceMode": {"enum": ["api","html"]},
+    "sourceRecordId": {"type": "string", "minLength": 1},
+    "sourceUri": {"type": "string", "format": "uri"},
+    "observedAt": {"type": "string", "format": "date-time"},
+    "sourceHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "recordHash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "fields": {"type": "object", "additionalProperties": {"type": ["string","number","boolean","null"]}},
+    "provenance": {"type": "object"},
+    "rawPayloadStored": {"const": false},
+    "reconciliationStatus": {"const": "pending-human-review"}
+  }
+}
