@@ -1,52 +1,90 @@
-# careops-approve
+# CareOps Approve
 
-CareOps Approve is a small, Teams-first submit and approve workflow built with
-Microsoft 365 standard capabilities. It is intentionally scoped as a bounded
-administrative pilot for a requester, an executive assistant, and configurable
-named approvers.
+CareOps Approve is an organisation-neutral, Teams-first workflow module for
+structured intake, deterministic validation, routing, delegation, escalation,
+human approval, and durable decision audit.
 
-The implementation is tracked under
-[`conductor/tracks/basic_submit_approve_20260710/`](conductor/tracks/basic_submit_approve_20260710/).
+The core uses Microsoft 365 and Power Platform capabilities where appropriate:
+Forms or another approved intake surface, SharePoint or Dataverse, Power
+Automate, Teams Approvals, Planner, and controlled reporting. Tenant identities,
+connection references, policy rules, and environment values are deployment
+configuration and must not be committed.
 
-The MVP deliberately repurposes Microsoft’s native Teams Approvals surface with
-standard Forms, SharePoint, and Power Automate capabilities. It is not a custom
-Teams app, agent, Entra app, or tenant-admin deployment.
+## Decision boundary
 
-The engineering baseline is solution-aware Power Platform ALM with Microsoft
-Power Platform GitHub Actions, Power Platform Pipelines, and a controlled
-technology-radar process for preview features. See [ALM strategy](docs/alm.md)
-and [technology radar](docs/technology-radar.md).
+CareOps Approve is an orchestration and evidence-control module. It is **not** a
+clinical decision engine and does not replace a committee, relevant peer,
+delegated decision maker, review body, or appeal body.
 
-## Intended workflow
+AI may classify, extract, reconcile, summarise, draft, or identify missing
+information. It cannot approve, reject, assign authority, determine competence,
+define scope of clinical practice, impose conditions, or produce an adverse
+outcome. AI failure or low confidence preserves the ordinary human pathway.
 
-1. A user submits a request with a title, details, and optional supporting link.
-2. The flow resolves the currently active named approver configuration.
-3. The approver receives an Approve/Reject request in Microsoft Teams.
-4. The outcome, comments, timestamps, requester, and approver are recorded.
+## Core capabilities
 
-TESL emails enter the same approval path through the source-controlled
-[TESL email-to-approval contract](docs/tesl-email-approval.md), which includes
-a BPMN 2.0 process, configurable TESL field mapping, and a Power Automate flow
-contract. Tenant mailbox and field syntax remain deployment configuration. The
-two workflows are deployed in the tenant; source control records only
-tenant-neutral contracts and executive-confirmed deployment status.
-The implementation also records which existing Power Automate patterns are safe
-to adapt in the [reuse assessment](docs/power-automate-reuse-assessment.md).
+- configurable request templates and pathways;
+- deterministic completeness, evidence, date, and link checks;
+- idempotent request IDs and duplicate prevention;
+- immutable assignment and decision records;
+- business-calendar due dates and absence-aware routing;
+- prospective delegation with an auditable delegation record;
+- correction queues and recoverable failure states;
+- native Teams human approvals;
+- required reasons for rejection or limitation where configured;
+- escalation, cancellation, and reconciliation;
+- restricted visibility and privacy-safe telemetry; and
+- solution-aware Power Platform ALM.
 
-Changing the approver configuration affects new requests. Existing requests keep
-the approver assigned when they were submitted so their audit history remains
-stable.
+## Modular delivery
 
-## Repository publication
+Capabilities are delivered as feature-flagged packs. The stable core remains
+small; a deployment enables only the packs it has approved and tested.
 
-The current authoritative remote is the private NSW Health GHE repository:
-`https://nswhealth.ghe.com/60217257/careops-approve`. The private personal mirror is
-`https://github.com/edithatogo/careops-approve`.
+The first CHHHS pack is documented in
+[`docs/credentialing-capability-pack.md`](docs/credentialing-capability-pack.md).
+It supplies credentialing intake and routing contracts while leaving committee
+governance and formal delegated decisions to `careops-decisions`.
 
-Local remote names are deliberately role-based:
+The recommended sequence is:
 
-- `origin`: current NSW Health GHE authority and upstream for `main`.
-- `github`: private personal mirror and intended future authority after organisational exit.
+1. synthetic validation;
+2. one bounded MVP pathway;
+3. retrospective and prospective silent-mode comparison;
+4. limited integration after explicit governance approval; and
+5. regular small releases with feature flags, acceptance evidence, and rollback.
 
-See [repository topology](docs/repository-topology.md) for authentication, publishing,
-and authority-transition procedures.
+## Existing example adapters
+
+The repository retains legacy email-to-approval and general submit-and-route
+contracts as examples. They are adapters, not the reusable domain authority.
+New deployments should use generic role names and deployment profiles rather
+than copying historical tenant identities or organisation-specific fields.
+
+## Source control and deployment
+
+The canonical repository is `edithatogo/careops-approve`. Source control stores
+reviewable solution assets, contracts, schemas, tests, and non-sensitive
+configuration examples. It must not store operational records, mailbox exports,
+practitioner or patient information, credentials, tenant identifiers, or
+production connection values.
+
+The implementation baseline is solution-aware Power Platform ALM with validated
+packages, protected deployment environments, connection references, environment
+variables, and rollback to the last approved artifact. See
+[`docs/alm.md`](docs/alm.md) and
+[`docs/repository-topology.md`](docs/repository-topology.md).
+
+## Validation
+
+```powershell
+./scripts/Test-Repository.ps1
+```
+
+Tenant deployment and operating effectiveness remain separate gates from
+repository validation.
+
+## Licence
+
+Original material in this repository is licensed under the MIT License.
+Third-party components retain their own terms.

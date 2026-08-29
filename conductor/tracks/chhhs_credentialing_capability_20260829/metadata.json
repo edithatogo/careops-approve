@@ -1,0 +1,20 @@
+{
+  "track_id": "chhhs_credentialing_capability_20260829",
+  "title": "Generic credentialing capability pack and CHHHS MVP",
+  "status": "in_progress",
+  "created": "2026-08-29",
+  "owner": "CareOps Approve maintainer",
+  "deployment_profiles": [
+    "CHHHS"
+  ],
+  "dependencies": [
+    "careops-decisions-credentialing-contract",
+    "careops-process-credentialing-events"
+  ],
+  "non_goals": [
+    "autonomous-credentialing-decisions",
+    "autonomous-scope-decisions",
+    "production-register-write-in-mvp",
+    "replacement-of-independent-audit"
+  ]
+}
