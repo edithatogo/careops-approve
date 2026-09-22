@@ -102,10 +102,13 @@ class JobTest(unittest.TestCase):
         self.assertEqual(job.fail(job.token, self.at, "adapter-unavailable").phase, Phase.RETRY)
 
     def test_numeric_limits_reject_booleans_and_nonpositive_values(self) -> None:
-        for field in ("timeout_seconds", "retry_seconds", "max_attempts"):
-            for value in (0, -1, True, 0.5):
-                with self.subTest(field=field, value=value), self.assertRaises(ValueError):
-                    replace(self.job, **{field: cast(int, value)})
+        for value in (0, -1, True, 0.5):
+            with self.subTest(field="timeout_seconds", value=value), self.assertRaises(ValueError):
+                replace(self.job, timeout_seconds=cast(int, value))
+            with self.subTest(field="retry_seconds", value=value), self.assertRaises(ValueError):
+                replace(self.job, retry_seconds=cast(int, value))
+            with self.subTest(field="max_attempts", value=value), self.assertRaises(ValueError):
+                replace(self.job, max_attempts=cast(int, value))
 
     def test_naive_time_and_missing_identity_are_rejected(self) -> None:
         with self.assertRaises(ValueError):
