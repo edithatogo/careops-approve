@@ -69,8 +69,11 @@ class ChecksTest(unittest.TestCase):
             self.assertFalse(value.ready_for_decision_review)
 
     def test_stale_identity_version_and_revision_are_unavailable(self) -> None:
-        for field in ["check_id", "check_version", "revision"]:
-            result = replace(self.result, **{field: "wrong"})
+        for result in (
+            replace(self.result, check_id="wrong"),
+            replace(self.result, check_version="wrong"),
+            replace(self.result, revision="wrong"),
+        ):
             value = assess([self.check], {"evidence": lambda: result}, "revision-1")
             self.assertEqual(value.results[0].reason, "stale-or-mismatched-response")
 
