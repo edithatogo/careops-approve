@@ -121,3 +121,17 @@ class ChecksTest(unittest.TestCase):
         self.assertNotEqual(key, delivery_key("case-1", "revision-1", replace(self.check, version="2")))
         with self.assertRaises(ValueError):
             delivery_key("", "revision-1", self.check)
+
+    def test_evidence_boundary_applies_to_every_outcome(self) -> None:
+        check = replace(self.check, exemption_authority="verified-policy-1")
+        for colour, evidence in itertools.product(list(Colour), [("wrong-case",), ("",), (" ",)]):
+            result = replace(self.result, colour=colour, evidence=evidence,
+                             exemption_authority="verified-policy-1")
+            value = assess([check], {"evidence": lambda: result}, "revision-1")
+            self.assertEqual(value.colour, Colour.UNAVAILABLE)
+            self.assertEqual(value.results[0].reason, "invalid-evidence-reference")
+            self.assertEqual(value.results[0].evidence, ())
+        for colour in [Colour.UNAVAILABLE, Colour.NOT_APPLICABLE]:
+            result = replace(self.result, colour=colour, exemption_authority="verified-policy-1")
+            value = assess([check], {"evidence": lambda: result}, "revision-1")
+            self.assertEqual(value.results[0].evidence, ("source-1",))

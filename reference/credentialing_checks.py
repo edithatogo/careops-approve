@@ -82,11 +82,11 @@ def _validate(check: Check, result: Result, revision: str) -> Result:
         return _unavailable(check, revision, "stale-or-mismatched-response")
     if not isinstance(result.colour, Colour) or not result.reason.strip():
         return _unavailable(check, revision, "invalid-response")
+    if any(not ref.strip() or ref not in check.evidence_manifest for ref in result.evidence):
+        return _unavailable(check, revision, "invalid-evidence-reference")
     if result.colour == Colour.NOT_APPLICABLE:
         if not check.exemption_authority.strip() or result.exemption_authority != check.exemption_authority:
             return _unavailable(check, revision, "missing-exemption-authority")
-    elif result.colour != Colour.UNAVAILABLE and any(not ref.strip() or ref not in check.evidence_manifest for ref in result.evidence):
-        return _unavailable(check, revision, "invalid-evidence-reference")
     if result.colour not in {Colour.UNAVAILABLE, Colour.NOT_APPLICABLE} and not result.evidence:
         return _unavailable(check, revision, "missing-evidence-reference")
     return result
