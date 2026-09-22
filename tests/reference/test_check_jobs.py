@@ -138,3 +138,12 @@ class JobTest(unittest.TestCase):
             job.fail(job.token, earlier)
         with self.assertRaises(ValueError):
             replace(self.job, attempt=self.job.max_attempts).start(self.at)
+
+    def test_rehydrated_attempt_counter_cannot_extend_the_budget(self) -> None:
+        for value in (-2, -1, 0.5, True, self.job.max_attempts + 1):
+            with self.subTest(attempt=value), self.assertRaises(ValueError):
+                replace(self.job, attempt=cast(int, value))
+        self.assertEqual(replace(self.job, attempt=0).start(self.at).attempt, 1)
+        exhausted = replace(self.job, attempt=self.job.max_attempts)
+        with self.assertRaises(ValueError):
+            exhausted.start(self.at)
