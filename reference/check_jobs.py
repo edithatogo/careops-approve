@@ -48,6 +48,8 @@ class Job:
         for number in (self.timeout_seconds, self.retry_seconds, self.max_attempts):
             if type(number) is not int or number < 1:
                 raise ValueError("Timeout, retry delay and attempt limit must be positive integers")
+        if type(self.attempt) is not int or not 0 <= self.attempt <= self.max_attempts:
+            raise ValueError("Attempt counter must be an integer within the configured budget")
 
     def start(self, at: datetime) -> "Job":
         """Plan one attempt; callers dispatch an isolated worker after committing."""
