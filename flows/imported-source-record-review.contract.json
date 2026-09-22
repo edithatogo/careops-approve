@@ -1,0 +1,36 @@
+{
+  "name": "CareOps Imported Source Record Review",
+  "contractVersion": "0.1.0",
+  "status": "blueprint",
+  "enabled": false,
+  "inputContract": "contracts/existing-system-source-record.schema.json",
+  "authority": "read-only-observation",
+  "initialState": "ImportedPendingReconciliation",
+  "steps": [
+    {"id":"validate-contract","type":"json-schema-validation","onFailure":"quarantine-with-minimised-error"},
+    {"id":"deduplicate","type":"source-system-id-record-id-and-hash-check","onDuplicate":"retain-existing-and-record-observation"},
+    {"id":"check-source-freshness","type":"observation-age-and-source-status-check","onFailure":"route-to-human-review"},
+    {"id":"reconcile","type":"deterministic-field-and-hash-comparison","authoritativeOutcome":false},
+    {"id":"route-exceptions","type":"human-correction-queue","requiredFor":["missing-field","contradiction","new-record","changed-record","withdrawn-or-missing-source","mapping-change"]},
+    {"id":"confirm-observation","type":"human-review","allowedOutcomes":["ConfirmedObservation","CorrectedObservation","RejectedObservation","NeedsSourceReview"]},
+    {"id":"create-governance-packet","type":"versioned-handoff","when":"ConfirmedObservation-or-CorrectedObservation","decisionAuthority":false},
+    {"id":"emit-process-event","type":"privacy-minimised-event","rawSourceContent":false}
+  ],
+  "prohibitedEffects": [
+    "create-or-finalise-credentialing-approval",
+    "infer-current-registration-or-qualification",
+    "infer-current-scope-or-authority",
+    "alter-conditions-supervision-or-expiry",
+    "write-authoritative-register",
+    "release-to-practise",
+    "roster-or-access-change"
+  ],
+  "aiBoundary": {
+    "allowed": ["propose-field-mapping","classify-record","identify-likely-duplicate","summarise-exception"],
+    "humanReviewRequired": true,
+    "cannotEstablishFactOrAuthority": true,
+    "failureAction": "continue-deterministic-human-review"
+  },
+  "normalHumanPathAvailable": true,
+  "productionWrites": false
+}

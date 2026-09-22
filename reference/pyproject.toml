@@ -1,0 +1,16 @@
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B", "S", "ANN", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+# These synchronous test lambdas are consumed before their loop advances.
+"tests/reference/test_credentialing_checks.py" = ["B023"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+explicit_package_bases = true
+warn_unreachable = true

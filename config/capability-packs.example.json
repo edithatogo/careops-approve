@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "status": "example",
+  "stableCore": {
+    "intake": true,
+    "deterministicValidation": true,
+    "humanApproval": true,
+    "immutableDecisionAudit": true,
+    "privacySafeMetrics": true
+  },
+  "capabilityPacks": [
+    {
+      "id": "credentialing-intake",
+      "version": "0.1.0",
+      "enabled": false,
+      "owner": "deployment-provided",
+      "dependencies": [
+        "stableCore"
+      ],
+      "requires": [
+        "approved-policy-mapping",
+        "synthetic-fixtures",
+        "privacy-review",
+        "clinical-governance-review",
+        "records-review",
+        "security-review",
+        "human-decision-path",
+        "rollback-plan"
+      ]
+    },
+    {
+      "id": "credentialing-committee-handoff",
+      "version": "0.1.0",
+      "enabled": false,
+      "owner": "deployment-provided",
+      "dependencies": [
+        "credentialing-intake",
+        "careops-decisions-contract"
+      ]
+    },
+    {
+      "id": "credentialing-process-events",
+      "version": "0.1.0",
+      "enabled": false,
+      "owner": "deployment-provided",
+      "dependencies": [
+        "credentialing-intake",
+        "careops-process-contract"
+      ]
+    },
+    {
+      "id": "ai-evidence-triage",
+      "version": "0.1.0",
+      "enabled": false,
+      "owner": "deployment-provided",
+      "dependencies": [
+        "credentialing-intake"
+      ],
+      "mode": "advisory",
+      "humanReviewRequired": true,
+      "canFinalizeDecision": false,
+      "failMode": "ordinary-human-path"
+    }
+  ],
+  "deploymentConfiguration": "Feature states, owners, approved models, connections, and tenant values are environment-specific and excluded from source control."
+}
