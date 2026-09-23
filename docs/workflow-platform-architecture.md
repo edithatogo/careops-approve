@@ -186,3 +186,19 @@ operations remain separate governed API/lifecycle actions. Reserved node types
 are displayed but cannot be added. Client-side checks are advisory; server-side
 schema validation, semantic compilation, registry concurrency and authorization
 remain authoritative.
+
+
+## Registry-backed execution service
+
+The reference service in `reference/workflow_service.py` binds the version
+registry to semantic compilation and runtime execution.
+
+New cases can be created only from an **active** workflow version. When an active
+version is superseded, it becomes **retired** and cannot start new cases.
+However, cases already bound to that retired version may continue to completion
+against the same immutable definition. This preserves reproducibility and avoids
+silently moving in-flight cases to a new process.
+
+Draft versions can be validated but cannot execute cases. Explicit reviewed
+migration remains a separate future operation rather than an implicit side
+effect of publication.
