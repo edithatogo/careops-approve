@@ -330,7 +330,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Validation result"
+            "description": "Authoritative semantic validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./workflow-validation-result.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Workflow version not found"
           }
         }
       }
