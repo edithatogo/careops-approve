@@ -499,6 +499,10 @@
     return `${base}/api/v1/workflows/${encodeURIComponent(state.workflow.workflowId)}/versions/${encodeURIComponent(state.workflow.version)}`;
   }
 
+  function validationUrl() {
+    return versionUrl() + "/validate";
+  }
+
   function setApiStatus(message) {
     byId("apiStatus").textContent = message;
   }
@@ -550,6 +554,37 @@
     }
   }
 
+  async function validateWithApi() {
+    try {
+      const response = await fetch(validationUrl(), {
+        method: "POST",
+        headers: { Accept: "application/json" }
+      });
+      if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`POST validate failed with HTTP ${response.status}${detail ? ": " + detail : ""}`);
+      }
+      const result = await response.json();
+      if (
+        typeof result.deployable !== "boolean" ||
+        !Array.isArray(result.errors) ||
+        typeof result.definitionHash !== "string"
+      ) {
+        throw new Error("Validation response does not match the expected contract.");
+      }
+      const lines = [
+        `Server validation: ${result.deployable ? "deployable" : "blocked"}`,
+        `Definition hash: ${result.definitionHash}`
+      ];
+      if (result.errors.length > 0) {
+        lines.push(...result.errors.map((error) => `- ${error}`));
+      }
+      setApiStatus(lines.join("\n"));
+    } catch (error) {
+      setApiStatus(`API validation failed: ${error.message}`);
+    }
+  }
+
   function bindActions() {
     byId("addTransition").addEventListener("click", () => {
       const first = state.workflow.nodes[0]?.id || "";
@@ -560,6 +595,7 @@
     byId("loadJson").addEventListener("click", loadFromTextarea);
     byId("loadApi").addEventListener("click", loadFromApi);
     byId("saveApi").addEventListener("click", saveDraft);
+    byId("validateApi").addEventListener("click", validateWithApi);
   }
 
   async function start() {
