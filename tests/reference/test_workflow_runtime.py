@@ -194,6 +194,27 @@ class WorkflowRuntimeTest(unittest.TestCase):
         )
         validate_workflow(workflow)
 
+    def test_definition_rejects_unbounded_cycles(self) -> None:
+        workflow = Workflow(
+            "generic.cycle",
+            "1.0.0",
+            "start",
+            (
+                Node("start", NodeType.INPUT),
+                Node("first", NodeType.INPUT),
+                Node("second", NodeType.INPUT),
+                Node("done", NodeType.END),
+            ),
+            (
+                Transition("start", "first"),
+                Transition("first", "second"),
+                Transition("second", "first", "repeat"),
+                Transition("second", "done", "finish"),
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "bounded-loop"):
+            validate_workflow(workflow)
+
     def test_definition_rejects_bad_transitions_and_reachability(self) -> None:
         good = linear_workflow()
         bad_reference_source = replace(
