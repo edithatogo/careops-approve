@@ -202,3 +202,16 @@ silently moving in-flight cases to a new process.
 Draft versions can be validated but cannot execute cases. Explicit reviewed
 migration remains a separate future operation rather than an implicit side
 effect of publication.
+
+
+## Authoritative validation feedback
+
+The workflow service now serializes semantic validation through
+`workflow-validation-result.schema.json`. The API returns the workflow ID,
+version, exact definition hash, a deployability flag and structured errors.
+
+Workflow Studio exposes this as **Validate saved version**. Client-side checks
+remain immediate usability feedback, while the server-side result is
+authoritative for the stored registry revision. The editor refuses server
+validation when local edits differ from the last saved/loaded registry snapshot,
+preventing stale validation evidence from being attributed to unsaved changes.
