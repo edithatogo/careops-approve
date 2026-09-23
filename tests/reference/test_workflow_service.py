@@ -53,6 +53,17 @@ TRUSTED_BINDINGS = TrustedBindings(frozenset({"reviewer"}), frozenset())
 
 
 class WorkflowServiceTest(unittest.TestCase):
+    def test_service_exposes_safe_trusted_binding_contract(self) -> None:
+        service = WorkflowService(WorkflowRegistry(TRUSTED_BINDINGS))
+        self.assertEqual(
+            service.trusted_bindings_contract(),
+            {
+                "schemaVersion": 1,
+                "roles": [{"roleKey": "reviewer"}],
+                "agents": [],
+            },
+        )
+
     def test_validate_deployable_and_reserved_drafts(self) -> None:
         registry = WorkflowRegistry(TRUSTED_BINDINGS)
         service = WorkflowService(registry)
