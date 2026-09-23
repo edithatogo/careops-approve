@@ -39,6 +39,17 @@ class TrustedBindings:
         if any(not agent_id.strip() or not version.strip() for agent_id, version in self.agents):
             raise ValueError("Trusted agent identity and version cannot be empty")
 
+    def to_contract(self) -> dict[str, object]:
+        """Expose reference keys only; deployment identities remain private."""
+        return {
+            "schemaVersion": 1,
+            "roles": [{"roleKey": role} for role in sorted(self.roles)],
+            "agents": [
+                {"agentId": agent_id, "version": version}
+                for agent_id, version in sorted(self.agents)
+            ],
+        }
+
 
 def _mapping(value: object, field: str) -> Mapping[str, object]:
     if not isinstance(value, Mapping) or any(not isinstance(key, str) for key in value):
