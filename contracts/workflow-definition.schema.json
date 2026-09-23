@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careops.example/schemas/workflow-definition.schema.json",
+  "title": "CareOps workflow definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["workflowId", "version", "status", "displayName", "entryNodeId", "nodes", "transitions"],
+  "properties": {
+    "workflowId": { "type": "string", "pattern": "^[a-z][a-z0-9.-]{2,127}$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "status": { "enum": ["draft", "active", "retired"] },
+    "displayName": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "description": { "type": "string", "maxLength": 4000 },
+    "entryNodeId": { "type": "string", "minLength": 1, "maxLength": 100 },
+    "ownerRole": { "type": "string", "minLength": 1, "maxLength": 100 },
+    "dataClassification": { "enum": ["public", "internal", "sensitive", "restricted"] },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/node" }
+    },
+    "transitions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/transition" }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": { "type": ["string", "number", "boolean", "null"] }
+    }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "displayName", "config"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{1,99}$" },
+        "type": { "enum": ["input", "deterministic_check", "agent", "human_review", "approval", "condition", "parallel", "join", "wait", "notification", "api_call", "handoff", "end"] },
+        "displayName": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "enabled": { "type": "boolean", "default": true },
+        "config": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "to": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "condition": { "type": "string", "maxLength": 2000 },
+        "label": { "type": "string", "maxLength": 200 }
+      }
+    }
+  }
+}
