@@ -174,6 +174,26 @@ class WorkflowRuntimeTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validate_workflow(workflow)
 
+    def test_reachability_handles_converging_branches(self) -> None:
+        workflow = Workflow(
+            "generic.converging",
+            "1.0.0",
+            "choice",
+            (
+                Node("choice", NodeType.CONDITION),
+                Node("left", NodeType.INPUT),
+                Node("right", NodeType.INPUT),
+                Node("done", NodeType.END),
+            ),
+            (
+                Transition("choice", "left", "left"),
+                Transition("choice", "right", "right"),
+                Transition("left", "done"),
+                Transition("right", "done"),
+            ),
+        )
+        validate_workflow(workflow)
+
     def test_definition_rejects_bad_transitions_and_reachability(self) -> None:
         good = linear_workflow()
         bad_reference_source = replace(
