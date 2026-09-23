@@ -1,0 +1,39 @@
+{
+  "openapi":"3.1.0",
+  "info":{"title":"CareOps Approve API","version":"1.0.0"},
+  "paths":{
+    "/api/v1/cases":{
+      "post":{
+        "summary":"Create a case from an active workflow version",
+        "operationId":"createCase",
+        "requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","additionalProperties":false,"required":["workflowId","workflowVersion","caseId","revision"],"properties":{"workflowId":{"type":"string"},"workflowVersion":{"type":"string"},"caseId":{"type":"string"},"revision":{"type":"string"}}}}},
+        "responses":{"201":{"description":"Case created","content":{"application/json":{"schema":{"$ref":"./case.schema.json"}}}}}
+      }
+    },
+    "/api/v1/cases/{caseId}":{
+      "get":{
+        "summary":"Get permitted case state",
+        "operationId":"getCase",
+        "parameters":[{"name":"caseId","in":"path","required":true,"schema":{"type":"string"}}],
+        "responses":{"200":{"description":"Case state","content":{"application/json":{"schema":{"$ref":"./case.schema.json"}}}}}
+      }
+    },
+    "/api/v1/tasks/{taskId}/actions":{
+      "post":{
+        "summary":"Complete an assigned human task",
+        "operationId":"completeTask",
+        "parameters":[{"name":"taskId","in":"path","required":true,"schema":{"type":"string"}}],
+        "requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","additionalProperties":false,"required":["action"],"properties":{"action":{"enum":["complete","approve","reject","return-for-correction"]},"reason":{"type":"string","maxLength":4000}}}}},
+        "responses":{"200":{"description":"Updated case","content":{"application/json":{"schema":{"$ref":"./case.schema.json"}}}}}
+      }
+    },
+    "/api/v1/cases/{caseId}/events":{
+      "get":{
+        "summary":"List privacy-filtered workflow events",
+        "operationId":"listCaseEvents",
+        "parameters":[{"name":"caseId","in":"path","required":true,"schema":{"type":"string"}}],
+        "responses":{"200":{"description":"Workflow events","content":{"application/json":{"schema":{"type":"array","items":{"$ref":"./workflow-event.schema.json"}}}}}}
+      }
+    }
+  }
+}
