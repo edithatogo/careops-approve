@@ -2,6 +2,7 @@
 import unittest
 from typing import cast
 
+from reference.workflow_compiler import TrustedBindings
 from reference.workflow_registry import PublicationRequest, WorkflowRegistry
 from reference.workflow_runtime import Case, CaseStatus, Task
 from reference.workflow_service import WorkflowService
@@ -48,9 +49,12 @@ def request(value: dict[str, object], *, supersedes: str = "") -> PublicationReq
     )
 
 
+TRUSTED_BINDINGS = TrustedBindings(frozenset({"reviewer"}), frozenset())
+
+
 class WorkflowServiceTest(unittest.TestCase):
     def test_validate_deployable_and_reserved_drafts(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         service = WorkflowService(registry)
 
         good = registry.save_draft(definition())
@@ -85,8 +89,19 @@ class WorkflowServiceTest(unittest.TestCase):
         self.assertFalse(contract["deployable"])
         self.assertEqual(contract["errors"], list(invalid.errors))
 
+    def test_validation_blocks_untrusted_role_reference(self) -> None:
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
+        service = WorkflowService(registry)
+        forged = definition()
+        nodes = cast(list[dict[str, object]], forged["nodes"])
+        nodes[1]["config"] = {"assignedRole": "forged-role"}
+        registry.save_draft(forged)
+        result = service.validate_version("generic.review", "1.0.0")
+        self.assertFalse(result.deployable)
+        self.assertIn("trusted role", result.errors[0])
+
     def test_new_case_requires_active_version(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         service = WorkflowService(registry)
         draft = registry.save_draft(definition())
         with self.assertRaisesRegex(ValueError, "active"):
@@ -98,7 +113,7 @@ class WorkflowServiceTest(unittest.TestCase):
         self.assertEqual(started.case.status, CaseStatus.RUNNING)
 
     def test_retired_version_cannot_start_new_case_but_existing_case_can_continue(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         service = WorkflowService(registry)
         first = registry.save_draft(definition("1.0.0"))
         registry.publish(request(first.definition))
@@ -119,7 +134,7 @@ class WorkflowServiceTest(unittest.TestCase):
         self.assertEqual(completed.case.status, CaseStatus.COMPLETED)
 
     def test_draft_version_cannot_advance_case(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         service = WorkflowService(registry)
         registry.save_draft(definition())
         case = Case(
@@ -134,7 +149,7 @@ class WorkflowServiceTest(unittest.TestCase):
             service.advance_case(case, next_sequence=3)
 
     def test_missing_registry_version_propagates_not_found(self) -> None:
-        service = WorkflowService(WorkflowRegistry())
+        service = WorkflowService(WorkflowRegistry(TRUSTED_BINDINGS))
         with self.assertRaises(KeyError):
             service.validate_version("missing.workflow", "1.0.0")
         with self.assertRaises(KeyError):
@@ -152,7 +167,7 @@ class WorkflowServiceTest(unittest.TestCase):
             service.advance_case(case, next_sequence=3)
 
     def test_runtime_route_is_forwarded(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         service = WorkflowService(registry)
         routed = definition()
         routed["nodes"] = [
