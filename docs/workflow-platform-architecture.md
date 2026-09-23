@@ -139,3 +139,33 @@ The compiler:
 
 This separates three states that should remain distinct: **well-formed JSON**,
 **semantically deployable workflow**, and **governance-approved active version**.
+
+
+## Workflow registry lifecycle
+
+The reference registry in `reference/workflow_registry.py` specifies the
+persistence semantics expected of a production adapter.
+
+Key rules:
+
+- workflow versions are stored separately by workflow ID and semantic version;
+- drafts use optimistic concurrency through ETags;
+- a caller must supply the current ETag to update an existing draft;
+- returned definitions are defensive copies so callers cannot mutate registry
+  state outside a registry operation;
+- publication is bound to the exact stored draft hash;
+- semantic compilation is required at publication time;
+- active and retired versions are immutable;
+- only one active version is permitted for a workflow;
+- replacing an active version requires an explicit `supersedesVersion`;
+- the prior active version is retired atomically when its replacement is
+  published; and
+- running-case migration remains explicit rather than implied by publication.
+
+The in-memory class is not a production database. A production adapter must
+preserve these semantics using transactional durable storage, authorization,
+audit records, backup/recovery and cross-instance concurrency control.
+
+The API contract exposes version reads/listing and ETag-aware draft writes so a
+future Workflow Studio can detect concurrent edits rather than silently applying
+last-write-wins behaviour.

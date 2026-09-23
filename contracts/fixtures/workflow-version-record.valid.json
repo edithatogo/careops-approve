@@ -1,0 +1,51 @@
+{
+  "workflowId": "generic.review",
+  "version": "1.0.0",
+  "state": "draft",
+  "definitionHash": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "etag": "\"1-0123456789abcdef\"",
+  "revision": 1,
+  "definition": {
+    "workflowId": "generic.review",
+    "version": "1.0.0",
+    "status": "draft",
+    "displayName": "Generic review",
+    "entryNodeId": "intake",
+    "nodes": [
+      {
+        "id": "intake",
+        "type": "input",
+        "displayName": "Intake",
+        "config": {
+          "inputContract": "request.v1"
+        }
+      },
+      {
+        "id": "review",
+        "type": "human_review",
+        "displayName": "Review",
+        "config": {
+          "assignedRole": "reviewer"
+        }
+      },
+      {
+        "id": "done",
+        "type": "end",
+        "displayName": "Done",
+        "config": {
+          "outcome": "complete"
+        }
+      }
+    ],
+    "transitions": [
+      {
+        "from": "intake",
+        "to": "review"
+      },
+      {
+        "from": "review",
+        "to": "done"
+      }
+    ]
+  }
+}
