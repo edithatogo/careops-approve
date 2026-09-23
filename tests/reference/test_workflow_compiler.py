@@ -1,6 +1,7 @@
 """Tests for compiling GUI/API workflow definitions into runtime objects."""
 import unittest
 from math import nan
+from typing import cast
 
 from reference.workflow_compiler import (
     compile_active_workflow,
@@ -8,6 +9,10 @@ from reference.workflow_compiler import (
     definition_hash,
 )
 from reference.workflow_runtime import NodeType
+
+
+def mutable_nodes(definition: dict[str, object]) -> list[dict[str, object]]:
+    return list(cast(list[dict[str, object]], definition["nodes"]))
 
 
 def workflow_definition(*, status: str = "draft") -> dict[str, object]:
@@ -61,7 +66,7 @@ class WorkflowCompilerTest(unittest.TestCase):
 
     def test_reserved_and_unknown_node_types_fail_closed(self) -> None:
         reserved = workflow_definition()
-        reserved_nodes = list(reserved["nodes"])  # type: ignore[arg-type]
+        reserved_nodes = mutable_nodes(reserved)
         reserved_nodes[1] = {
             "id": "review",
             "type": "handoff",
@@ -73,7 +78,7 @@ class WorkflowCompilerTest(unittest.TestCase):
             compile_workflow(reserved)
 
         unknown = workflow_definition()
-        unknown_nodes = list(unknown["nodes"])  # type: ignore[arg-type]
+        unknown_nodes = mutable_nodes(unknown)
         unknown_nodes[1] = {
             "id": "review",
             "type": "magic",
@@ -90,7 +95,7 @@ class WorkflowCompilerTest(unittest.TestCase):
 
     def test_human_and_agent_configuration_is_semantically_checked(self) -> None:
         missing_role = workflow_definition()
-        nodes = list(missing_role["nodes"])  # type: ignore[arg-type]
+        nodes = mutable_nodes(missing_role)
         nodes[1] = {
             "id": "review",
             "type": "approval",
@@ -102,7 +107,7 @@ class WorkflowCompilerTest(unittest.TestCase):
             compile_workflow(missing_role)
 
         agent = workflow_definition()
-        agent_nodes = list(agent["nodes"])  # type: ignore[arg-type]
+        agent_nodes = mutable_nodes(agent)
         agent_nodes[1] = {
             "id": "review",
             "type": "agent",
@@ -118,7 +123,7 @@ class WorkflowCompilerTest(unittest.TestCase):
         self.assertEqual(compiled.nodes[1].failure_mode, "ordinary-human-path")
 
         bad_bool = workflow_definition()
-        bad_bool_nodes = list(bad_bool["nodes"])  # type: ignore[arg-type]
+        bad_bool_nodes = mutable_nodes(bad_bool)
         bad_bool_nodes[1] = {
             "id": "review",
             "type": "agent",
@@ -133,7 +138,7 @@ class WorkflowCompilerTest(unittest.TestCase):
             compile_workflow(bad_bool)
 
         bad_fallback = workflow_definition()
-        bad_fallback_nodes = list(bad_fallback["nodes"])  # type: ignore[arg-type]
+        bad_fallback_nodes = mutable_nodes(bad_fallback)
         bad_fallback_nodes[1] = {
             "id": "review",
             "type": "agent",
