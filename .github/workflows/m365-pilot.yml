@@ -1,0 +1,41 @@
+name: Native M365 pilot source safety
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  pilot:
+    name: M365 pilot (${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.13', '3.14']
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install pinned test-only tools
+        run: python -m pip install coverage==7.15.4 mypy==2.3.0 ruff==0.16.2
+      - name: Strict static checks
+        run: |
+          python -m ruff check --config tests/m365_pilot/pyproject.toml scripts/build_m365_pilot.py tests/m365_pilot
+          python -m mypy --config-file tests/m365_pilot/pyproject.toml scripts/build_m365_pilot.py tests/m365_pilot
+      - name: Behaviour and committed-source parity
+        run: |
+          python -m coverage run --branch --source=scripts.build_m365_pilot -m unittest discover -s tests/m365_pilot -v
+          python -m coverage report --show-missing --fail-under=100
+          python scripts/build_m365_pilot.py
+      - name: Preserve pilot SOURCE assets, not a flow import package
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        with:
+          name: m365-synthetic-pilot-source-${{ matrix.python }}
+          path: pilot/m365/
+          if-no-files-found: error
+          retention-days: 14

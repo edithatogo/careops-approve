@@ -1,0 +1,9 @@
+Title,DataClass,Profession,Facility,CaseRevision,CheckedRevision,EvidenceState,AgentState,HumanReview,Assessment
+SYNTHETIC-001,SYNTHETIC,Medical,SYNTHETIC-SITE,1,1,complete,not-enabled,reviewed,SYNTHETIC - DISPLAY ONLY
+SYNTHETIC-002,SYNTHETIC,Dental,SYNTHETIC-SITE,1,1,missing,clear,pending,SYNTHETIC - DISPLAY ONLY
+SYNTHETIC-003,SYNTHETIC,Nursing,SYNTHETIC-SITE,1,1,complete,concern,pending,SYNTHETIC - DISPLAY ONLY
+SYNTHETIC-004,SYNTHETIC,Midwifery,SYNTHETIC-SITE,1,1,unavailable,clear,pending,SYNTHETIC - DISPLAY ONLY
+SYNTHETIC-005,SYNTHETIC,Allied health,SYNTHETIC-SITE,1,1,complete,unavailable,pending,SYNTHETIC - DISPLAY ONLY
+SYNTHETIC-006,SYNTHETIC,Medical,SYNTHETIC-SITE,1,1,complete,not-enabled,pending,SYNTHETIC - DISPLAY ONLY
+SYNTHETIC-007,SYNTHETIC,Dental,SYNTHETIC-SITE,2,1,complete,clear,reviewed,SYNTHETIC - DISPLAY ONLY
+SYNTHETIC-008,SYNTHETIC,Nursing,SYNTHETIC-SITE,1,1,missing,concern,pending,SYNTHETIC - DISPLAY ONLY
