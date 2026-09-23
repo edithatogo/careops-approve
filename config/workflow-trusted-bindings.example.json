@@ -1,5 +1,4 @@
 {
-  "status": "example-only",
   "schemaVersion": 1,
   "roles": [
     {
@@ -17,6 +16,5 @@
       "agentId": "evidence-reconciliation",
       "version": "1.0.0"
     }
-  ],
-  "deploymentNote": "This file is UI demonstration data only. Deployment-provided trusted bindings, not source control, determine operational authority."
+  ]
 }
