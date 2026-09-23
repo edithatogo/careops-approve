@@ -1,0 +1,8 @@
+{
+  "taskId":"TA-0123456789ABCDEF01234567",
+  "caseId":"CA-12345678",
+  "nodeId":"review",
+  "taskType":"human-review",
+  "assignedRole":"reviewer",
+  "status":"open"
+}
