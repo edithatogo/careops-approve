@@ -49,3 +49,15 @@ the reference UI.
 The next deployment-specific adapter should bind these same editor semantics to
 an approved Microsoft 365 surface (for example Power Apps/Dataverse or another
 approved web host) and to a durable implementation of the registry API.
+
+
+## Authoritative validation
+
+The **Validate saved version** action calls the registry-backed semantic
+validation endpoint and displays its structured deployability result and
+definition hash. It is intentionally separate from client-side validation.
+
+The reference editor will not call authoritative validation when the browser
+contains unsaved changes. Save or reload the draft first. This prevents a server
+result for the stored registry revision being presented as though it applied to
+different local edits.
