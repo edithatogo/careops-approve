@@ -1,0 +1,8 @@
+{
+  "caseId":"CA-12345678",
+  "workflowId":"generic.review",
+  "workflowVersion":"1.0.0",
+  "revision":"revision-1",
+  "currentNodeId":"review",
+  "status":"waiting-human"
+}
