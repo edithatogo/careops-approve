@@ -1,0 +1,62 @@
+{
+  "workflowId": "generic.review",
+  "version": "1.0.0",
+  "status": "draft",
+  "displayName": "Generic review",
+  "ownerRole": "workflowAdministrator",
+  "dataClassification": "internal",
+  "entryNodeId": "intake",
+  "nodes": [
+    {
+      "id": "intake",
+      "type": "input",
+      "displayName": "Receive request",
+      "config": {
+        "inputContract": "request.v1"
+      }
+    },
+    {
+      "id": "check",
+      "type": "deterministic_check",
+      "displayName": "Check completeness",
+      "config": {
+        "ruleSet": "completeness.v1",
+        "failureMode": "human-review"
+      }
+    },
+    {
+      "id": "review",
+      "type": "human_review",
+      "displayName": "Human review",
+      "config": {
+        "assignedRole": "reviewer",
+        "slaBusinessDays": 5
+      }
+    },
+    {
+      "id": "done",
+      "type": "end",
+      "displayName": "Complete",
+      "config": {
+        "outcome": "complete"
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "from": "intake",
+      "to": "check"
+    },
+    {
+      "from": "check",
+      "to": "review"
+    },
+    {
+      "from": "review",
+      "to": "done"
+    }
+  ],
+  "metadata": {
+    "referenceUi": true
+  }
+}
