@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "roles": [
+    {
+      "roleKey": "primaryApprover"
+    },
+    {
+      "roleKey": "workflowOwner"
+    }
+  ],
+  "agents": [
+    {
+      "agentId": "evidence-reconciliation",
+      "version": "1.0.0"
+    }
+  ]
+}
