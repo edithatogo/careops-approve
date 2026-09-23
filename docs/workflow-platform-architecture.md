@@ -169,3 +169,20 @@ audit records, backup/recovery and cross-instance concurrency control.
 The API contract exposes version reads/listing and ETag-aware draft writes so a
 future Workflow Studio can detect concurrent edits rather than silently applying
 last-write-wins behaviour.
+
+
+## Reference editor surface
+
+The first tangible Workflow Studio surface is in `pilot/workflow-studio/`.
+It is a no-build browser reference UI that consumes the governed node catalogue
+rather than hard-coding process-specific forms.
+
+It supports draft metadata, supported-node creation, catalogue-driven field
+editors, transitions, entry-node selection, structural validation, JSON
+import/export and ETag-aware API draft reads/writes.
+
+The reference UI deliberately cannot publish or retire a workflow. Those
+operations remain separate governed API/lifecycle actions. Reserved node types
+are displayed but cannot be added. Client-side checks are advisory; server-side
+schema validation, semantic compilation, registry concurrency and authorization
+remain authoritative.
