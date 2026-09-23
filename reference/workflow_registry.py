@@ -7,7 +7,6 @@ backup/recovery and cross-instance concurrency controls.
 from copy import deepcopy
 from dataclasses import dataclass, replace
 from enum import StrEnum
-from typing import cast
 
 from reference.workflow_compiler import compile_workflow, definition_hash
 
@@ -44,7 +43,7 @@ class PublicationRequest:
 
 
 def _clone(definition: dict[str, object]) -> dict[str, object]:
-    return cast(dict[str, object], deepcopy(definition))
+    return deepcopy(definition)
 
 
 def _identity(definition: dict[str, object]) -> tuple[str, str]:
