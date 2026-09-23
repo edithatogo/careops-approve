@@ -142,6 +142,11 @@ class WorkflowRegistryTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Only a draft"):
             registry.publish(request(published.definition))
 
+    def test_publish_missing_record_is_rejected(self) -> None:
+        registry = WorkflowRegistry()
+        with self.assertRaises(KeyError):
+            registry.publish(request(definition()))
+
     def test_publication_hash_must_match_stored_draft(self) -> None:
         registry = WorkflowRegistry()
         draft = registry.save_draft(definition())
