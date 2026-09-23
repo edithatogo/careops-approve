@@ -308,7 +308,7 @@
     },
     "/api/v1/workflows/{workflowId}/versions/{version}/validate": {
       "post": {
-        "summary": "Validate a draft workflow definition without publishing it",
+        "summary": "Validate the stored workflow version without publishing it",
         "operationId": "validateWorkflowDraft",
         "parameters": [
           {
