@@ -25,7 +25,7 @@ $js = Get-Content -Raw -LiteralPath (Join-Path $uiRoot 'app.js')
 foreach ($id in @(
     'palette','workflowId','workflowVersion','workflowName','ownerRole',
     'entryNode','classification','nodes','transitions','validation',
-    'jsonOutput','apiBase','loadApi','saveApi','apiStatus'
+    'jsonOutput','apiBase','loadApi','saveApi','validateApi','apiStatus'
 )) {
     if ($html -notmatch ('id="' + [regex]::Escape($id) + '"')) {
         throw "Workflow Studio HTML is missing required control '$id'."
@@ -50,7 +50,11 @@ foreach ($token in @(
     'method: "PUT"',
     'method: "PUT"',
     '/api/v1/workflows/',
-    'state.workflow.status = "draft"'
+    'state.workflow.status = "draft"',
+    'validationUrl()',
+    'method: "POST"',
+    'Server validation:',
+    'result.definitionHash'
 )) {
     if ($js -notmatch [regex]::Escape($token)) {
         throw "Workflow Studio JavaScript is missing safety/integration token '$token'."
