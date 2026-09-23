@@ -215,3 +215,30 @@ remain immediate usability feedback, while the server-side result is
 authoritative for the stored registry revision. The editor refuses server
 validation when local edits differ from the last saved/loaded registry snapshot,
 preventing stale validation evidence from being attributed to unsaved changes.
+
+
+## Trusted authority and agent bindings
+
+A syntactically valid role or agent identifier is not sufficient for
+authoritative validation, publication or execution.
+
+The semantic compiler now supports a deployment-provided `TrustedBindings`
+context containing:
+
+- approved workflow role keys; and
+- approved `(agentId, version)` pairs.
+
+The generic compiler remains useful for design-time structural checks. The
+registry and runtime service use the **trusted** compiler path. As a result:
+
+- an arbitrary `assignedRole` entered in Workflow Studio cannot become an
+  approval authority merely because it is non-empty;
+- an agent node must identify a specific agent and version;
+- that exact agent/version must be in the trusted deployment binding set;
+- changing workflow JSON cannot add a trusted role or agent; and
+- publication, server validation and case execution all apply the same binding
+  check.
+
+The binding set is supplied by the deployment adapter from approved governance
+configuration. Source-controlled examples do not themselves grant operational
+authority.
