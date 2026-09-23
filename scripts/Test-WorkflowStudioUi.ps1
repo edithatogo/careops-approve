@@ -54,7 +54,9 @@ foreach ($token in @(
     'validationUrl()',
     'method: "POST"',
     'Server validation:',
-    'result.definitionHash'
+    'result.definitionHash',
+    'state.savedJson',
+    'Save or reload this draft before authoritative validation'
 )) {
     if ($js -notmatch [regex]::Escape($token)) {
         throw "Workflow Studio JavaScript is missing safety/integration token '$token'."
