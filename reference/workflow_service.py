@@ -38,6 +38,10 @@ class WorkflowService:
     def __init__(self, registry: WorkflowRegistry) -> None:
         self._registry = registry
 
+    def trusted_bindings_contract(self) -> dict[str, object]:
+        """Return safe role/agent references for editor pickers."""
+        return self._registry.trusted_bindings.to_contract()
+
     def validate_version(self, workflow_id: str, version: str) -> ValidationResult:
         record = self._registry.get(workflow_id, version)
         try:
