@@ -83,3 +83,39 @@ event subscriptions, and invoking approved external actions.
 
 API contracts should be versioned separately from workflow definitions so the
 orchestration model can evolve without breaking consuming applications.
+
+
+## Workflow Studio contract
+
+The first source-neutral editor metadata is defined by
+`contracts/workflow-editor-catalog.schema.json` with an example catalogue in
+`config/workflow-editor-catalog.example.json`. A user interface should render
+controls from this catalogue rather than hard-code per-process forms.
+
+The catalogue distinguishes ordinary configuration from authority, agent,
+integration and platform-governed settings. Process owners cannot independently
+change authority-bearing approval roles, agent identity is selected from the
+approved agent registry, and integration nodes require an integration
+administrator.
+
+Node types may be listed as `reserved` before their runtime or adapter
+semantics are implemented. Reserved nodes can be shown for roadmap/design
+purposes but must not be publishable in an active workflow.
+
+## Publication controls
+
+Saving a draft does not change a live workflow. Publication uses the separate
+`workflow-publication.schema.json` contract, binds the request to the SHA-256
+hash of the exact definition, and requires passed validation/testing plus an
+explicit running-case migration policy.
+
+The API contract now separates:
+
+- editing a draft workflow version;
+- validating that draft;
+- requesting governed publication or retirement; and
+- reading the permitted Workflow Studio node catalogue.
+
+Until bounded-loop semantics are implemented, the reference runtime rejects
+cycles. This is deliberate fail-closed behaviour rather than silently allowing
+a GUI-created workflow to loop indefinitely.
