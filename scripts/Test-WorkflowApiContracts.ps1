@@ -49,7 +49,11 @@ $requiredPaths = @(
     '/api/v1/cases',
     '/api/v1/cases/{caseId}',
     '/api/v1/tasks/{taskId}/actions',
-    '/api/v1/cases/{caseId}/events'
+    '/api/v1/cases/{caseId}/events',
+    '/api/v1/workflow-studio/node-types',
+    '/api/v1/workflows/{workflowId}/versions/{version}',
+    '/api/v1/workflows/{workflowId}/versions/{version}/validate',
+    '/api/v1/workflows/{workflowId}/versions/{version}/publication-requests'
 )
 foreach ($path in $requiredPaths) {
     if (-not $api.paths.PSObject.Properties.Name.Contains($path)) {
@@ -58,7 +62,13 @@ foreach ($path in $requiredPaths) {
 }
 
 $serialized = $api | ConvertTo-Json -Depth 100
-foreach ($reference in @('./case.schema.json', './workflow-event.schema.json')) {
+foreach ($reference in @(
+    './case.schema.json',
+    './workflow-event.schema.json',
+    './workflow-definition.schema.json',
+    './workflow-editor-catalog.schema.json',
+    './workflow-publication.schema.json'
+)) {
     if ($serialized -notmatch [regex]::Escape($reference)) {
         throw "CareOps API must reference contract '$reference'."
     }
