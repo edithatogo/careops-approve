@@ -20,7 +20,8 @@ $contracts = Join-Path $root 'contracts'
 $pairs = @(
     @('case.schema.json', 'fixtures/case.valid.json'),
     @('task.schema.json', 'fixtures/task.valid.json'),
-    @('workflow-event.schema.json', 'fixtures/workflow-event.valid.json')
+    @('workflow-event.schema.json', 'fixtures/workflow-event.valid.json'),
+    @('workflow-version-record.schema.json', 'fixtures/workflow-version-record.valid.json')
 )
 
 foreach ($pair in $pairs) {
@@ -52,6 +53,7 @@ $requiredPaths = @(
     '/api/v1/cases/{caseId}/events',
     '/api/v1/workflow-studio/node-types',
     '/api/v1/workflows/{workflowId}/versions/{version}',
+    '/api/v1/workflows/{workflowId}/versions',
     '/api/v1/workflows/{workflowId}/versions/{version}/validate',
     '/api/v1/workflows/{workflowId}/versions/{version}/publication-requests'
 )
@@ -67,7 +69,8 @@ foreach ($reference in @(
     './workflow-event.schema.json',
     './workflow-definition.schema.json',
     './workflow-editor-catalog.schema.json',
-    './workflow-publication.schema.json'
+    './workflow-publication.schema.json',
+    './workflow-version-record.schema.json'
 )) {
     if ($serialized -notmatch [regex]::Escape($reference)) {
         throw "CareOps API must reference contract '$reference'."
