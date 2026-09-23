@@ -207,6 +207,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "If-Match",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required when updating an existing draft. Must match the current ETag."
           }
         ],
         "requestBody": {
@@ -221,7 +230,78 @@
         },
         "responses": {
           "200": {
-            "description": "Draft saved"
+            "description": "Existing draft updated",
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./workflow-version-record.schema.json"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "New draft created",
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./workflow-version-record.schema.json"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "ETag conflict or immutable published version"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get a workflow version record",
+        "operationId": "getWorkflowVersion",
+        "parameters": [
+          {
+            "name": "workflowId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workflow version record",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./workflow-version-record.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Workflow version not found"
           }
         }
       }
@@ -290,6 +370,40 @@
         "responses": {
           "202": {
             "description": "Publication request accepted for governed processing"
+          },
+          "409": {
+            "description": "Publication hash mismatch, immutable state conflict, or supersession conflict"
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/{workflowId}/versions": {
+      "get": {
+        "summary": "List workflow version records",
+        "operationId": "listWorkflowVersions",
+        "parameters": [
+          {
+            "name": "workflowId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workflow version records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "./workflow-version-record.schema.json"
+                  }
+                }
+              }
+            }
           }
         }
       }
