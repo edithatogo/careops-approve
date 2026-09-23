@@ -17,7 +17,8 @@
           "required": true,
           "governanceClass": "ordinary"
         }
-      ]
+      ],
+      "availability": "supported"
     },
     {
       "type": "deterministic_check",
@@ -46,7 +47,8 @@
             "stop"
           ]
         }
-      ]
+      ],
+      "availability": "supported"
     },
     {
       "type": "agent",
@@ -88,7 +90,8 @@
             "ordinary-human-path"
           ]
         }
-      ]
+      ],
+      "availability": "supported"
     },
     {
       "type": "human_review",
@@ -113,7 +116,8 @@
           "required": false,
           "governanceClass": "ordinary"
         }
-      ]
+      ],
+      "availability": "supported"
     },
     {
       "type": "approval",
@@ -138,7 +142,8 @@
           "required": false,
           "governanceClass": "ordinary"
         }
-      ]
+      ],
+      "availability": "supported"
     },
     {
       "type": "condition",
@@ -155,7 +160,8 @@
           "required": true,
           "governanceClass": "ordinary"
         }
-      ]
+      ],
+      "availability": "supported"
     },
     {
       "type": "parallel",
@@ -164,7 +170,8 @@
       "configurableBy": [
         "workflow-admin"
       ],
-      "fields": []
+      "fields": [],
+      "availability": "reserved"
     },
     {
       "type": "join",
@@ -173,7 +180,8 @@
       "configurableBy": [
         "workflow-admin"
       ],
-      "fields": []
+      "fields": [],
+      "availability": "reserved"
     },
     {
       "type": "wait",
@@ -190,7 +198,8 @@
           "required": true,
           "governanceClass": "ordinary"
         }
-      ]
+      ],
+      "availability": "reserved"
     },
     {
       "type": "notification",
@@ -208,7 +217,8 @@
           "required": true,
           "governanceClass": "ordinary"
         }
-      ]
+      ],
+      "availability": "reserved"
     },
     {
       "type": "api_call",
@@ -226,7 +236,8 @@
           "required": true,
           "governanceClass": "integration"
         }
-      ]
+      ],
+      "availability": "reserved"
     },
     {
       "type": "handoff",
@@ -251,7 +262,8 @@
           "required": true,
           "governanceClass": "integration"
         }
-      ]
+      ],
+      "availability": "reserved"
     },
     {
       "type": "end",
@@ -268,7 +280,8 @@
           "required": true,
           "governanceClass": "ordinary"
         }
-      ]
+      ],
+      "availability": "supported"
     }
   ]
 }
