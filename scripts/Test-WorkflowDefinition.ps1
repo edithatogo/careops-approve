@@ -16,9 +16,16 @@ function Read-Json([string]$path) {
     }
 }
 
-$schema = Read-Json (Join-Path $root 'contracts/workflow-definition.schema.json')
-$fixture = Read-Json (Join-Path $root 'contracts/fixtures/workflow-definition.valid.json')
+$schemaPath = Join-Path $root 'contracts/workflow-definition.schema.json'
+$fixturePath = Join-Path $root 'contracts/fixtures/workflow-definition.valid.json'
+$schema = Read-Json $schemaPath
+$fixture = Read-Json $fixturePath
 $registry = Read-Json (Join-Path $root 'config/agent-registry.example.json')
+
+$fixtureRaw = Get-Content -Raw -LiteralPath $fixturePath
+if (-not (Test-Json -Json $fixtureRaw -SchemaFile $schemaPath -ErrorAction Stop)) {
+    throw 'Workflow fixture does not validate against workflow-definition.schema.json.'
+}
 
 if ($schema.'$schema' -ne 'https://json-schema.org/draft/2020-12/schema') {
     throw 'Workflow definition must use JSON Schema draft 2020-12.'
@@ -26,8 +33,26 @@ if ($schema.'$schema' -ne 'https://json-schema.org/draft/2020-12/schema') {
 if ($schema.additionalProperties -ne $false) {
     throw 'Workflow definition top level must reject undeclared fields.'
 }
-if (-not $schema.required -or $schema.required.Count -lt 6) {
+if (-not $schema.required -or $schema.required.Count -lt 7) {
     throw 'Workflow definition schema must declare its required envelope.'
+}
+$agentConstraint = @($schema.'$defs'.node.allOf | Where-Object {
+    $_.if.properties.type.const -eq 'agent'
+})
+if ($agentConstraint.Count -ne 1) {
+    throw 'Workflow schema must contain exactly one agent-specific safety constraint.'
+}
+$agentRequired = @($agentConstraint[0].then.properties.config.required)
+foreach ($requiredField in @('agentId','agentVersion','humanReviewRequired','failureMode')) {
+    if ($agentRequired -notcontains $requiredField) {
+        throw "Agent schema constraint is missing required field '$requiredField'."
+    }
+}
+if ($agentConstraint[0].then.properties.config.properties.humanReviewRequired.const -ne $true) {
+    throw 'Agent schema must require human review.'
+}
+if ($agentConstraint[0].then.properties.config.properties.failureMode.const -ne 'ordinary-human-path') {
+    throw 'Agent schema must preserve the ordinary human path.'
 }
 
 $nodeIds = @($fixture.nodes | ForEach-Object { [string]$_.id })
