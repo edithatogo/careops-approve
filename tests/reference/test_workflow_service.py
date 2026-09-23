@@ -1,6 +1,5 @@
 """Tests for registry-backed workflow service execution."""
 import unittest
-from dataclasses import replace
 from typing import cast
 
 from reference.workflow_registry import PublicationRequest, WorkflowRegistry
