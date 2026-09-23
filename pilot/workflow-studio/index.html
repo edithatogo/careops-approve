@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CareOps Workflow Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>CareOps Workflow Studio</h1>
+      <p>Draft editor for governed CareOps workflow definitions</p>
+    </div>
+    <div class="status-line">
+      <span id="catalogStatus">Loading catalogue…</span>
+      <span id="etagStatus">ETag: none</span>
+    </div>
+  </header>
+
+  <main>
+    <aside>
+      <h2>Node palette</h2>
+      <p class="muted">Supported nodes can be added. Reserved nodes are visible but disabled.</p>
+      <div id="palette"></div>
+    </aside>
+
+    <section class="workspace">
+      <div class="panel">
+        <h2>Workflow</h2>
+        <div class="grid">
+          <label>Workflow ID<input id="workflowId" value="generic.review"></label>
+          <label>Version<input id="workflowVersion" value="1.0.0"></label>
+          <label>Display name<input id="workflowName" value="Generic review"></label>
+          <label>Owner role<input id="ownerRole" value="workflowAdministrator"></label>
+          <label>Entry node<select id="entryNode"></select></label>
+          <label>Data classification
+            <select id="classification">
+              <option>internal</option>
+              <option>sensitive</option>
+              <option>restricted</option>
+              <option>public</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Nodes</h2>
+          <span id="nodeCount"></span>
+        </div>
+        <div id="nodes"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-heading">
+          <h2>Transitions</h2>
+          <button id="addTransition" type="button">Add transition</button>
+        </div>
+        <div id="transitions"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Validation</h2>
+        <div id="validation"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Contract JSON</h2>
+        <div class="actions">
+          <button id="refreshJson" type="button">Refresh JSON</button>
+          <button id="loadJson" type="button">Load JSON</button>
+        </div>
+        <textarea id="jsonOutput" rows="24" spellcheck="false"></textarea>
+      </div>
+
+      <div class="panel">
+        <h2>Registry API</h2>
+        <p class="muted">Optional. Point this editor at a compatible CareOps API adapter.</p>
+        <label>API base URL<input id="apiBase" placeholder="https://careops.example"></label>
+        <div class="actions">
+          <button id="loadApi" type="button">Load version</button>
+          <button id="saveApi" type="button">Save draft</button>
+        </div>
+        <pre id="apiStatus">No API request yet.</pre>
+      </div>
+    </section>
+  </main>
+
+  <template id="fieldTemplate">
+    <label class="field-label"><span></span><input></label>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
