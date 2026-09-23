@@ -13,7 +13,7 @@ LABELS = (UNAVAILABLE, RED, AMBER, GREEN)
 FIELDS = ("Title", "DataClass", "Profession", "Facility", "CaseRevision", "CheckedRevision",
           "EvidenceState", "AgentState", "HumanReview", "Assessment")
 # Earlier rules take precedence; other findings remain visible in their own columns.
-RULES = (
+RULES: tuple[tuple[str, str, str | int | tuple[str, ...], str], ...] = (
     ("DataClass", "!=", "SYNTHETIC", UNAVAILABLE),
     ("CaseRevision", "<=", 0, UNAVAILABLE),
     ("CheckedRevision", "!=", "[$CaseRevision]", UNAVAILABLE),
