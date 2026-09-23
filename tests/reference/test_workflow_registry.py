@@ -3,7 +3,7 @@ import unittest
 from dataclasses import replace
 from typing import cast
 
-from reference.workflow_compiler import definition_hash
+from reference.workflow_compiler import TrustedBindings, definition_hash
 from reference.workflow_registry import (
     PublicationRequest,
     VersionState,
@@ -75,9 +75,12 @@ def request(
     )
 
 
+TRUSTED_BINDINGS = TrustedBindings(frozenset({"reviewer"}), frozenset())
+
+
 class WorkflowRegistryTest(unittest.TestCase):
     def test_create_update_and_read_draft_with_optimistic_concurrency(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         first = registry.save_draft(definition())
         self.assertEqual(first.state, VersionState.DRAFT)
         self.assertEqual(first.revision, 1)
@@ -94,14 +97,14 @@ class WorkflowRegistryTest(unittest.TestCase):
             registry.save_draft(definition(), expected_etag=first.etag)
 
     def test_new_draft_rejects_etag_and_non_draft_status(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         with self.assertRaisesRegex(ValueError, "new draft"):
             registry.save_draft(definition(), expected_etag='"stale"')
         with self.assertRaisesRegex(ValueError, "Only draft"):
             registry.save_draft(definition(status="active"))
 
     def test_definition_identity_is_required(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         for field, value in [("workflowId", ""), ("workflowId", 1), ("version", ""), ("version", None)]:
             candidate = definition()
             candidate[field] = value
@@ -110,14 +113,14 @@ class WorkflowRegistryTest(unittest.TestCase):
                     registry.save_draft(candidate)
 
     def test_missing_record_and_list_validation(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         with self.assertRaises(KeyError):
             registry.get("generic.review", "1.0.0")
         with self.assertRaisesRegex(ValueError, "workflowId"):
             registry.list_versions(" ")
 
     def test_list_versions_is_sorted_and_returns_copies(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         registry.save_draft(definition("2.0.0"))
         registry.save_draft(definition("1.0.0"))
         values = registry.list_versions("generic.review")
@@ -129,7 +132,7 @@ class WorkflowRegistryTest(unittest.TestCase):
         )
 
     def test_publish_activates_immutable_version(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         draft = registry.save_draft(definition())
         published = registry.publish(request(draft.definition))
         self.assertEqual(published.state, VersionState.ACTIVE)
@@ -143,19 +146,28 @@ class WorkflowRegistryTest(unittest.TestCase):
             registry.publish(request(published.definition))
 
     def test_publish_missing_record_is_rejected(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         with self.assertRaises(KeyError):
             registry.publish(request(definition()))
 
     def test_publication_hash_must_match_stored_draft(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         draft = registry.save_draft(definition())
         mismatched = replace(request(draft.definition), definition_hash="sha256:" + ("0" * 64))
         with self.assertRaisesRegex(ValueError, "hash"):
             registry.publish(mismatched)
 
+    def test_publication_rejects_untrusted_authority_reference(self) -> None:
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
+        forged = definition()
+        nodes = mutable_nodes(forged)
+        nodes[1]["config"] = {"assignedRole": "forged-role"}
+        draft = registry.save_draft(forged)
+        with self.assertRaisesRegex(ValueError, "trusted role"):
+            registry.publish(request(draft.definition))
+
     def test_publication_semantics_must_compile(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         reserved = definition()
         nodes = mutable_nodes(reserved)
         nodes[1] = {
@@ -170,7 +182,7 @@ class WorkflowRegistryTest(unittest.TestCase):
             registry.publish(request(draft.definition))
 
     def test_replacement_requires_explicit_supersedes_and_retires_prior(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         first = registry.save_draft(definition("1.0.0"))
         registry.publish(request(first.definition))
 
@@ -189,13 +201,13 @@ class WorkflowRegistryTest(unittest.TestCase):
         self.assertEqual(prior.definition["status"], "retired")
 
     def test_supersedes_without_active_version_is_rejected(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         draft = registry.save_draft(definition("2.0.0"))
         with self.assertRaisesRegex(ValueError, "no active"):
             registry.publish(request(draft.definition, supersedes="1.0.0"))
 
     def test_retire_active_version(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         draft = registry.save_draft(definition())
         active = registry.publish(request(draft.definition))
         retired = registry.retire(request(active.definition, action="retire"))
@@ -206,7 +218,7 @@ class WorkflowRegistryTest(unittest.TestCase):
             registry.retire(request(retired.definition, action="retire"))
 
     def test_retirement_guards(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         with self.assertRaises(KeyError):
             registry.retire(request(definition(), action="retire"))
 
@@ -228,7 +240,7 @@ class WorkflowRegistryTest(unittest.TestCase):
             )
 
     def test_publication_request_evidence_is_fail_closed(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         draft = registry.save_draft(definition())
         base = request(draft.definition)
         invalid = [
@@ -252,13 +264,13 @@ class WorkflowRegistryTest(unittest.TestCase):
             registry._validate_request(retire_base, action="retire")
 
     def test_not_required_governance_is_accepted_by_registry_contract(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         draft = registry.save_draft(definition())
         published = registry.publish(request(draft.definition, governance="not-required"))
         self.assertEqual(published.state, VersionState.ACTIVE)
 
     def test_multiple_active_versions_trip_registry_invariant(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         first = registry.save_draft(definition("1.0.0"))
         active = registry.publish(request(first.definition))
         second_definition = definition("2.0.0", status="active")
@@ -278,7 +290,7 @@ class WorkflowRegistryTest(unittest.TestCase):
         self.assertEqual(active.state, VersionState.ACTIVE)
 
     def test_etag_helper_is_reached_through_valid_and_invalid_paths(self) -> None:
-        registry = WorkflowRegistry()
+        registry = WorkflowRegistry(TRUSTED_BINDINGS)
         first = registry.save_draft(definition())
         self.assertIn("-", first.etag)
         with self.assertRaisesRegex(ValueError, "ETag"):
