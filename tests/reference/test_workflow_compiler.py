@@ -212,6 +212,25 @@ class WorkflowCompilerTest(unittest.TestCase):
         )
         self.assertEqual(active.identifier, "generic.review")
 
+    def test_trusted_binding_contract_exposes_only_reference_keys(self) -> None:
+        trusted = TrustedBindings(
+            frozenset({"workflowOwner", "primaryApprover"}),
+            frozenset({("evidence-reconciliation", "1.0.0")}),
+        )
+        self.assertEqual(
+            trusted.to_contract(),
+            {
+                "schemaVersion": 1,
+                "roles": [
+                    {"roleKey": "primaryApprover"},
+                    {"roleKey": "workflowOwner"},
+                ],
+                "agents": [
+                    {"agentId": "evidence-reconciliation", "version": "1.0.0"}
+                ],
+            },
+        )
+
     def test_trusted_binding_values_cannot_be_empty(self) -> None:
         with self.assertRaisesRegex(ValueError, "role keys"):
             TrustedBindings(frozenset({""}), frozenset())
