@@ -1,0 +1,16 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://careops.example/schemas/workflow-event.schema.json",
+  "title":"CareOps workflow event",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["eventId","caseId","sequence","eventType"],
+  "properties":{
+    "eventId":{"type":"string","pattern":"^EV-[0-9A-F]{24}$"},
+    "caseId":{"type":"string","pattern":"^CA-[0-9A-Z-]{8,64}$"},
+    "sequence":{"type":"integer","minimum":1},
+    "eventType":{"enum":["case.created","node.entered","task.created","task.completed","case.completed","case.failed","case.cancelled"]},
+    "nodeId":{"type":["string","null"],"maxLength":100},
+    "taskId":{"type":["string","null"],"pattern":"^TA-[0-9A-F]{24}$"}
+  }
+}
