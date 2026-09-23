@@ -168,6 +168,131 @@
           }
         }
       }
+    },
+    "/api/v1/workflow-studio/node-types": {
+      "get": {
+        "summary": "List node types and editor metadata permitted for the caller",
+        "operationId": "listWorkflowNodeTypes",
+        "responses": {
+          "200": {
+            "description": "Workflow Studio node catalogue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./workflow-editor-catalog.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/{workflowId}/versions/{version}": {
+      "put": {
+        "summary": "Save a draft workflow definition",
+        "operationId": "saveWorkflowDraft",
+        "parameters": [
+          {
+            "name": "workflowId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./workflow-definition.schema.json"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Draft saved"
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/{workflowId}/versions/{version}/validate": {
+      "post": {
+        "summary": "Validate a draft workflow definition without publishing it",
+        "operationId": "validateWorkflowDraft",
+        "parameters": [
+          {
+            "name": "workflowId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Validation result"
+          }
+        }
+      }
+    },
+    "/api/v1/workflows/{workflowId}/versions/{version}/publication-requests": {
+      "post": {
+        "summary": "Submit a validated workflow version for publication or retirement",
+        "operationId": "requestWorkflowPublication",
+        "parameters": [
+          {
+            "name": "workflowId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./workflow-publication.schema.json"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Publication request accepted for governed processing"
+          }
+        }
+      }
     }
   }
 }
