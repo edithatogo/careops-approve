@@ -119,3 +119,23 @@ The API contract now separates:
 Until bounded-loop semantics are implemented, the reference runtime rejects
 cycles. This is deliberate fail-closed behaviour rather than silently allowing
 a GUI-created workflow to loop indefinitely.
+
+
+## Semantic compilation
+
+A schema-valid draft is not automatically executable. The reference compiler in
+`reference/workflow_compiler.py` provides a second semantic gate between a
+Workflow Studio/API definition and the runtime model.
+
+The compiler:
+
+- accepts only currently supported node semantics;
+- blocks catalogue entries that are still reserved;
+- converts human review and approval roles into runtime assignments;
+- preserves mandatory agent human-review/fallback settings;
+- delegates graph safety, reachability and cycle checks to the runtime validator;
+- can require an explicitly `active` workflow before creating new cases; and
+- calculates a canonical SHA-256 definition hash for publication binding.
+
+This separates three states that should remain distinct: **well-formed JSON**,
+**semantically deployable workflow**, and **governance-approved active version**.
