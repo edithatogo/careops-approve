@@ -18,6 +18,11 @@ $coreRequired = @(
     'docs/alm.md',
     'docs/repository-topology.md',
     'docs/workflow-platform-architecture.md',
+    'pilot/workflow-studio/index.html',
+    'pilot/workflow-studio/styles.css',
+    'pilot/workflow-studio/app.js',
+    'pilot/workflow-studio/README.md',
+    'pilot/workflow-studio/sample.workflow.json',
     'contracts/request.schema.json',
     'contracts/decision.schema.json',
     'contracts/approver-configuration.schema.json',
@@ -101,7 +106,8 @@ $validationScripts = @(
     'scripts/Test-CredentialingContracts.ps1',
     'scripts/Test-WorkflowDefinition.ps1',
     'scripts/Test-WorkflowApiContracts.ps1',
-    'scripts/Test-WorkflowStudioContracts.ps1'
+    'scripts/Test-WorkflowStudioContracts.ps1',
+    'scripts/Test-WorkflowStudioUi.ps1'
 )
 
 $missing = @($coreRequired + $validationScripts) | Where-Object {
