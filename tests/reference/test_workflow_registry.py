@@ -1,6 +1,7 @@
 """Behavioural tests for the workflow registry lifecycle."""
 import unittest
 from dataclasses import replace
+from typing import cast
 
 from reference.workflow_compiler import definition_hash
 from reference.workflow_registry import (
@@ -8,6 +9,7 @@ from reference.workflow_registry import (
     VersionState,
     WorkflowRegistry,
     WorkflowVersionRecord,
+    _etag,
 )
 
 
@@ -43,6 +45,10 @@ def definition(version: str = "1.0.0", *, status: str = "draft") -> dict[str, ob
             {"from": "review", "to": "done"},
         ],
     }
+
+
+def mutable_nodes(value: dict[str, object]) -> list[dict[str, object]]:
+    return list(cast(list[dict[str, object]], value["nodes"]))
 
 
 def request(
@@ -146,7 +152,7 @@ class WorkflowRegistryTest(unittest.TestCase):
     def test_publication_semantics_must_compile(self) -> None:
         registry = WorkflowRegistry()
         reserved = definition()
-        nodes = list(reserved["nodes"])  # type: ignore[call-overload]
+        nodes = mutable_nodes(reserved)
         nodes[1] = {
             "id": "review",
             "type": "handoff",
@@ -270,6 +276,10 @@ class WorkflowRegistryTest(unittest.TestCase):
         registry = WorkflowRegistry()
         first = registry.save_draft(definition())
         self.assertIn("-", first.etag)
+        with self.assertRaisesRegex(ValueError, "ETag"):
+            _etag(0, first.definition_hash)
+        with self.assertRaisesRegex(ValueError, "ETag"):
+            _etag(1, "not-a-hash")
 
 
 if __name__ == "__main__":
