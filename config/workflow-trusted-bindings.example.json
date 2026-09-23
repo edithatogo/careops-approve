@@ -1,0 +1,22 @@
+{
+  "status": "example-only",
+  "schemaVersion": 1,
+  "roles": [
+    {
+      "roleKey": "workflowOwner"
+    },
+    {
+      "roleKey": "primaryApprover"
+    },
+    {
+      "roleKey": "escalationApprover"
+    }
+  ],
+  "agents": [
+    {
+      "agentId": "evidence-reconciliation",
+      "version": "1.0.0"
+    }
+  ],
+  "deploymentNote": "This file is UI demonstration data only. Deployment-provided trusted bindings, not source control, determine operational authority."
+}
