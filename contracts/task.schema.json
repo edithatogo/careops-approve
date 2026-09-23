@@ -1,0 +1,16 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://careops.example/schemas/task.schema.json",
+  "title":"CareOps human task",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["taskId","caseId","nodeId","taskType","assignedRole","status"],
+  "properties":{
+    "taskId":{"type":"string","pattern":"^TA-[0-9A-F]{24}$"},
+    "caseId":{"type":"string","pattern":"^CA-[0-9A-Z-]{8,64}$"},
+    "nodeId":{"type":"string","minLength":1,"maxLength":100},
+    "taskType":{"enum":["human-review","approval"]},
+    "assignedRole":{"type":"string","minLength":1,"maxLength":100},
+    "status":{"enum":["open","completed","cancelled"]}
+  }
+}

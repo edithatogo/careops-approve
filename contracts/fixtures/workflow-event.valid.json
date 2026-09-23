@@ -1,0 +1,8 @@
+{
+  "eventId":"EV-0123456789ABCDEF01234567",
+  "caseId":"CA-12345678",
+  "sequence":3,
+  "eventType":"task.created",
+  "nodeId":"review",
+  "taskId":"TA-0123456789ABCDEF01234567"
+}

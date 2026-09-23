@@ -26,10 +26,17 @@ $coreRequired = @(
     'contracts/credentialing-result.schema.json',
     'contracts/existing-system-source-record.schema.json',
     'contracts/workflow-definition.schema.json',
+    'contracts/case.schema.json',
+    'contracts/task.schema.json',
+    'contracts/workflow-event.schema.json',
+    'contracts/careops-api.v1.openapi.json',
     'contracts/fixtures/credentialing-governance-packet.valid.json',
     'contracts/fixtures/credentialing-result.valid.json',
     'contracts/fixtures/credentialing-negative-paths.json',
     'contracts/fixtures/workflow-definition.valid.json',
+    'contracts/fixtures/case.valid.json',
+    'contracts/fixtures/task.valid.json',
+    'contracts/fixtures/workflow-event.valid.json',
     'flows/submit-and-route.contract.json',
     'flows/tesl-email-to-approval.contract.json',
     'flows/credentialing-intake-and-handoff.contract.json',
@@ -80,7 +87,8 @@ $validationScripts = @(
     'scripts/Test-PrivacyRetentionAccessibility.ps1',
     'scripts/Test-DataverseReviewSurface.ps1',
     'scripts/Test-CredentialingContracts.ps1',
-    'scripts/Test-WorkflowDefinition.ps1'
+    'scripts/Test-WorkflowDefinition.ps1',
+    'scripts/Test-WorkflowApiContracts.ps1'
 )
 
 $missing = @($coreRequired + $validationScripts) | Where-Object {
