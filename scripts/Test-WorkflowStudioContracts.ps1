@@ -100,6 +100,20 @@ foreach ($type in @('api_call','handoff')) {
     }
 }
 
+$reservedTypes = @('parallel','join','wait','notification','api_call','handoff')
+foreach ($type in $reservedTypes) {
+    $node = @($catalog.nodeTypes | Where-Object { $_.type -eq $type })
+    if ($node.Count -ne 1 -or $node[0].availability -ne 'reserved') {
+        throw "'$type' must remain reserved until its runtime or adapter semantics are implemented and tested."
+    }
+}
+foreach ($type in @('input','deterministic_check','agent','human_review','approval','condition','end')) {
+    $node = @($catalog.nodeTypes | Where-Object { $_.type -eq $type })
+    if ($node.Count -ne 1 -or $node[0].availability -ne 'supported') {
+        throw "'$type' should be available to the bounded Workflow Studio MVP."
+    }
+}
+
 if ($publication.validationStatus -ne 'passed' -or $publication.testStatus -ne 'passed') {
     throw 'A publication request must carry passed validation and test evidence.'
 }
