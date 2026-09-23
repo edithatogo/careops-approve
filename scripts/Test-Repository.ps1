@@ -17,6 +17,7 @@ $coreRequired = @(
     'conductor/tracks.md',
     'docs/alm.md',
     'docs/repository-topology.md',
+    'docs/workflow-platform-architecture.md',
     'contracts/request.schema.json',
     'contracts/decision.schema.json',
     'contracts/approver-configuration.schema.json',
@@ -24,14 +25,17 @@ $coreRequired = @(
     'contracts/credentialing-governance-packet.schema.json',
     'contracts/credentialing-result.schema.json',
     'contracts/existing-system-source-record.schema.json',
+    'contracts/workflow-definition.schema.json',
     'contracts/fixtures/credentialing-governance-packet.valid.json',
     'contracts/fixtures/credentialing-result.valid.json',
     'contracts/fixtures/credentialing-negative-paths.json',
+    'contracts/fixtures/workflow-definition.valid.json',
     'flows/submit-and-route.contract.json',
     'flows/tesl-email-to-approval.contract.json',
     'flows/credentialing-intake-and-handoff.contract.json',
     'flows/imported-source-record-review.contract.json',
     'config/capability-packs.example.json',
+    'config/agent-registry.example.json',
     'config/credentialing-approval-templates.example.json',
     'config/role-assignments.example.json',
     'config/track-execution-manifest.example.json',
@@ -75,7 +79,8 @@ $validationScripts = @(
     'scripts/Test-BusinessCalendarRouting.ps1',
     'scripts/Test-PrivacyRetentionAccessibility.ps1',
     'scripts/Test-DataverseReviewSurface.ps1',
-    'scripts/Test-CredentialingContracts.ps1'
+    'scripts/Test-CredentialingContracts.ps1',
+    'scripts/Test-WorkflowDefinition.ps1'
 )
 
 $missing = @($coreRequired + $validationScripts) | Where-Object {

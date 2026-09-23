@@ -23,6 +23,7 @@ outcome. AI failure or low confidence preserves the ordinary human pathway.
 
 ## Core capabilities
 
+- versioned, configurable workflow definitions and reusable node types;
 - configurable request templates and pathways;
 - deterministic completeness, evidence, date, and link checks;
 - idempotent request IDs and duplicate prevention;
@@ -39,7 +40,10 @@ outcome. AI failure or low confidence preserves the ordinary human pathway.
 ## Modular delivery
 
 Capabilities are delivered as feature-flagged packs. The stable core remains
-small; a deployment enables only the packs it has approved and tested.
+small; a deployment enables only the packs it has approved and tested. Generic
+workflow definitions are versioned data so future GUI, API and runtime adapters
+can share one orchestration contract without embedding credentialing-specific
+logic in the core. See [`docs/workflow-platform-architecture.md`](docs/workflow-platform-architecture.md).
 
 The first CHHHS pack is documented in
 [`docs/credentialing-capability-pack.md`](docs/credentialing-capability-pack.md).

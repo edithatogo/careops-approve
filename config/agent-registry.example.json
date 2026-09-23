@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "status": "example",
+  "agents": [
+    {
+      "agentId": "evidence-reconciliation",
+      "version": "1.0.0",
+      "displayName": "Evidence reconciliation",
+      "status": "draft",
+      "purpose": "Compare source-linked extracted facts with an approved evidence manifest and identify missing, contradictory or stale information for human review.",
+      "allowedCapabilities": ["document-classification","source-linked-extraction","contradiction-detection","draft-summary"],
+      "prohibitedCapabilities": ["approve","reject","assign-authority","determine-competence","restrict-scope","write-authoritative-register"],
+      "humanReviewRequired": true,
+      "failureMode": "ordinary-human-path",
+      "inputContract": "evidence-manifest.v1",
+      "outputContract": "evidence-assessment.v1",
+      "deploymentBinding": "environment-provided",
+      "modelBinding": "environment-provided"
+    }
+  ],
+  "deploymentConfiguration": "Prompts, models, credentials, tenant identifiers, endpoints and production connection values are environment-specific and excluded from source control."
+}

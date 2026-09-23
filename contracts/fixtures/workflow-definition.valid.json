@@ -1,0 +1,26 @@
+{
+  "workflowId": "credentialing.routine-renewal",
+  "version": "0.1.0",
+  "status": "draft",
+  "displayName": "Routine credentialing renewal",
+  "description": "Synthetic example showing a credentialing pack expressed through the generic CareOps workflow contract.",
+  "entryNodeId": "intake",
+  "ownerRole": "credentialingWorkflowOwner",
+  "dataClassification": "sensitive",
+  "nodes": [
+    {"id":"intake","type":"input","displayName":"Receive application","config":{"inputContract":"credentialing-request.v1"}},
+    {"id":"completeness","type":"deterministic_check","displayName":"Check completeness","config":{"ruleSet":"credentialing-routine-renewal-completeness.v1","failureMode":"request-correction"}},
+    {"id":"evidence_agent","type":"agent","displayName":"Reconcile evidence","config":{"agentId":"evidence-reconciliation","agentVersion":"1.0.0","humanReviewRequired":true,"failureMode":"ordinary-human-path"}},
+    {"id":"officer_review","type":"human_review","displayName":"Credentialing officer review","config":{"assignedRole":"credentialingOfficer","slaBusinessDays":5}},
+    {"id":"governance_handoff","type":"handoff","displayName":"Prepare governance handoff","config":{"contract":"credentialing-governance-packet.v1","target":"careops-decisions"}},
+    {"id":"complete","type":"end","displayName":"Preparation complete","config":{"outcome":"ready-for-human-governance"}}
+  ],
+  "transitions": [
+    {"from":"intake","to":"completeness"},
+    {"from":"completeness","to":"evidence_agent"},
+    {"from":"evidence_agent","to":"officer_review"},
+    {"from":"officer_review","to":"governance_handoff"},
+    {"from":"governance_handoff","to":"complete"}
+  ],
+  "metadata": {"exampleOnly":true,"authoritativeRegisterWrite":false}
+}
