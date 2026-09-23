@@ -8,6 +8,7 @@ from reference.workflow_runtime import (
     CaseStatus,
     Node,
     NodeType,
+    Task,
     Transition,
     Workflow,
     _event,
@@ -47,9 +48,9 @@ class WorkflowRuntimeTest(unittest.TestCase):
         review = complete_current(workflow, started.case, next_sequence=3)
         self.assertEqual(review.case.status, CaseStatus.WAITING_HUMAN)
         self.assertIsNotNone(review.task)
-        assert review.task is not None
-        self.assertEqual(review.task.task_type, "human-review")
-        self.assertEqual(review.task.assigned_role, "reviewer")
+        task = cast(Task, review.task)
+        self.assertEqual(task.task_type, "human-review")
+        self.assertEqual(task.assigned_role, "reviewer")
         self.assertEqual([event.event_type for event in review.events], ["node.entered", "task.created"])
 
         completed = complete_current(workflow, review.case, next_sequence=5)
@@ -59,14 +60,14 @@ class WorkflowRuntimeTest(unittest.TestCase):
             [event.event_type for event in completed.events],
             ["task.completed", "node.entered", "case.completed"],
         )
-        self.assertEqual(completed.events[0].task_id, review.task.identifier)
+        self.assertEqual(completed.events[0].task_id, task.identifier)
 
     def test_approval_creates_approval_task(self) -> None:
         workflow = linear_workflow(middle_kind=NodeType.APPROVAL)
         started = start_case(workflow, "CA-ABCDEFGH", "revision-1")
         review = complete_current(workflow, started.case, next_sequence=3)
-        assert review.task is not None
-        self.assertEqual(review.task.task_type, "approval")
+        task = cast(Task, review.task)
+        self.assertEqual(task.task_type, "approval")
 
     def test_agent_is_runtime_work_not_a_human_task(self) -> None:
         workflow = linear_workflow(middle_kind=NodeType.AGENT)
