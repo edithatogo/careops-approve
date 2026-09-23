@@ -58,6 +58,16 @@ class WorkflowServiceTest(unittest.TestCase):
         self.assertTrue(valid.deployable)
         self.assertEqual(valid.definition_hash, good.definition_hash)
         self.assertEqual(valid.errors, ())
+        self.assertEqual(
+            valid.to_contract(),
+            {
+                "workflowId": "generic.review",
+                "version": "1.0.0",
+                "definitionHash": good.definition_hash,
+                "deployable": True,
+                "errors": [],
+            },
+        )
 
         reserved = definition("2.0.0")
         nodes = cast(list[dict[str, object]], reserved["nodes"])
@@ -71,6 +81,9 @@ class WorkflowServiceTest(unittest.TestCase):
         invalid = service.validate_version("generic.review", "2.0.0")
         self.assertFalse(invalid.deployable)
         self.assertIn("reserved", invalid.errors[0])
+        contract = invalid.to_contract()
+        self.assertFalse(contract["deployable"])
+        self.assertEqual(contract["errors"], list(invalid.errors))
 
     def test_new_case_requires_active_version(self) -> None:
         registry = WorkflowRegistry()

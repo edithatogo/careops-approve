@@ -20,7 +20,8 @@ function Read-Json([string]$path) {
 $pairs = @(
     @('case.schema.json', 'fixtures/case.valid.json'),
     @('task.schema.json', 'fixtures/task.valid.json'),
-    @('workflow-event.schema.json', 'fixtures/workflow-event.valid.json')
+    @('workflow-event.schema.json', 'fixtures/workflow-event.valid.json'),
+    @('workflow-validation-result.schema.json', 'fixtures/workflow-validation-result.valid.json')
 )
 
 foreach ($pair in $pairs) {
@@ -109,7 +110,8 @@ foreach ($reference in @(
     './workflow-definition.schema.json',
     './workflow-editor-catalog.schema.json',
     './workflow-publication.schema.json',
-    './workflow-version-record.schema.json'
+    './workflow-version-record.schema.json',
+    './workflow-validation-result.schema.json'
 )) {
     if ($serialized -notmatch [regex]::Escape($reference)) {
         throw "CareOps API must reference contract '$reference'."
@@ -125,6 +127,12 @@ if ($ifMatch.Count -ne 1) {
 }
 if (-not $versionPath.get.responses.'200'.content.'application/json'.schema.'$ref') {
     throw 'Workflow version read API must return the version-record contract.'
+}
+
+$validatePath = $api.paths.'/api/v1/workflows/{workflowId}/versions/{version}/validate'
+if ($validatePath.post.responses.'200'.content.'application/json'.schema.'$ref' -ne
+    './workflow-validation-result.schema.json') {
+    throw 'Workflow validation API must return the structured validation-result contract.'
 }
 
 Write-Output 'Workflow API contract validation passed.'

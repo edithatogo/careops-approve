@@ -18,6 +18,16 @@ class ValidationResult:
     deployable: bool
     errors: tuple[str, ...]
 
+    def to_contract(self) -> dict[str, object]:
+        """Return the versioned API contract shape without leaking internal names."""
+        return {
+            "workflowId": self.workflow_id,
+            "version": self.version,
+            "definitionHash": self.definition_hash,
+            "deployable": self.deployable,
+            "errors": list(self.errors),
+        }
+
 
 class WorkflowService:
     """Bounded orchestration facade over a workflow registry."""

@@ -308,7 +308,7 @@
     },
     "/api/v1/workflows/{workflowId}/versions/{version}/validate": {
       "post": {
-        "summary": "Validate a draft workflow definition without publishing it",
+        "summary": "Validate the stored workflow version without publishing it",
         "operationId": "validateWorkflowDraft",
         "parameters": [
           {
@@ -330,7 +330,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Validation result"
+            "description": "Authoritative semantic validation result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./workflow-validation-result.schema.json"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Workflow version not found"
           }
         }
       }

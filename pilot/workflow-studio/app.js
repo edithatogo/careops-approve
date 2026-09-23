@@ -4,6 +4,7 @@
   const state = {
     catalog: null,
     etag: "",
+    savedJson: "",
     workflow: {
       workflowId: "generic.review",
       version: "1.0.0",
@@ -481,6 +482,7 @@
       parsed.status = "draft";
       state.workflow = parsed;
       state.etag = "";
+      state.savedJson = "";
       updateEtag();
       render();
       setApiStatus("Loaded draft from JSON.");
@@ -499,6 +501,10 @@
     return `${base}/api/v1/workflows/${encodeURIComponent(state.workflow.workflowId)}/versions/${encodeURIComponent(state.workflow.version)}`;
   }
 
+  function validationUrl() {
+    return versionUrl() + "/validate";
+  }
+
   function setApiStatus(message) {
     byId("apiStatus").textContent = message;
   }
@@ -514,6 +520,7 @@
       const record = await response.json();
       state.workflow = record.definition;
       state.etag = response.headers.get("ETag") || record.etag || "";
+      state.savedJson = JSON.stringify(cleanWorkflow());
       updateEtag();
       render();
       setApiStatus(`Loaded ${record.workflowId} ${record.version} (${record.state}).`);
@@ -542,11 +549,47 @@
       const record = await response.json();
       state.workflow = record.definition;
       state.etag = response.headers.get("ETag") || record.etag || "";
+      state.savedJson = JSON.stringify(cleanWorkflow());
       updateEtag();
       render();
       setApiStatus(`Saved draft revision ${record.revision}.`);
     } catch (error) {
       setApiStatus(`API save failed: ${error.message}`);
+    }
+  }
+
+  async function validateWithApi() {
+    try {
+      const currentJson = JSON.stringify(cleanWorkflow());
+      if (!state.savedJson || currentJson !== state.savedJson) {
+        throw new Error("Save or reload this draft before authoritative validation; unsaved changes are not sent to the validation endpoint.");
+      }
+      const response = await fetch(validationUrl(), {
+        method: "POST",
+        headers: { Accept: "application/json" }
+      });
+      if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`POST validate failed with HTTP ${response.status}${detail ? ": " + detail : ""}`);
+      }
+      const result = await response.json();
+      if (
+        typeof result.deployable !== "boolean" ||
+        !Array.isArray(result.errors) ||
+        typeof result.definitionHash !== "string"
+      ) {
+        throw new Error("Validation response does not match the expected contract.");
+      }
+      const lines = [
+        `Server validation: ${result.deployable ? "deployable" : "blocked"}`,
+        `Definition hash: ${result.definitionHash}`
+      ];
+      if (result.errors.length > 0) {
+        lines.push(...result.errors.map((error) => `- ${error}`));
+      }
+      setApiStatus(lines.join("\n"));
+    } catch (error) {
+      setApiStatus(`API validation failed: ${error.message}`);
     }
   }
 
@@ -560,6 +603,7 @@
     byId("loadJson").addEventListener("click", loadFromTextarea);
     byId("loadApi").addEventListener("click", loadFromApi);
     byId("saveApi").addEventListener("click", saveDraft);
+    byId("validateApi").addEventListener("click", validateWithApi);
   }
 
   async function start() {
