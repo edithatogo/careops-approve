@@ -4,6 +4,7 @@
   const state = {
     catalog: null,
     etag: "",
+    savedJson: "",
     workflow: {
       workflowId: "generic.review",
       version: "1.0.0",
@@ -481,6 +482,7 @@
       parsed.status = "draft";
       state.workflow = parsed;
       state.etag = "";
+      state.savedJson = "";
       updateEtag();
       render();
       setApiStatus("Loaded draft from JSON.");
@@ -518,6 +520,7 @@
       const record = await response.json();
       state.workflow = record.definition;
       state.etag = response.headers.get("ETag") || record.etag || "";
+      state.savedJson = JSON.stringify(cleanWorkflow());
       updateEtag();
       render();
       setApiStatus(`Loaded ${record.workflowId} ${record.version} (${record.state}).`);
@@ -546,6 +549,7 @@
       const record = await response.json();
       state.workflow = record.definition;
       state.etag = response.headers.get("ETag") || record.etag || "";
+      state.savedJson = JSON.stringify(cleanWorkflow());
       updateEtag();
       render();
       setApiStatus(`Saved draft revision ${record.revision}.`);
@@ -556,6 +560,10 @@
 
   async function validateWithApi() {
     try {
+      const currentJson = JSON.stringify(cleanWorkflow());
+      if (!state.savedJson || currentJson !== state.savedJson) {
+        throw new Error("Save or reload this draft before authoritative validation; unsaved changes are not sent to the validation endpoint.");
+      }
       const response = await fetch(validationUrl(), {
         method: "POST",
         headers: { Accept: "application/json" }
