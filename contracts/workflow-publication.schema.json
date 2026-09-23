@@ -12,7 +12,8 @@
     "validationStatus",
     "testStatus",
     "governanceStatus",
-    "requestedAction"
+    "requestedAction",
+    "migrationPolicy"
   ],
   "properties": {
     "workflowId": {
