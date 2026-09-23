@@ -29,7 +29,7 @@
       "type": "human_review",
       "displayName": "Human review",
       "config": {
-        "assignedRole": "reviewer",
+        "assignedRole": "primaryApprover",
         "slaBusinessDays": 5
       }
     },
