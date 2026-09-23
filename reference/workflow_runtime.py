@@ -156,6 +156,22 @@ def validate_workflow(workflow: Workflow) -> None:
         if node.kind != NodeType.END and not outgoing[node.identifier]:
             raise ValueError("Non-end nodes require an outgoing transition")
 
+    indegree = {identifier: 0 for identifier in identifiers}
+    for targets in outgoing.values():
+        for target in targets:
+            indegree[target] += 1
+    acyclic_queue = [identifier for identifier, degree in indegree.items() if degree == 0]
+    processed = 0
+    while acyclic_queue:
+        current = acyclic_queue.pop()
+        processed += 1
+        for target in outgoing[current]:
+            indegree[target] -= 1
+            if indegree[target] == 0:
+                acyclic_queue.append(target)
+    if processed != len(identifiers):
+        raise ValueError("Workflow cycles require explicit bounded-loop support")
+
     seen: set[str] = set()
     stack = [workflow.entry_node]
     while stack:

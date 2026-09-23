@@ -1,0 +1,287 @@
+{
+  "schemaVersion": 1,
+  "nodeTypes": [
+    {
+      "type": "input",
+      "displayName": "Input",
+      "category": "input",
+      "configurableBy": [
+        "process-owner",
+        "workflow-admin"
+      ],
+      "fields": [
+        {
+          "key": "inputContract",
+          "label": "Input contract",
+          "control": "select",
+          "required": true,
+          "governanceClass": "ordinary"
+        }
+      ],
+      "availability": "supported"
+    },
+    {
+      "type": "deterministic_check",
+      "displayName": "Deterministic check",
+      "category": "processing",
+      "configurableBy": [
+        "workflow-admin"
+      ],
+      "fields": [
+        {
+          "key": "ruleSet",
+          "label": "Approved rule set",
+          "control": "select",
+          "required": true,
+          "governanceClass": "ordinary"
+        },
+        {
+          "key": "failureMode",
+          "label": "Failure behaviour",
+          "control": "select",
+          "required": true,
+          "governanceClass": "ordinary",
+          "options": [
+            "request-correction",
+            "human-review",
+            "stop"
+          ]
+        }
+      ],
+      "availability": "supported"
+    },
+    {
+      "type": "agent",
+      "displayName": "Approved agent",
+      "category": "processing",
+      "configurableBy": [
+        "workflow-admin",
+        "agent-admin"
+      ],
+      "fields": [
+        {
+          "key": "agentId",
+          "label": "Approved agent",
+          "control": "agent-picker",
+          "required": true,
+          "governanceClass": "agent"
+        },
+        {
+          "key": "agentVersion",
+          "label": "Agent version",
+          "control": "select",
+          "required": true,
+          "governanceClass": "agent"
+        },
+        {
+          "key": "humanReviewRequired",
+          "label": "Human review required",
+          "control": "toggle",
+          "required": true,
+          "governanceClass": "agent"
+        },
+        {
+          "key": "failureMode",
+          "label": "Failure behaviour",
+          "control": "select",
+          "required": true,
+          "governanceClass": "agent",
+          "options": [
+            "ordinary-human-path"
+          ]
+        }
+      ],
+      "availability": "supported"
+    },
+    {
+      "type": "human_review",
+      "displayName": "Human review",
+      "category": "human",
+      "configurableBy": [
+        "workflow-admin",
+        "governance-owner"
+      ],
+      "fields": [
+        {
+          "key": "assignedRole",
+          "label": "Assigned role",
+          "control": "role-picker",
+          "required": true,
+          "governanceClass": "authority"
+        },
+        {
+          "key": "slaBusinessDays",
+          "label": "SLA",
+          "control": "number",
+          "required": false,
+          "governanceClass": "ordinary"
+        }
+      ],
+      "availability": "supported"
+    },
+    {
+      "type": "approval",
+      "displayName": "Approval",
+      "category": "human",
+      "configurableBy": [
+        "workflow-admin",
+        "governance-owner"
+      ],
+      "fields": [
+        {
+          "key": "assignedRole",
+          "label": "Decision role",
+          "control": "role-picker",
+          "required": true,
+          "governanceClass": "authority"
+        },
+        {
+          "key": "reasonRequired",
+          "label": "Reason required",
+          "control": "toggle",
+          "required": false,
+          "governanceClass": "ordinary"
+        }
+      ],
+      "availability": "supported"
+    },
+    {
+      "type": "condition",
+      "displayName": "Condition",
+      "category": "control",
+      "configurableBy": [
+        "workflow-admin"
+      ],
+      "fields": [
+        {
+          "key": "ruleSet",
+          "label": "Approved condition",
+          "control": "select",
+          "required": true,
+          "governanceClass": "ordinary"
+        }
+      ],
+      "availability": "supported"
+    },
+    {
+      "type": "parallel",
+      "displayName": "Parallel branch",
+      "category": "control",
+      "configurableBy": [
+        "workflow-admin"
+      ],
+      "fields": [],
+      "availability": "reserved"
+    },
+    {
+      "type": "join",
+      "displayName": "Join",
+      "category": "control",
+      "configurableBy": [
+        "workflow-admin"
+      ],
+      "fields": [],
+      "availability": "reserved"
+    },
+    {
+      "type": "wait",
+      "displayName": "Wait",
+      "category": "control",
+      "configurableBy": [
+        "workflow-admin"
+      ],
+      "fields": [
+        {
+          "key": "duration",
+          "label": "Maximum wait",
+          "control": "duration",
+          "required": true,
+          "governanceClass": "ordinary"
+        }
+      ],
+      "availability": "reserved"
+    },
+    {
+      "type": "notification",
+      "displayName": "Notification",
+      "category": "output",
+      "configurableBy": [
+        "process-owner",
+        "workflow-admin"
+      ],
+      "fields": [
+        {
+          "key": "templateId",
+          "label": "Approved template",
+          "control": "select",
+          "required": true,
+          "governanceClass": "ordinary"
+        }
+      ],
+      "availability": "reserved"
+    },
+    {
+      "type": "api_call",
+      "displayName": "API call",
+      "category": "processing",
+      "configurableBy": [
+        "workflow-admin",
+        "integration-admin"
+      ],
+      "fields": [
+        {
+          "key": "integrationId",
+          "label": "Approved integration",
+          "control": "integration-picker",
+          "required": true,
+          "governanceClass": "integration"
+        }
+      ],
+      "availability": "reserved"
+    },
+    {
+      "type": "handoff",
+      "displayName": "Handoff",
+      "category": "output",
+      "configurableBy": [
+        "workflow-admin",
+        "integration-admin"
+      ],
+      "fields": [
+        {
+          "key": "contract",
+          "label": "Output contract",
+          "control": "select",
+          "required": true,
+          "governanceClass": "integration"
+        },
+        {
+          "key": "target",
+          "label": "Target module",
+          "control": "select",
+          "required": true,
+          "governanceClass": "integration"
+        }
+      ],
+      "availability": "reserved"
+    },
+    {
+      "type": "end",
+      "displayName": "End",
+      "category": "output",
+      "configurableBy": [
+        "workflow-admin"
+      ],
+      "fields": [
+        {
+          "key": "outcome",
+          "label": "Outcome code",
+          "control": "text",
+          "required": true,
+          "governanceClass": "ordinary"
+        }
+      ],
+      "availability": "supported"
+    }
+  ]
+}

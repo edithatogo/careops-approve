@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://careops.example/schemas/workflow-editor-catalog.schema.json",
+  "title": "CareOps Workflow Studio node catalogue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "nodeTypes"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "nodeTypes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "displayName",
+          "category",
+          "availability",
+          "configurableBy",
+          "fields"
+        ],
+        "properties": {
+          "type": {
+            "enum": [
+              "input",
+              "deterministic_check",
+              "agent",
+              "human_review",
+              "approval",
+              "condition",
+              "parallel",
+              "join",
+              "wait",
+              "notification",
+              "api_call",
+              "handoff",
+              "end"
+            ]
+          },
+          "displayName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "category": {
+            "enum": [
+              "input",
+              "processing",
+              "human",
+              "control",
+              "output"
+            ]
+          },
+          "configurableBy": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "enum": [
+                "process-owner",
+                "workflow-admin",
+                "agent-admin",
+                "integration-admin",
+                "governance-owner",
+                "platform-admin"
+              ]
+            }
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "key",
+                "label",
+                "control",
+                "required",
+                "governanceClass"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "pattern": "^[a-z][A-Za-z0-9]{1,99}$"
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "control": {
+                  "enum": [
+                    "text",
+                    "number",
+                    "toggle",
+                    "select",
+                    "role-picker",
+                    "agent-picker",
+                    "integration-picker",
+                    "duration"
+                  ]
+                },
+                "required": {
+                  "type": "boolean"
+                },
+                "governanceClass": {
+                  "enum": [
+                    "ordinary",
+                    "authority",
+                    "agent",
+                    "integration",
+                    "platform"
+                  ]
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  }
+                }
+              }
+            }
+          },
+          "availability": {
+            "enum": [
+              "supported",
+              "reserved"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

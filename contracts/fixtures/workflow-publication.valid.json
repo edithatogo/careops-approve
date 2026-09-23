@@ -1,0 +1,11 @@
+{
+  "workflowId": "credentialing.routine-renewal",
+  "version": "0.1.0",
+  "definitionHash": "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "requestedByRole": "workflowAdministrator",
+  "validationStatus": "passed",
+  "testStatus": "passed",
+  "governanceStatus": "approved",
+  "requestedAction": "publish",
+  "migrationPolicy": "no-running-case-migration"
+}
