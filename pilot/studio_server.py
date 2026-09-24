@@ -143,7 +143,8 @@ class StudioHandler(BaseHTTPRequestHandler):
             self._json(200, record, etag=cast(str, record["etag"]))
         elif self.command == "POST" and validation:
             record = self.app.store.get(workflow_id, version)
-            if self.headers.get("If-Match", cast(str, record["etag"])) != record["etag"]:
+            etag = cast(str, record["etag"])
+            if self.headers.get("If-Match", etag) != etag:
                 raise Conflict("Validation revision changed")
             definition = cast(dict[str, object], record["definition"])
             errors: list[str] = []
@@ -160,7 +161,7 @@ class StudioHandler(BaseHTTPRequestHandler):
                 errors.append("Automated checks need registered execution adapters; this pilot has none")
             self._json(200, {"workflowId": workflow_id, "version": version,
                              "definitionHash": record["definitionHash"], "deployable": not errors,
-                             "errors": errors}, etag=cast(str, record["etag"]))
+                             "errors": errors}, etag=etag)
         else:
             self._json(405, {"error": "Method unavailable in this draft-only pilot"})
 
