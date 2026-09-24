@@ -8,7 +8,7 @@ from copy import deepcopy
 from dataclasses import dataclass, replace
 from enum import StrEnum
 
-from reference.workflow_compiler import compile_workflow, definition_hash
+from reference.workflow_compiler import TrustedBindings, compile_trusted_workflow, definition_hash
 
 
 class VersionState(StrEnum):
@@ -69,8 +69,13 @@ def _copy_record(record: WorkflowVersionRecord) -> WorkflowVersionRecord:
 class WorkflowRegistry:
     """Deterministic version lifecycle with optimistic concurrency."""
 
-    def __init__(self) -> None:
+    def __init__(self, trusted_bindings: TrustedBindings) -> None:
+        self._trusted_bindings = trusted_bindings
         self._records: dict[tuple[str, str], WorkflowVersionRecord] = {}
+
+    @property
+    def trusted_bindings(self) -> TrustedBindings:
+        return self._trusted_bindings
 
     def get(self, workflow_id: str, version: str) -> WorkflowVersionRecord:
         key = (workflow_id, version)
@@ -150,7 +155,7 @@ class WorkflowRegistry:
         elif request.supersedes_version:
             raise ValueError("supersedesVersion was supplied but no active version exists")
 
-        compile_workflow(draft.definition)
+        compile_trusted_workflow(draft.definition, self._trusted_bindings)
 
         active_definition = _clone(draft.definition)
         active_definition["status"] = VersionState.ACTIVE.value

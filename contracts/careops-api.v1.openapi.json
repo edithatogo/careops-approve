@@ -417,6 +417,24 @@
           }
         }
       }
+    },
+    "/api/v1/workflow-studio/trusted-bindings": {
+      "get": {
+        "summary": "List trusted role keys and agent versions permitted for workflow references",
+        "operationId": "listTrustedWorkflowBindings",
+        "responses": {
+          "200": {
+            "description": "Trusted workflow reference catalogue",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./workflow-trusted-bindings.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

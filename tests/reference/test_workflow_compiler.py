@@ -4,7 +4,10 @@ from math import nan
 from typing import cast
 
 from reference.workflow_compiler import (
+    TrustedBindings,
     compile_active_workflow,
+    compile_trusted_active_workflow,
+    compile_trusted_workflow,
     compile_workflow,
     definition_hash,
 )
@@ -113,6 +116,8 @@ class WorkflowCompilerTest(unittest.TestCase):
             "type": "agent",
             "displayName": "Agent",
             "config": {
+                "agentId": "review-agent",
+                "agentVersion": "1.0.0",
                 "humanReviewRequired": True,
                 "failureMode": "ordinary-human-path",
             },
@@ -129,6 +134,8 @@ class WorkflowCompilerTest(unittest.TestCase):
             "type": "agent",
             "displayName": "Agent",
             "config": {
+                "agentId": "review-agent",
+                "agentVersion": "1.0.0",
                 "humanReviewRequired": "yes",
                 "failureMode": "ordinary-human-path",
             },
@@ -144,6 +151,8 @@ class WorkflowCompilerTest(unittest.TestCase):
             "type": "agent",
             "displayName": "Agent",
             "config": {
+                "agentId": "review-agent",
+                "agentVersion": "1.0.0",
                 "humanReviewRequired": True,
                 "failureMode": "",
             },
@@ -151,6 +160,108 @@ class WorkflowCompilerTest(unittest.TestCase):
         bad_fallback["nodes"] = bad_fallback_nodes
         with self.assertRaisesRegex(ValueError, "failureMode"):
             compile_workflow(bad_fallback)
+
+    def test_trusted_bindings_reject_unknown_roles_and_agents(self) -> None:
+        trusted = TrustedBindings(
+            roles=frozenset({"reviewer"}),
+            agents=frozenset({("review-agent", "1.0.0")}),
+        )
+        compiled = compile_trusted_workflow(workflow_definition(), trusted)
+        self.assertEqual(compiled.nodes[1].assigned_role, "reviewer")
+
+        untrusted_role = workflow_definition()
+        role_nodes = mutable_nodes(untrusted_role)
+        role_nodes[1]["config"] = {"assignedRole": "forged-role"}
+        with self.assertRaisesRegex(ValueError, "trusted role"):
+            compile_trusted_workflow(untrusted_role, trusted)
+
+        agent = workflow_definition()
+        agent_nodes = mutable_nodes(agent)
+        agent_nodes[1] = {
+            "id": "review",
+            "type": "agent",
+            "displayName": "Agent",
+            "config": {
+                "agentId": "review-agent",
+                "agentVersion": "1.0.0",
+                "humanReviewRequired": True,
+                "failureMode": "ordinary-human-path",
+            },
+        }
+        agent["nodes"] = agent_nodes
+        trusted_agent = compile_trusted_workflow(agent, trusted)
+        self.assertEqual(trusted_agent.nodes[1].kind, NodeType.AGENT)
+
+        forged_agent = mutable_nodes(agent)
+        forged_agent[1]["config"] = {
+            "agentId": "review-agent",
+            "agentVersion": "9.9.9",
+            "humanReviewRequired": True,
+            "failureMode": "ordinary-human-path",
+        }
+        with self.assertRaisesRegex(ValueError, "untrusted agent"):
+            compile_trusted_workflow(agent, trusted)
+
+    def test_trusted_active_compilation_requires_active_status_and_bindings(self) -> None:
+        trusted = TrustedBindings(frozenset({"reviewer"}), frozenset())
+        with self.assertRaisesRegex(ValueError, "active workflow"):
+            compile_trusted_active_workflow(workflow_definition(), trusted)
+        active = compile_trusted_active_workflow(
+            workflow_definition(status="active"),
+            trusted,
+        )
+        self.assertEqual(active.identifier, "generic.review")
+
+    def test_trusted_binding_contract_exposes_only_reference_keys(self) -> None:
+        trusted = TrustedBindings(
+            frozenset({"workflowOwner", "primaryApprover"}),
+            frozenset({("evidence-reconciliation", "1.0.0")}),
+        )
+        self.assertEqual(
+            trusted.to_contract(),
+            {
+                "schemaVersion": 1,
+                "roles": [
+                    {"roleKey": "primaryApprover"},
+                    {"roleKey": "workflowOwner"},
+                ],
+                "agents": [
+                    {"agentId": "evidence-reconciliation", "version": "1.0.0"}
+                ],
+            },
+        )
+
+    def test_trusted_binding_values_cannot_be_empty(self) -> None:
+        with self.assertRaisesRegex(ValueError, "role keys"):
+            TrustedBindings(frozenset({""}), frozenset())
+        with self.assertRaisesRegex(ValueError, "agent identity"):
+            TrustedBindings(frozenset(), frozenset({("", "1.0.0")}))
+        with self.assertRaisesRegex(ValueError, "agent identity"):
+            TrustedBindings(frozenset(), frozenset({("agent", "")}))
+
+    def test_agent_identity_is_required_even_without_trusted_binding(self) -> None:
+        agent = workflow_definition()
+        nodes = mutable_nodes(agent)
+        nodes[1] = {
+            "id": "review",
+            "type": "agent",
+            "displayName": "Agent",
+            "config": {
+                "humanReviewRequired": True,
+                "failureMode": "ordinary-human-path",
+            },
+        }
+        agent["nodes"] = nodes
+        with self.assertRaisesRegex(ValueError, "agentId"):
+            compile_workflow(agent)
+
+        nodes[1]["config"] = {
+            "agentId": "review-agent",
+            "humanReviewRequired": True,
+            "failureMode": "ordinary-human-path",
+        }
+        with self.assertRaisesRegex(ValueError, "agentVersion"):
+            compile_workflow(agent)
 
     def test_malformed_structures_are_rejected(self) -> None:
         cases: list[tuple[str, object]] = [
