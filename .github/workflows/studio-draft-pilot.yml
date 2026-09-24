@@ -1,0 +1,39 @@
+name: Workflow Studio durable draft pilot
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: studio-draft-pilot-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  studio:
+    name: Studio draft pilot (${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.13', '3.14']
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install pinned pilot and test dependencies
+        run: |
+          python -m pip install -r pilot/requirements-studio.txt
+          python -m pip install coverage==7.15.4 mypy==2.3.0 ruff==0.16.2 types-jsonschema==4.26.0.20260518
+      - name: Static checks
+        run: |
+          python -m ruff check --config reference/pyproject.toml pilot/studio_store.py pilot/studio_server.py tests/studio
+          python -m mypy --config-file reference/pyproject.toml pilot/studio_store.py pilot/studio_server.py tests/studio
+          node --check pilot/workflow-studio/app.js
+      - name: Storage and HTTP integration tests
+        run: |
+          python -m coverage run --branch --source=pilot.studio_store,pilot.studio_server -m unittest discover -s tests/studio -v
+          python -m coverage report --show-missing --fail-under=100
