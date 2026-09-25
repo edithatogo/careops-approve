@@ -63,7 +63,7 @@ jobs:
           deployment-settings-file: config/pilot.deploymentSettings.example.json
 
       - name: Retain deployed package
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: CareOpsApprove-pilot-${{ github.run_number }}
           path: out/CareOpsApprove_unmanaged.zip

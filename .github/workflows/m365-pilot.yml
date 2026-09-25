@@ -33,7 +33,7 @@ jobs:
           python -m coverage report --show-missing --fail-under=100
           python scripts/build_m365_pilot.py
       - name: Preserve pilot SOURCE assets, not a flow import package
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: m365-synthetic-pilot-source-${{ matrix.python }}
           path: pilot/m365/
