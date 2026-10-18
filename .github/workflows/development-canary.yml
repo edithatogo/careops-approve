@@ -173,8 +173,10 @@ jobs:
           if ($LASTEXITCODE -ne 0 -or $actual -ne $env:PREVIEW_SDK) { throw 'Exact preview SDK was not selected.' }
           dotnet tool install Microsoft.PowerApps.CLI.Tool --version 2.13.1 --tool-path out/pac-canary
           if ($LASTEXITCODE -ne 0) { throw 'PAC installation failed.' }
-          & ./out/pac-canary/pac.exe --version | Set-Content out/sdk-canary/pac-version.txt
-          if ($LASTEXITCODE -ne 0) { throw 'PAC executable failed.' }
+          $pacHelp = & ./out/pac-canary/pac.exe help
+          $pacExit = $LASTEXITCODE
+          $pacHelp | Set-Content out/sdk-canary/pac-version.txt
+          if ($pacExit -ne 0 -or ($pacHelp -join "`n") -notmatch '(?m)^Version: 2\.13\.1(?:\+|\s)') { throw 'Expected PAC executable version was not verified.' }
           & ./out/pac-canary/pac.exe solution pack --folder src/solutions/CareOpsApprove --zipfile out/sdk-canary/CareOpsApprove_unmanaged.zip --packagetype Unmanaged
           if ($LASTEXITCODE -ne 0) { throw 'Offline solution packaging failed.' }
           @{ sdk = $actual; pac = '2.13.1'; packageSha256 = (Get-FileHash out/sdk-canary/CareOpsApprove_unmanaged.zip -Algorithm SHA256).Hash.ToLower(); promoted = $false; nativeWrites = $false } | ConvertTo-Json | Set-Content out/sdk-canary/receipt.json
