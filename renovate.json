@@ -1,8 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>edithatogo/renovate-config",
-    "github>edithatogo/renovate-config:careops-dev#c11fa28421687fbdaccb92ae0f5006c484fc1ed2"
+    "local>edithatogo/renovate-config"
   ],
-  "automerge": false
+  "enabledManagers": [
+    "pip_requirements"
+  ],
+  "ignoreUnstable": false,
+  "timezone": "Australia/Brisbane",
+  "schedule": [
+    "at any time"
+  ],
+  "packageRules": [
+    {
+      "description": "Every candidate requires all current-head checks and explicit source review",
+      "matchPackageNames": [
+        "*"
+      ],
+      "automerge": false
+    }
+  ]
 }

@@ -21,3 +21,8 @@ node_modules/
 # Deployment settings may contain tenant-specific IDs. Commit examples only.
 config/*.deploymentSettings.json
 !config/*.deploymentSettings.example.json
+
+# Local CI receipts and environments
+.local/
+.coverage
+.mypy_cache/

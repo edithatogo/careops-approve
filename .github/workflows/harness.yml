@@ -8,12 +8,20 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: harness-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   harness:
+    name: harness
+    timeout-minutes: 20
     if: ${{ github.server_url == 'https://github.com' }}
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - name: Run fail-closed harness
         shell: pwsh
         run: ./harness/Test-Harness.ps1

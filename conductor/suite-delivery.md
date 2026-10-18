@@ -17,7 +17,7 @@ selected slice and remain optional. Keep detailed progress in the existing track
 Do not create another track, chat, acceptance pack or status ledger for alignment.
 
 1. **package** — Inspect the actual solution source and finish the smallest packageable intake-to-correction slice; distinguish scaffold-only steps.
-   Done when: A built artifact corresponds to real tracked components; missing source does not count as a successful build.
+   Done when: The existing unmanaged source package is verified in PR76; compiled/native components and deployment remain separately unqualified. Missing source does not count as a successful build.
 2. **delivery** — Reuse the existing managed-release/federation pattern from Costing where this deployment supports it.
    Done when: One immutable artifact, private environment mapping and tested recovery; no identity provisioning is assumed.
 3. **documents** — Qualify a maintained SharePoint template for one structured submission summary after the working intake slice.

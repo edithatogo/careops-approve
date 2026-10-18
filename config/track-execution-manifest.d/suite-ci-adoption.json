@@ -1,0 +1,32 @@
+{
+  "trackId": "suite_ci_adoption_20261018",
+  "firstPendingTask": "Qualify exact actions, CI lock and offline PAC packaging through PR 74",
+  "startFiles": [
+    "conductor/tracks/suite_ci_adoption_20261018/plan.md",
+    "requirements-ci.txt",
+    ".github/workflows/secret-scan.yml"
+  ],
+  "writeScope": [
+    ".github/",
+    "requirements-ci.txt",
+    "requirements-ci.lock",
+    "conductor/tracks/suite_ci_adoption_20261018/",
+    "tooling/powerplatform-tools.json",
+    "scripts/Test-WorkflowContracts.ps1"
+  ],
+  "validationCommands": [
+    "actionlint",
+    "pwsh -NoProfile -File scripts/Test-Repository.ps1 -SkipRemoteTopology",
+    "pwsh -NoProfile -File harness/Test-Harness.ps1"
+  ],
+  "prerequisites": [
+    "No other writer of shared CI files; hosted checks must execute successfully"
+  ],
+  "stopConditions": [
+    "Never run native deployment or modify authentication",
+    "No merge with failed or billing-blocked checks"
+  ],
+  "issues": {
+    "github": "https://github.com/edithatogo/careops-approve/pull/74"
+  }
+}
