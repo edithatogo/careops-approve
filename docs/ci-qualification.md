@@ -9,8 +9,9 @@ helpers must remain pinned to reviewed commits; no inherited tenant secrets.
 dependencies when their declarations change. It installs the candidate, runs the
 existing Python checks and retains a lock, digest receipt and patch. The source
 owner applies the generated patch to the same update branch and verifies all
-current-head checks before merge. An artifact is a repair candidate, not an
-applied update. Do not bypass checks or add a privileged PR-code workflow to
+current-head checks before merge. Regeneration fails if the generated lock differs from the committed lock,
+while preserving the candidate artifact. An artifact is a repair candidate, not
+an applied update. Do not bypass checks or add a privileged PR-code workflow to
 write patches. Dependabot owns weekly Actions updates; Renovate owns Python
 requirement proposals, including prereleases, without automatic merging.
 
