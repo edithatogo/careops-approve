@@ -1,0 +1,188 @@
+name: Development qualification
+on:
+  schedule:
+    - cron: '23 18 * * 2'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/development-canary.yml'
+      - '.github/scripts/**'
+      - 'requirements-ci.*'
+permissions:
+  contents: read
+concurrency:
+  group: development-canary-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  tools:
+    name: Preview tool qualification
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: false
+      - name: Read immutable CareOps CI helpers
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: edithatogo/careops
+          ref: 3712b88f438b046e68fe37d8db2f4b6a4387b473
+          path: .local/ci-policy
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.15.0'
+      - uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884 # v10.3.0
+        with:
+          version: '0.13.1'
+          enable-cache: false
+      - name: Resolve exact preview candidates without changing the working lock
+        run: python .local/ci-policy/portfolio-scripts/ci_delivery.py lock --preview --output .local/canary/requirements.lock --receipt .local/canary/candidate.json
+      - name: Install only the resolved hash-locked candidate
+        run: python -m pip install --require-hashes -r .local/canary/requirements.lock
+      - name: Qualify affected tools and source behaviour
+        run: |
+          python .github/scripts/qualify-python.py
+          pip-audit --disable-pip --no-deps -r .local/canary/requirements.lock
+          zizmor --offline --persona pedantic --format plain .github/workflows
+      - name: Keep exact candidate evidence even after a qualification failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: development-candidate
+          path: .local/canary/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
+  runtime:
+    name: Runtime preview discovery and compatibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          submodules: false
+      - name: Read immutable CareOps CI helpers
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: edithatogo/careops
+          ref: 3712b88f438b046e68fe37d8db2f4b6a4387b473
+          path: .local/ci-policy
+          persist-credentials: false
+          submodules: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.15.0'
+      - name: Discover a runnable preview newer than the qualified baseline
+        id: discover
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p .local/runtime-canary
+          runtime_manifest_revision="$(gh api repos/actions/python-versions/commits/main --jq .sha)"
+          [[ "$runtime_manifest_revision" =~ ^[a-f0-9]{40}$ ]]
+          curl --fail --silent --show-error --location "https://raw.githubusercontent.com/actions/python-versions/$runtime_manifest_revision/versions-manifest.json" -o .local/runtime-canary/manifest.json
+          runtime_platform="$(python -c 'import platform; print(platform.freedesktop_os_release()["VERSION_ID"])')"
+          python .local/ci-policy/portfolio-scripts/ci_delivery.py runtime --platform-version "$runtime_platform" --manifest .local/runtime-canary/manifest.json --manifest-revision "$runtime_manifest_revision" --output .local/runtime-canary/discovery.json --github-output "$GITHUB_OUTPUT"
+      - name: Set up the exact available preview only
+        if: steps.discover.outputs.available == 'true'
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ steps.discover.outputs.version }}
+          allow-prereleases: true
+      - name: Record the resolved runtime and install current qualified tools
+        if: steps.discover.outputs.available == 'true'
+        run: |
+          mkdir -p .local/runtime-canary
+          python -VV > .local/runtime-canary/python-version.txt
+          python -m pip install --require-hashes -r requirements-ci.lock
+      - name: Test current source against development CPython
+        id: runtime_tests
+        if: steps.discover.outputs.available == 'true'
+        run: |
+          python .github/scripts/qualify-python.py
+      - name: Record the actual runtime qualification outcome
+        if: always() && steps.discover.outcome == 'success'
+        env:
+          RUNTIME_TEST_OUTCOME: ${{ steps.runtime_tests.outcome }}
+        run: python .local/ci-policy/portfolio-scripts/ci_delivery.py runtime-finalize --receipt .local/runtime-canary/discovery.json --outcome "$RUNTIME_TEST_OUTCOME"
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: runtime-candidate
+          path: .local/runtime-canary/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
+  sdk-discovery:
+    name: Published .NET preview discovery
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      available: ${{ steps.discover.outputs.available }}
+      version: ${{ steps.discover.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.15.0'
+      - name: Read published SDK metadata and test fail-closed selection
+        id: discover
+        run: |
+          mkdir -p .local/sdk-canary
+          python .github/scripts/test-dotnet-preview.py
+          curl --fail --silent --show-error --location https://builds.dotnet.microsoft.com/dotnet/release-metadata/11.0/releases.json -o .local/sdk-canary/releases.json
+          python .github/scripts/select-dotnet-preview.py .local/sdk-canary/releases.json .local/sdk-canary/discovery.json "$GITHUB_OUTPUT"
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: sdk-discovery
+          path: .local/sdk-canary/
+          include-hidden-files: true
+          if-no-files-found: warn
+  sdk:
+    name: Offline PAC packaging on development SDK
+    needs: sdk-discovery
+    if: needs.sdk-discovery.outputs.available == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 20
+    env:
+      PREVIEW_SDK: ${{ needs.sdk-discovery.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: |
+            10.0.402
+            ${{ needs.sdk-discovery.outputs.version }}
+      - name: Install exact PAC without login and pack existing source
+        id: pack
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force out/sdk-canary | Out-Null
+          @{ sdk = @{ version = $env:PREVIEW_SDK; rollForward = 'disable'; allowPrerelease = $true } } | ConvertTo-Json | Set-Content global.json
+          $actual = (& dotnet --version).Trim()
+          if ($LASTEXITCODE -ne 0 -or $actual -ne $env:PREVIEW_SDK) { throw 'Exact preview SDK was not selected.' }
+          dotnet tool install Microsoft.PowerApps.CLI.Tool --version 2.13.1 --tool-path out/pac-canary
+          if ($LASTEXITCODE -ne 0) { throw 'PAC installation failed.' }
+          & ./out/pac-canary/pac.exe --version | Set-Content out/sdk-canary/pac-version.txt
+          if ($LASTEXITCODE -ne 0) { throw 'PAC executable failed.' }
+          & ./out/pac-canary/pac.exe solution pack --folder src/solutions/CareOpsApprove --zipfile out/sdk-canary/CareOpsApprove_unmanaged.zip --packagetype Unmanaged
+          if ($LASTEXITCODE -ne 0) { throw 'Offline solution packaging failed.' }
+          @{ sdk = $actual; pac = '2.13.1'; packageSha256 = (Get-FileHash out/sdk-canary/CareOpsApprove_unmanaged.zip -Algorithm SHA256).Hash.ToLower(); promoted = $false; nativeWrites = $false } | ConvertTo-Json | Set-Content out/sdk-canary/receipt.json
+      - name: Keep SDK packaging evidence after success or failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: development-sdk-package
+          path: out/sdk-canary/
+          if-no-files-found: warn
+          retention-days: 14
