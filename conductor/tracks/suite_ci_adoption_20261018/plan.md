@@ -11,3 +11,11 @@
 Working native profiles/flows are untouched. Manifest versions express selected
 source intent; CI must verify actual installs. Existing interactive authentication
 remains manual; no tenant qualification follows from offline package success.
+
+## Actual package provenance qualification
+
+- [x] Prepare SPDX inventory of the existing actual unmanaged solution ZIP, including binary contents, using immutable CareOps helper1373e971.
+- [x] Build once; download and independently compare all file/archive digests before main-only OIDC provenance/SPDX signing.
+- [ ] Qualify all PR checks and inspect actual ZIP/SBOM contents.
+- [ ] Merge with every current-head check green; verify main signatures and exact source/workflow identity from downloaded artifacts.
+- [ ] Complete actual optional-interface compatibility; package provenance does not establish deployment or native acceptance.
