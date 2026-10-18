@@ -42,3 +42,14 @@ Keep one writer per object and one owner per shared authentication repair. Tools
 are preferences, not exclusive leases. Send a completed deliverable or changed
 blocker once; no acknowledgement polling. Reuse passed evidence and run only
 checks affected by the change, with broad checks at an integration milestone.
+
+
+### Qualified CI policy adoption — 19 October 2026
+
+The source candidate aligns security, package policy, lock generation and canary
+helper checkouts to immutable CareOps f0e8db252b181955d31185f1ccdd1e77dee1f5f9.
+That revision passed all14PR checks and all6triggered main workflows. Refresh
+only transitive certifi to2026.10.18 with official hashes, preserving direct pins,
+module tests, native ownership and existing protections. This consumer still
+requires all applicable current-head checks, including the actual Windows PAC
+package, before normal merge. Previous workflow refs and lock provide rollback.

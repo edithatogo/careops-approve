@@ -26,7 +26,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: edithatogo/careops
-          ref: 2b5eccbb1e41a0becee48a98124f19e07e946f29
+          ref: f0e8db252b181955d31185f1ccdd1e77dee1f5f9
           path: .local/ci-policy
           persist-credentials: false
           submodules: false
