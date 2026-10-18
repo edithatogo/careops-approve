@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: edithatogo/careops
-          ref: 3712b88f438b046e68fe37d8db2f4b6a4387b473
+          ref: 2b5eccbb1e41a0becee48a98124f19e07e946f29
           path: .local/ci-policy
           persist-credentials: false
           submodules: false
@@ -69,13 +69,28 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: edithatogo/careops
-          ref: 3712b88f438b046e68fe37d8db2f4b6a4387b473
+          ref: 2b5eccbb1e41a0becee48a98124f19e07e946f29
           path: .local/ci-policy
           persist-credentials: false
           submodules: false
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.15.0'
+      - name: Verify failed discovery retains a terminal receipt
+        run: |
+          probe_receipt=".local/runtime-contract-probe/discovery.json"
+          python .local/ci-policy/portfolio-scripts/ci_delivery.py runtime-finalize --receipt "$probe_receipt" --discovery-outcome failure --outcome skipped
+          python - "$probe_receipt" <<'PYTHON'
+          import json
+          import sys
+          from pathlib import Path
+          receipt = json.loads(Path(sys.argv[1]).read_text())
+          assert receipt['state'] == 'discovery-failed'
+          assert receipt['discoveryOutcome'] == 'failure'
+          assert receipt['runtimeTestOutcome'] == 'skipped'
+          assert receipt['runtimeTestsExecuted'] is False
+          assert receipt['promoted'] is False
+          PYTHON
       - name: Discover a runnable preview newer than the qualified baseline
         id: discover
         env:
@@ -105,10 +120,11 @@ jobs:
         run: |
           python .github/scripts/qualify-python.py
       - name: Record the actual runtime qualification outcome
-        if: always() && steps.discover.outcome == 'success'
+        if: always()
         env:
+          DISCOVERY_OUTCOME: ${{ steps.discover.outcome }}
           RUNTIME_TEST_OUTCOME: ${{ steps.runtime_tests.outcome }}
-        run: python .local/ci-policy/portfolio-scripts/ci_delivery.py runtime-finalize --receipt .local/runtime-canary/discovery.json --outcome "$RUNTIME_TEST_OUTCOME"
+        run: python .local/ci-policy/portfolio-scripts/ci_delivery.py runtime-finalize --receipt .local/runtime-canary/discovery.json --outcome "$RUNTIME_TEST_OUTCOME" --discovery-outcome "$DISCOVERY_OUTCOME"
       - if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
