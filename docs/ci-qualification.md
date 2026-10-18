@@ -44,3 +44,11 @@ All eleven PR checks passed, including PAC packaging. Main protection readback
 confirmed ten unfiltered app-bound required checks, administrator enforcement,
 strict branch freshness, and preserved no-force/no-delete/conversation controls.
 The path-filtered credentialing check is retained but is not required globally.
+
+The stale-lock negative trial in run 39125002875 installed/tested the generated
+candidate successfully, then failed specifically at the committed-lock comparison
+and retained its repair artifact. The downloaded receipt/hash was verified and
+that exact generated lock applied to the source branch before requalification.
+The earlier SDK canary packaged existing source successfully using SDK
+11.0.100-rc.2.26504.105/PAC2.13.1; downloaded ZIP integrity and its receipt hash
+were independently verified. CPython discovery correctly remained unavailable.

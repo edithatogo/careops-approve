@@ -37,7 +37,7 @@ jobs:
         with:
           version: '0.13.1'
           enable-cache: false
-      - name: Regenerate lock and dependency inventory automatically
+      - name: Regenerate exact CI lock automatically
         run: |
           mkdir -p .local/lock-refresh
           python .local/ci-policy/portfolio-scripts/ci_delivery.py lock --output requirements-ci.lock --receipt .local/lock-refresh/receipt.json
