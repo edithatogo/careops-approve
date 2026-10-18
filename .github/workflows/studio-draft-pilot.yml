@@ -26,6 +26,8 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install pinned pilot and test dependencies
         run: |
+          python .github/scripts/test-ci-lock.py
+          python .github/scripts/check-ci-lock.py
           python -m pip install --require-hashes -r requirements-ci.lock
       - name: Static checks
         run: |
