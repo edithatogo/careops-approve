@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "module": "careops-approve",
+  "sourceKind": "reusable-source",
+  "standards": "https://github.com/edithatogo/careops/blob/main/docs/development-and-delivery.md",
+  "integrationContract": "https://github.com/edithatogo/careops/blob/main/docs/standalone-module-contract.md",
+  "releasePolicy": "development-first-verified-promotion",
+  "localGuide": "conductor/suite-delivery.md",
+  "nativeQualification": "not-established-by-this-profile",
+  "nextTasks": [
+    {
+      "id": "package",
+      "status": "queued",
+      "lane": "existing implementation or platform lane",
+      "operation": "Inspect the actual solution source and finish the smallest packageable intake-to-correction slice; distinguish scaffold-only steps.",
+      "tools": [
+        "PAC",
+        "GitHub Actions"
+      ],
+      "success": "A built artifact corresponds to real tracked components; missing source does not count as a successful build."
+    },
+    {
+      "id": "delivery",
+      "status": "queued",
+      "lane": "existing implementation or platform lane",
+      "operation": "Reuse the existing managed-release/federation pattern from Costing where this deployment supports it.",
+      "tools": [
+        "PAC",
+        "GitHub Actions"
+      ],
+      "success": "One immutable artifact, private environment mapping and tested recovery; no identity provisioning is assumed."
+    },
+    {
+      "id": "documents",
+      "status": "queued",
+      "lane": "existing implementation or platform lane",
+      "operation": "Qualify a maintained SharePoint template for one structured submission summary after the working intake slice.",
+      "tools": [
+        "M365 CLI",
+        "Power Automate"
+      ],
+      "success": "Actual output and retry preserve source revision and human corrections; existing fallback remains."
+    }
+  ]
+}

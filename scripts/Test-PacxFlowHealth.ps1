@@ -7,7 +7,7 @@ $fixturePath = Join-Path $root 'config\pacx-flow-health-fixtures.example.json'
 $reportScript = Join-Path $root 'scripts\New-PacxFlowHealthReport.ps1'
 $fixtures = Get-Content -Raw -LiteralPath $fixturePath | ConvertFrom-Json
 if ($fixtures.schemaVersion -ne 1) { throw 'Unsupported flow-health fixture schema.' }
-$tempRoot = Join-Path $env:TEMP 'careops-pacx-flow-health-tests'
+$tempRoot = Join-Path ([System.IO.Path]::GetTempPath()) 'careops-pacx-flow-health-tests'
 New-Item -ItemType Directory -Force -Path $tempRoot | Out-Null
 $index = 0
 foreach ($case in @($fixtures.cases)) {

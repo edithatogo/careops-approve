@@ -111,3 +111,10 @@ plan in its respective folder.
 
 - [~] **Track: Suite CI/CD adoption**
   *Link: [./tracks/suite_ci_adoption_20261018/index.md](./tracks/suite_ci_adoption_20261018/index.md)*
+
+## Modular suite evolution — 18 October 2026
+
+Use [the ordered low-hanging-fruit queue](suite-delivery.md) for development-first
+dependency alignment, optional interoperability and structured-document improvements.
+Preserve current work and historical completion evidence; these improvements do
+not reopen completed MVPs or establish native deployment/operational acceptance.
