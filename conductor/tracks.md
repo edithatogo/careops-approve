@@ -106,3 +106,8 @@ plan in its respective folder.
 
 - [~] **Track: Generic credentialing capability pack and CHHHS MVP**
   *Link: [./tracks/chhhs_credentialing_capability_20260829/](./tracks/chhhs_credentialing_capability_20260829/)*
+
+---
+
+- [~] **Track: Suite CI/CD adoption**
+  *Link: [./tracks/suite_ci_adoption_20261018/index.md](./tracks/suite_ci_adoption_20261018/index.md)*
