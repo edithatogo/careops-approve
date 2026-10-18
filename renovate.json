@@ -2,5 +2,22 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>edithatogo/renovate-config"
+  ],
+  "enabledManagers": [
+    "pip_requirements"
+  ],
+  "ignoreUnstable": false,
+  "timezone": "Australia/Brisbane",
+  "schedule": [
+    "at any time"
+  ],
+  "packageRules": [
+    {
+      "description": "Every candidate requires all current-head checks and explicit source review",
+      "matchPackageNames": [
+        "*"
+      ],
+      "automerge": false
+    }
   ]
 }
