@@ -52,3 +52,10 @@ that exact generated lock applied to the source branch before requalification.
 The earlier SDK canary packaged existing source successfully using SDK
 11.0.100-rc.2.26504.105/PAC2.13.1; downloaded ZIP integrity and its receipt hash
 were independently verified. CPython discovery correctly remained unavailable.
+
+Every required Python source job also checks the declared exact tool versions
+against the committed lock before installation. A stale declaration therefore
+fails required CI even when the path-filtered regeneration workflow is absent;
+normalised package names are accepted, missing/stale/inexact pins are refused.
+The generator keeps repair evidence separately and cannot make a stale commit
+look qualified by installing only an uncommitted working-tree repair.
