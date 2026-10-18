@@ -106,3 +106,10 @@ plan in its respective folder.
 
 - [~] **Track: Generic credentialing capability pack and CHHHS MVP**
   *Link: [./tracks/chhhs_credentialing_capability_20260829/](./tracks/chhhs_credentialing_capability_20260829/)*
+
+## Modular suite evolution — 18 October 2026
+
+Use [the ordered low-hanging-fruit queue](suite-delivery.md) for development-first
+dependency alignment, optional interoperability and structured-document improvements.
+Preserve current work and historical completion evidence; these improvements do
+not reopen completed MVPs or establish native deployment/operational acceptance.
