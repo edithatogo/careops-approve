@@ -53,3 +53,16 @@ only transitive certifi to2026.10.18 with official hashes, preserving direct pin
 module tests, native ownership and existing protections. This consumer still
 requires all applicable current-head checks, including the actual Windows PAC
 package, before normal merge. Previous workflow refs and lock provide rollback.
+
+
+## Selective SharePoint library columns — 19 October 2026
+
+User-selected implementation direction: reuse library columns for artifact identity, provenance, filtering and routing where the output already belongs in SharePoint. Reuse existing columns/content types and exact internal names before adding fields. This extends the structured-document preference; it is not proof of automatic Word-body generation.
+
+Priority: when the next document/evidence output is implemented. Retain authoritative request/decision identity, reviewed document revision, template/source versions and output revision on supporting artifacts. Approval must remain bound to the exact reviewed revision in its authoritative record; updating a column never grants approval.
+
+Acceptance: map each property to its existing authoritative source and verify its actual type/internal name; read back the affected saved values and file identity. Update only changed values, guard modification-trigger loops and retries, and retain a recoverable preimage. Preserve human edits, original/issued history and exact reviewed revisions. Add no duplicate register, notifications, approval workflow, permission change, licence or runtime. Avoid putting private/internal-only values into properties that may travel inside a downloaded Office file.
+
+Metadata readback and visible body rendering are separate checks. The Clinical trial stored a changed property while Word for the web still displayed the old body value. Do not claim scalar body refresh, narrative/repeating sections or generated Word/PDF fidelity from metadata success. Qualify those behaviours only for the selected document shape; retain working/manual outputs on a specific gap. Record one result in existing evidence, not another readiness pack.
+
+Reference: https://learn.microsoft.com/sharepoint/dev/business-apps/power-automate/sharepoint-connector-actions-triggers
