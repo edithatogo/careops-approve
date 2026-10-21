@@ -6,3 +6,6 @@ jsonschema==4.26.0
 types-jsonschema==4.26.0.20261006
 pip-audit==2.10.1
 zizmor==1.31.1
+
+# Security-qualified CA bundle; PYSEC-2026-4320 repair.
+certifi==2026.10.19
