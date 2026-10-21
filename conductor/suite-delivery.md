@@ -66,3 +66,17 @@ Acceptance: map each property to its existing authoritative source and verify it
 Metadata readback and visible body rendering are separate checks. The Clinical trial stored a changed property while Word for the web still displayed the old body value. Do not claim scalar body refresh, narrative/repeating sections or generated Word/PDF fidelity from metadata success. Qualify those behaviours only for the selected document shape; retain working/manual outputs on a specific gap. Record one result in existing evidence, not another readiness pack.
 
 Reference: https://learn.microsoft.com/sharepoint/dev/business-apps/power-automate/sharepoint-connector-actions-triggers
+
+
+## Empty runtime deployment refusal — 22 October 2026
+
+The source remains an empty CareOpsApprove solution scaffold. Pilot dispatch now
+requires runtime root components before tooling, checker or import, rather than
+checking only that Solution.xml exists. Ordinary scaffold/package validation
+remains allowed and is not runtime implementation or native deployment proof.
+Local source and workflow contracts pass, the actual empty pilot precondition
+refuses as intended, and the full offline repository validation passes.
+Next: recover source-readable owned components through the exact existing target
+and qualify source parity, references and recovery; do not create placeholder
+components to satisfy the release precondition. Historical July native evidence
+and its permissions/authentication limitations remain historical.

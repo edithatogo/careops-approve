@@ -1,5 +1,5 @@
 [CmdletBinding()]
-param()
+param([switch]$RequireRuntimeComponents)
 
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
@@ -28,4 +28,8 @@ foreach ($file in $tracked) {
     if ($content -match '(?i)(crm[0-9]*\.dynamics\.com|client[_-]?secret|tenant[_-]?id\s*[:=]\s*[0-9a-f-]{20,})') { throw "Tenant-specific value found in solution source: $file" }
 }
 
-Write-Output 'Solution source validation passed.'
+$rootComponents = @($solutionXml.SelectNodes('/ImportExportXml/SolutionManifest/RootComponents/RootComponent'))
+if ($RequireRuntimeComponents -and $rootComponents.Count -eq 0) {
+    throw 'Pilot deployment refused: solution contains no runtime root components. Harvest and qualify owned components first; scaffold validation is not deployment readiness.'
+}
+Write-Output "Solution source validation passed ($($rootComponents.Count) root components; runtime/deployment qualification not inferred)."

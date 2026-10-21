@@ -13,6 +13,11 @@ foreach ($required in @('microsoft/powerplatform-actions/actions-install', 'micr
 foreach ($required in @('microsoft/powerplatform-actions/check-solution', 'microsoft/powerplatform-actions/import-solution')) {
     if ($deploy -notmatch ([regex]::Escape($required) + '@[0-9a-f]{40}(?:\s|$)')) { throw "Deploy workflow is missing $required." }
 }
+$sourceGate = $deploy.IndexOf('./scripts/Test-SolutionSource.ps1 -RequireRuntimeComponents')
+$installTools = $deploy.IndexOf('microsoft/powerplatform-actions/actions-install@')
+if ($sourceGate -lt 0 -or $installTools -lt 0 -or $sourceGate -gt $installTools) {
+    throw 'Deploy must reject an empty runtime solution before tooling, checker or import.'
+}
 if ($deploy -notmatch 'environment: pilot') { throw 'Deploy workflow must retain the pilot environment gate.' }
 if ($dependabot -notmatch 'package-ecosystem: github-actions' -or $dependabot -notmatch 'interval: weekly') { throw 'Dependabot must monitor GitHub Actions weekly.' }
 if ($dependabot -notmatch 'update-types: \["minor", "patch"\]') { throw 'Dependabot must group only non-major action updates.' }

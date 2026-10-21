@@ -26,9 +26,7 @@ jobs:
       - name: Require solution source
         shell: pwsh
         run: |
-          if (-not (Test-Path 'src/solutions/CareOpsApprove/Other/Solution.xml')) {
-            throw 'CareOpsApprove solution source has not been harvested yet.'
-          }
+          ./scripts/Test-SolutionSource.ps1 -RequireRuntimeComponents
 
       - name: Validate repository contracts
         shell: pwsh
