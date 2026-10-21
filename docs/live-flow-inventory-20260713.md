@@ -12,7 +12,9 @@ flow GUIDs, connection IDs, UPNs, payloads, run links, tokens, and screenshots.
 - PAC can enumerate the available environments and Dataverse solutions.
 - The developer environment contains the managed solution
   `MSCG_OperationalInbox` (version `1.0.11`).
-- PAC does not provide a cloud-flow subcommand. A managed solution cannot be
+- At this July snapshot, PAC did not provide a cloud-flow subcommand. Current
+  PAC 2.14.1 adds preview read-only cloud-flow/action/run inventory; it does not
+  provide invocation or establish current access to this historical target. A managed solution cannot be
   exported as an unmanaged source package, so structural flow export remains a
   maker-surface or solution-source task.
 

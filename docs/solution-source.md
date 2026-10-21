@@ -25,11 +25,19 @@ The repository workflow uses `microsoft/powerplatform-actions` to pack the same
 folder in CI. Authenticated checker and import steps remain protected deployment
 operations and are not run locally with personal credentials.
 
-On the current workstation, the `pac` command is only a stale Scoop shim whose
-target `C:\Users\\<user>\\AppData\\Local\\Microsoft\\PowerAppsCLI\\pac.cmd`
-is absent. Local structural validation therefore runs now, while the official
-Power Platform pack action remains the authoritative package smoke test until
-Power Platform CLI is installed through an approved channel.
+The July workstation note about a missing Windows Scoop target is historical.
+Use the exact qualified PAC executable/version for the current host; the installed
+VS Code route and isolated NuGet CLI are distinct from a stale PATH shim. Current
+PAC 2.14.1 exposes preview cloud-flow/action/run inventory, but no cloud-flow run
+command. Command availability does not prove authenticated target access.
+
+The pilot deployment workflow runs `Test-SolutionSource.ps1
+-RequireRuntimeComponents` before installing tools or invoking checker/import.
+The current empty `RootComponents` scaffold is deliberately refused. Ordinary
+source validation and offline package smoke tests remain useful, but their green
+results do not establish a deployable intake-to-correction implementation.
+A nonempty manifest is necessary, not sufficient: source/component parity,
+connections, exact-target rights and scoped recovery still require qualification.
 
 ## Configuration boundary
 
