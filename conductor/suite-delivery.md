@@ -14,7 +14,11 @@ The ordered cross-repository queue is in [the module profile](../.careops/module
 Take its first eligible task after preserving the current in-flight operation.
 A completed MVP is not reopened by this queue: optional improvements follow the
 selected slice and remain optional. Keep detailed progress in the existing track.
-Do not create another track, chat, acceptance pack or status ledger for alignment.
+Do not create another track, chat, acceptance pack or status ledger for alignment
+unless the user explicitly requests one. On 23 October 2026 the user requested a
+dedicated Python 3.15 track in each repository. Its [qualification plan](tracks/python315_qualification_20261023/plan.md)
+is the single detailed Python migration ledger; the suite adoption track retains
+shared CI/release work and links to it rather than duplicating Python progress.
 
 1. **package** — Inspect the actual solution source and finish the smallest packageable intake-to-correction slice; distinguish scaffold-only steps.
    Done when: The existing unmanaged source package is verified in PR76; compiled/native components and deployment remain separately unqualified. Missing source does not count as a successful build.
