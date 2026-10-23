@@ -51,7 +51,7 @@ class Job:
         if type(self.attempt) is not int or not 0 <= self.attempt <= self.max_attempts:
             raise ValueError("Attempt counter must be an integer within the configured budget")
 
-    def start(self, at: datetime) -> "Job":
+    def start(self, at: datetime) -> Job:
         """Plan one attempt; callers dispatch an isolated worker after committing."""
         instant = _utc(at)
         if self.phase not in {Phase.QUEUED, Phase.RETRY} or self.attempt >= self.max_attempts:
@@ -69,7 +69,7 @@ class Job:
         if not token or token != self.token:
             raise ValueError("Stale or mismatched attempt token")
 
-    def fail(self, token: str, at: datetime, reason: str = "worker-failed") -> "Job":
+    def fail(self, token: str, at: datetime, reason: str = "worker-failed") -> Job:
         """Record only an allowlisted technical cause, never raw exception text."""
         self._check_token(token)
         instant = _utc(at)
@@ -86,7 +86,7 @@ class Job:
                        deadline=None, ready_at=instant + timedelta(seconds=self.retry_seconds),
                        result=result)
 
-    def finish(self, token: str, result: Result, at: datetime) -> "Job":
+    def finish(self, token: str, result: Result, at: datetime) -> Job:
         """Accept a version-bound response; findings are not technical failures.
 
         Exact successful replay is harmless. Late/forged events cannot replace
@@ -108,7 +108,7 @@ class Job:
             return self.fail(token, instant, "worker-failed")
         return replace(self, phase=Phase.COMPLETE, deadline=None, result=checked)
 
-    def expire(self, at: datetime) -> "Job":
+    def expire(self, at: datetime) -> Job:
         """A watchdog advances only this lease; no worker needs to return first."""
         instant = _utc(at)
         if self.phase == Phase.RUNNING and self.deadline is not None and instant >= self.deadline:
