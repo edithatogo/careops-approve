@@ -19,3 +19,10 @@ remains manual; no tenant qualification follows from offline package success.
 - [ ] Qualify all PR checks and inspect actual ZIP/SBOM contents.
 - [ ] Merge with every current-head check green; verify main signatures and exact source/workflow identity from downloaded artifacts.
 - [ ] Complete actual optional-interface compatibility; package provenance does not establish deployment or native acceptance.
+
+## User-selected Python migration track — 23 October 2026
+
+Detailed Python runtime inventory, migration and handover progress is maintained
+only in [the dedicated qualification plan](../python315_qualification_20261023/plan.md).
+Existing completed qualification above remains historical evidence; shared CI and
+release tasks stay here. Do not duplicate its open Python checklist.
