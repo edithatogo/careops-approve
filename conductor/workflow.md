@@ -47,3 +47,9 @@ At the end of every phase:
 A task is complete when its validation passes, documentation is current, tenant
 behaviour has been manually verified where required, and the corresponding commit
 is recorded in the track plan.
+
+## Targeted test cadence
+
+Follow AGENTS.md targeted-test guidance during edits. Preserve full integration,
+coverage and release gates at coherent milestones. Cached or zero-test results
+are not complete acceptance evidence.
