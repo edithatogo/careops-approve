@@ -1,5 +1,5 @@
 # Exact CI-only tools; qualify generated locks before promotion.
-coverage==7.16.2
+coverage==7.17.0
 mypy==2.4.0
 ruff==0.17.1
 jsonschema==4.26.0
