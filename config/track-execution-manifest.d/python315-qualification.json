@@ -1,0 +1,28 @@
+{
+  "trackId": "python315_qualification_20261023",
+  "firstPendingTask": "P1.1 Inventory every active Python surface",
+  "startFiles": [
+    "conductor/tracks/python315_qualification_20261023/plan.md",
+    "AGENTS.md",
+    ".python-version"
+  ],
+  "writeScope": [
+    "conductor/tracks/python315_qualification_20261023/",
+    "conductor/tracks.md",
+    "config/track-execution-manifest.d/python315-qualification.json"
+  ],
+  "validationCommands": [
+    "pwsh -NoProfile -File scripts/Test-TrackExecutionManifest.ps1",
+    "pwsh -NoProfile -File scripts/Test-Repository.ps1 -SkipRemoteTopology"
+  ],
+  "prerequisites": [
+    "Preserve other writers and reuse qualified Python 3.15.1 evidence"
+  ],
+  "stopConditions": [
+    "No native deployment or authentication change",
+    "Do not merge failed checks or replace a running environment"
+  ],
+  "issues": {
+    "github": "https://github.com/edithatogo/careops-approve/pull/86"
+  }
+}
