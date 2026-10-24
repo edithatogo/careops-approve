@@ -4,7 +4,7 @@
     "local>edithatogo/renovate-config"
   ],
   "enabledManagers": [
-    "pip_requirements"
+    "pip-compile"
   ],
   "ignoreUnstable": false,
   "timezone": "Australia/Brisbane",
@@ -19,5 +19,13 @@
       ],
       "automerge": false
     }
-  ]
+  ],
+  "pip-compile": {
+    "managerFilePatterns": [
+      "/^requirements-ci\\.lock$/"
+    ]
+  },
+  "pip_requirements": {
+    "enabled": false
+  }
 }

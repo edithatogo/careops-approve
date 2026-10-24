@@ -26,3 +26,14 @@ Detailed Python runtime inventory, migration and handover progress is maintained
 only in [the dedicated qualification plan](../python315_qualification_20261023/plan.md).
 Existing completed qualification above remains historical evidence; shared CI and
 release tasks stay here. Do not duplicate its open Python checklist.
+
+## Paired CI lock updates
+
+- [x] Diagnose the declaration-only dependency candidates against failed required
+  checks and the actual Renovate header extractor.
+- [x] Configure lock-aware discovery, disable duplicate proposals and preserve a
+  supported header through independent no-config regeneration. Keep stale-lock
+  refusal, full branch coverage, hash installation and source-security gates.
+- [~] Qualify the Certifi repair and updater fix on current-head hosted checks;
+  merge only after review, then verify main and the retained regeneration artifact.
+  Local installed Python is3.15.1; no tenant objects or delivery are changed.
