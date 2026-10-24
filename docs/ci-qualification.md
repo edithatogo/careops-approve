@@ -5,15 +5,22 @@ Power Platform package checks. Shared source security is called at immutable
 CareOps revision 3712b88f438b046e68fe37d8db2f4b6a4387b473. Actions and trusted
 helpers must remain pinned to reviewed commits; no inherited tenant secrets.
 
-`lock-refresh.yml` automatically regenerates the exact-pinned, hash-locked CI
-dependencies when their declarations change. It installs the candidate, runs the
-existing Python checks and retains a lock, digest receipt and patch. The source
-owner applies the generated patch to the same update branch and verifies all
-current-head checks before merge. Regeneration fails if the generated lock differs from the committed lock,
-while preserving the candidate artifact. An artifact is a repair candidate, not
-an applied update. Do not bypass checks or add a privileged PR-code workflow to
-write patches. Dependabot owns weekly Actions updates; Renovate owns Python
-requirement proposals, including prereleases, without automatic merging.
+Renovate's `pip-compile` manager owns `requirements-ci.txt` together with
+`requirements-ci.lock`; the separate `pip_requirements` updater is disabled to
+prevent declaration-only candidates. Prereleases remain eligible for qualification,
+with no automatic merge. The discoverable lock header uses explicit `=value`
+options and the supported uv command. The independent, immutable CareOps generator
+still runs with `--no-config`; `UV_CUSTOM_COMPILE_COMMAND` preserves that canonical
+header without changing resolution or artifact hashes.
+
+`lock-refresh.yml` independently regenerates the exact-pinned, hash-locked CI
+dependencies, installs the result, runs the existing Python checks and refuses
+any difference from the committed lock. This parity gate also prevents an updater's
+resolver configuration from silently changing the accepted dependency set.
+A failed run retains a lock, digest receipt and patch for recovery; an artifact
+is a repair candidate, not an applied update. Do not bypass checks or add a
+privileged PR-code workflow to write patches. Dependabot owns weekly Actions
+updates; Renovate owns the paired Python proposals.
 
 `development-canary.yml` runs weekly, on relevant CI pull requests and manually.
 Its tool candidate resolves current prereleases into a separate hash lock,
