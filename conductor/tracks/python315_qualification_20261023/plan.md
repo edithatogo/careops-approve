@@ -21,3 +21,14 @@
 ## Current boundary
 
 A track or prompt is not an armed goal or completed runtime migration. Shared chat goal creation was rejected due to its unfinished goal.
+
+## Stable helper-environment increment
+
+Six stable Python CI job definitions now create and verify repo-local Python
+3.15.1 after checkout or artifact download, refusing existing/dangling paths and
+wrong versions before exporting PATH. Use platform-native Scripts/bin selection;
+preserve all hash locks, 100 percent branch coverage, source pilots, PAC package
+identity and exact-source attestations. Local actual bootstrap/PATH/refusal tests,
+workflow checks and existing lock/repository regressions precede current-head and
+main Windows/Linux qualification. Preview canaries and native owners remain
+separate; no working environment or native operation is replaced.

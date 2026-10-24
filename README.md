@@ -92,3 +92,17 @@ repository validation.
 
 Original material in this repository is licensed under the MIT License.
 Third-party components retain their own terms.
+
+## Stable CI helper environments
+
+Stable reference, M365/studio source-pilot, package inventory/attestation and
+lock-regeneration jobs verify Python 3.15.1 in `.local/approve-ci` before invoking
+helpers. Existing files, directories and symlinks are refused. The selected
+interpreter creates the environment in isolated mode, verifies patch and prefix,
+and exports the native Scripts/bin directory only after success.
+
+Hash locks, complete branch-coverage gates, source/profile tests, PAC packaging
+and exact archive attestations remain required. Preview canaries retain their
+separate candidate paths; this stable-job increment does not qualify or replace
+them. No solution identity, native binding, running environment or delivery state
+changes through helper isolation.

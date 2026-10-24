@@ -22,8 +22,32 @@ jobs:
         with:
           persist-credentials: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        id: python_runtime
         with:
           python-version: ${{ matrix.python }}
+      - name: Create and verify the repository-local Python environment
+        shell: pwsh
+        env:
+          SELECTED_PYTHON: ${{ steps.python_runtime.outputs.python-path }}
+          EXPECTED_PYTHON: ${{ matrix.python }}
+        run: |
+          $environment = Join-Path $env:GITHUB_WORKSPACE '.local/approve-ci'
+          try { $existing = Get-Item -LiteralPath $environment -Force -ErrorAction Stop }
+          catch [System.Management.Automation.ItemNotFoundException] { $existing = $null }
+          if ($null -ne $existing) { throw 'Refusing a pre-existing helper environment.' }
+          & $env:SELECTED_PYTHON -I -m venv $environment
+          if ($LASTEXITCODE -ne 0) { throw 'Could not create the isolated helper environment.' }
+          $executable = Join-Path $environment $(if ($IsWindows) { 'Scripts/python.exe' } else { 'bin/python' })
+          @'
+          import os, pathlib, platform, sys, sysconfig
+          expected = pathlib.Path(os.environ['GITHUB_WORKSPACE']) / '.local/approve-ci'
+          if sys.version_info[:2] != (3, 15) or platform.python_version() != os.environ['EXPECTED_PYTHON'] or pathlib.Path(sys.prefix).resolve() != expected.resolve() or sys.prefix == sys.base_prefix:
+              raise SystemExit('Expected the selected repository-local Python 3.15 interpreter.')
+          with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as output:
+              output.write(sysconfig.get_path('scripts') + '\n')
+          print('Verified repository-local Python', platform.python_version())
+          '@ | & $executable -I -
+          if ($LASTEXITCODE -ne 0) { throw 'Isolated helper runtime verification failed.' }
       - name: Install pinned pilot and test dependencies
         run: |
           python .github/scripts/test-ci-lock.py
