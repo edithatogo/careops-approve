@@ -1,0 +1,4 @@
+
+# Preserve exact licence sidecar bytes across packaging and attestation runners.
+/LICENSE text eol=lf
+/NOTICE text eol=lf
