@@ -32,8 +32,33 @@ jobs:
           persist-credentials: false
           submodules: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        id: python_runtime
         with:
           python-version: '3.15.1'
+      - name: Create and verify the canary helper environment
+        id: helper
+        shell: pwsh
+        env:
+          SELECTED_PYTHON: ${{ steps.python_runtime.outputs.python-path }}
+          EXPECTED_PYTHON: '3.15.1'
+        run: |
+          $environment = Join-Path $env:GITHUB_WORKSPACE '.local/approve-canary-helper'
+          try { $existing = Get-Item -LiteralPath $environment -Force -ErrorAction Stop }
+          catch [System.Management.Automation.ItemNotFoundException] { $existing = $null }
+          if ($null -ne $existing) { throw 'Refusing a pre-existing helper environment.' }
+          & $env:SELECTED_PYTHON -I -m venv $environment
+          if ($LASTEXITCODE -ne 0) { throw 'Could not create the isolated helper environment.' }
+          $executable = Join-Path $environment $(if ($IsWindows) { 'Scripts/python.exe' } else { 'bin/python' })
+          @'
+          import os, pathlib, platform, sys, sysconfig
+          expected = pathlib.Path(os.environ['GITHUB_WORKSPACE']) / '.local/approve-canary-helper'
+          if sys.version_info[:2] != (3, 15) or platform.python_version() != os.environ['EXPECTED_PYTHON'] or pathlib.Path(sys.prefix).resolve() != expected.resolve() or sys.prefix == sys.base_prefix:
+              raise SystemExit('Expected the selected repository-local Python 3.15 interpreter.')
+          with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as output:
+              output.write(sysconfig.get_path('scripts') + '\n')
+          print('Verified repository-local Python', platform.python_version())
+          '@ | & $executable -I -
+          if ($LASTEXITCODE -ne 0) { throw 'Isolated helper runtime verification failed.' }
       - uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
         with:
           version: '0.13.5'
@@ -41,12 +66,24 @@ jobs:
       - name: Resolve exact preview candidates without changing the working lock
         run: python .local/ci-policy/portfolio-scripts/ci_delivery.py lock --preview --output .local/canary/requirements.lock --receipt .local/canary/candidate.json
       - name: Install only the resolved hash-locked candidate
-        run: python -m pip install --require-hashes -r .local/canary/requirements.lock
+        run: |
+          candidate="$GITHUB_WORKSPACE/.local/approve-tool-candidate"
+          if [ -e "$candidate" ] || [ -L "$candidate" ]; then
+            echo 'Refusing an existing candidate environment.' >&2
+            exit 1
+          fi
+          python -I -m venv "$candidate"
+          "$candidate/bin/python" -I - "$candidate" <<'PYCODE'
+          import pathlib, platform, sys
+          if platform.python_version() != '3.15.1' or pathlib.Path(sys.prefix).resolve() != pathlib.Path(sys.argv[1]).resolve() or sys.prefix == sys.base_prefix:
+              raise SystemExit('Expected the selected local tool-candidate interpreter.')
+          PYCODE
+          "$candidate/bin/python" -m pip install --require-hashes -r .local/canary/requirements.lock
       - name: Qualify affected tools and source behaviour
         run: |
-          python .github/scripts/qualify-python.py
-          pip-audit --disable-pip --no-deps -r .local/canary/requirements.lock
-          zizmor --offline --persona pedantic --format plain .github/workflows
+          "$GITHUB_WORKSPACE/.local/approve-tool-candidate/bin/python" .github/scripts/qualify-python.py
+          "$GITHUB_WORKSPACE/.local/approve-tool-candidate/bin/pip-audit" --disable-pip --no-deps -r .local/canary/requirements.lock
+          "$GITHUB_WORKSPACE/.local/approve-tool-candidate/bin/zizmor" --offline --persona pedantic --format plain .github/workflows
       - name: Keep exact candidate evidence even after a qualification failure
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -74,8 +111,33 @@ jobs:
           persist-credentials: false
           submodules: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        id: python_runtime
         with:
           python-version: '3.15.1'
+      - name: Create and verify the canary helper environment
+        id: helper
+        shell: pwsh
+        env:
+          SELECTED_PYTHON: ${{ steps.python_runtime.outputs.python-path }}
+          EXPECTED_PYTHON: '3.15.1'
+        run: |
+          $environment = Join-Path $env:GITHUB_WORKSPACE '.local/approve-canary-helper'
+          try { $existing = Get-Item -LiteralPath $environment -Force -ErrorAction Stop }
+          catch [System.Management.Automation.ItemNotFoundException] { $existing = $null }
+          if ($null -ne $existing) { throw 'Refusing a pre-existing helper environment.' }
+          & $env:SELECTED_PYTHON -I -m venv $environment
+          if ($LASTEXITCODE -ne 0) { throw 'Could not create the isolated helper environment.' }
+          $executable = Join-Path $environment $(if ($IsWindows) { 'Scripts/python.exe' } else { 'bin/python' })
+          @'
+          import os, pathlib, platform, sys, sysconfig
+          expected = pathlib.Path(os.environ['GITHUB_WORKSPACE']) / '.local/approve-canary-helper'
+          if sys.version_info[:2] != (3, 15) or platform.python_version() != os.environ['EXPECTED_PYTHON'] or pathlib.Path(sys.prefix).resolve() != expected.resolve() or sys.prefix == sys.base_prefix:
+              raise SystemExit('Expected the selected repository-local Python 3.15 interpreter.')
+          with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as output:
+              output.write(sysconfig.get_path('scripts') + '\n')
+          print('Verified repository-local Python', platform.python_version())
+          '@ | & $executable -I -
+          if ($LASTEXITCODE -ne 0) { throw 'Isolated helper runtime verification failed.' }
       - name: Verify failed discovery retains a terminal receipt
         run: |
           probe_receipt=".local/runtime-contract-probe/discovery.json"
@@ -103,6 +165,7 @@ jobs:
           runtime_platform="$(python -c 'import platform; print(platform.freedesktop_os_release()["VERSION_ID"])')"
           python .local/ci-policy/portfolio-scripts/ci_delivery.py runtime --platform-version "$runtime_platform" --manifest .local/runtime-canary/manifest.json --manifest-revision "$runtime_manifest_revision" --output .local/runtime-canary/discovery.json --github-output "$GITHUB_OUTPUT"
       - name: Set up the exact available preview only
+        id: preview
         if: steps.discover.outputs.available == 'true'
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
@@ -110,21 +173,43 @@ jobs:
           allow-prereleases: true
       - name: Record the resolved runtime and install current qualified tools
         if: steps.discover.outputs.available == 'true'
+        env:
+          SELECTED_PREVIEW: ${{ steps.preview.outputs.python-path }}
+          EXPECTED_PREVIEW: ${{ steps.discover.outputs.version }}
         run: |
+          preview="$GITHUB_WORKSPACE/.local/approve-preview"
+          if [ -e "$preview" ] || [ -L "$preview" ]; then
+            echo 'Refusing an existing preview environment.' >&2
+            exit 1
+          fi
+          "$SELECTED_PREVIEW" -I -m venv "$preview"
+          "$preview/bin/python" -I - <<'PYCODE'
+          import os, pathlib, platform, sys
+          expected = pathlib.Path(os.environ['GITHUB_WORKSPACE']) / '.local/approve-preview'
+          if sys.version_info[:2] != (3, 15) or platform.python_version() != os.environ['EXPECTED_PREVIEW'] or pathlib.Path(sys.prefix).resolve() != expected.resolve() or sys.prefix == sys.base_prefix:
+              raise SystemExit('Expected the selected local preview interpreter.')
+          PYCODE
           mkdir -p .local/runtime-canary
-          python -VV > .local/runtime-canary/python-version.txt
-          python -m pip install --require-hashes -r requirements-ci.lock
+          "$preview/bin/python" -VV > .local/runtime-canary/python-version.txt
+          "$preview/bin/python" -m pip install --require-hashes -r requirements-ci.lock
       - name: Test current source against development CPython
         id: runtime_tests
         if: steps.discover.outputs.available == 'true'
         run: |
-          python .github/scripts/qualify-python.py
+          "$GITHUB_WORKSPACE/.local/approve-preview/bin/python" .github/scripts/qualify-python.py
       - name: Record the actual runtime qualification outcome
         if: always()
         env:
+          HELPER_OUTCOME: ${{ steps.helper.outcome }}
           DISCOVERY_OUTCOME: ${{ steps.discover.outcome }}
           RUNTIME_TEST_OUTCOME: ${{ steps.runtime_tests.outcome }}
-        run: python .local/ci-policy/portfolio-scripts/ci_delivery.py runtime-finalize --receipt .local/runtime-canary/discovery.json --outcome "$RUNTIME_TEST_OUTCOME" --discovery-outcome "$DISCOVERY_OUTCOME"
+        run: |
+          if [ "$HELPER_OUTCOME" != success ] || [ ! -x "$GITHUB_WORKSPACE/.local/approve-canary-helper/bin/python" ]; then
+            mkdir -p .local/runtime-canary
+            printf '%s\n' '{"state":"setup-blocked","promoted":false,"runtimeTestsExecuted":false,"reason":"verified-helper-unavailable"}' > .local/runtime-canary/helper-failure.json
+            exit 1
+          fi
+          "$GITHUB_WORKSPACE/.local/approve-canary-helper/bin/python" -I .local/ci-policy/portfolio-scripts/ci_delivery.py runtime-finalize --receipt .local/runtime-canary/discovery.json --outcome "$RUNTIME_TEST_OUTCOME" --discovery-outcome "$DISCOVERY_OUTCOME"
       - if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -145,8 +230,33 @@ jobs:
         with:
           persist-credentials: false
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        id: python_runtime
         with:
           python-version: '3.15.1'
+      - name: Create and verify the canary helper environment
+        id: helper
+        shell: pwsh
+        env:
+          SELECTED_PYTHON: ${{ steps.python_runtime.outputs.python-path }}
+          EXPECTED_PYTHON: '3.15.1'
+        run: |
+          $environment = Join-Path $env:GITHUB_WORKSPACE '.local/approve-canary-helper'
+          try { $existing = Get-Item -LiteralPath $environment -Force -ErrorAction Stop }
+          catch [System.Management.Automation.ItemNotFoundException] { $existing = $null }
+          if ($null -ne $existing) { throw 'Refusing a pre-existing helper environment.' }
+          & $env:SELECTED_PYTHON -I -m venv $environment
+          if ($LASTEXITCODE -ne 0) { throw 'Could not create the isolated helper environment.' }
+          $executable = Join-Path $environment $(if ($IsWindows) { 'Scripts/python.exe' } else { 'bin/python' })
+          @'
+          import os, pathlib, platform, sys, sysconfig
+          expected = pathlib.Path(os.environ['GITHUB_WORKSPACE']) / '.local/approve-canary-helper'
+          if sys.version_info[:2] != (3, 15) or platform.python_version() != os.environ['EXPECTED_PYTHON'] or pathlib.Path(sys.prefix).resolve() != expected.resolve() or sys.prefix == sys.base_prefix:
+              raise SystemExit('Expected the selected repository-local Python 3.15 interpreter.')
+          with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as output:
+              output.write(sysconfig.get_path('scripts') + '\n')
+          print('Verified repository-local Python', platform.python_version())
+          '@ | & $executable -I -
+          if ($LASTEXITCODE -ne 0) { throw 'Isolated helper runtime verification failed.' }
       - name: Read published SDK metadata and test fail-closed selection
         id: discover
         run: |
