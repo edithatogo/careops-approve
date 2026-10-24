@@ -106,3 +106,16 @@ and exact archive attestations remain required. Preview canaries retain their
 separate candidate paths; this stable-job increment does not qualify or replace
 them. No solution identity, native binding, running environment or delivery state
 changes through helper isolation.
+
+## Development canary environments
+
+Tool, runtime and SDK-discovery canaries create a verified repository-local
+Python 3.15.1 helper before running Python. Preview tools install only into
+`.local/approve-tool-candidate`; an available CPython preview runs only in
+`.local/approve-preview`, with its exact selected version and 3.15 line verified.
+Existing environment paths are refused. Runtime finalization explicitly uses the
+verified helper even after preview setup changes PATH; if that helper failed, a
+shell-only failure receipt is retained without executing an unverified binary.
+Candidate locks, all source/coverage/security gates and SDK packaging remain
+unchanged. A canary result is evidence for a candidate, never automatic promotion
+or native acceptance.

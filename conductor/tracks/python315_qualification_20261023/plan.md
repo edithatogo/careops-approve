@@ -32,3 +32,11 @@ identity and exact-source attestations. Local actual bootstrap/PATH/refusal test
 workflow checks and existing lock/repository regressions precede current-head and
 main Windows/Linux qualification. Preview canaries and native owners remain
 separate; no working environment or native operation is replaced.
+
+## Development canary isolation increment
+
+- [~] Isolate the three stable canary helper jobs and separate preview tool/runtime
+  environments; verify exact versions, prefix selection and stale-path refusal.
+- [ ] Qualify changed workflow and actual hosted candidate/runtime/SDK outcomes,
+  retaining unavailable discovery separately from tests executed. Merge only with
+  current-head checks green and verify main; preserve existing native owners.
