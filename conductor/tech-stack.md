@@ -80,3 +80,7 @@ are separately approved.
 - Deployment remains subject to tenant app, environment, DLP, retention, and licensing policy.
 - Preview capabilities must not become production dependencies without a recorded
   architecture decision and a supported fallback.
+
+Project-owned code uses Apache-2.0 under the user-selected portfolio standard.
+Preserve third-party terms, attribution, historical evidence and private-source
+rights; qualify source/package changes without changing native authority.

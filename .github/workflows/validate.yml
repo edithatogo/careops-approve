@@ -104,6 +104,9 @@ jobs:
           python .careops-ci-tools/portfolio-scripts/artifact_sbom.py --artifact out/CareOpsApprove_unmanaged.zip --name CareOpsApprove-unmanaged --source-commit $env:SOURCE_COMMIT --created-epoch $epoch --output out/CareOpsApprove.spdx.json
           if ($LASTEXITCODE -ne 0) { throw 'Actual package inventory failed.' }
 
+      - name: Include project licence and notice beside the package
+        shell: pwsh
+        run: Copy-Item LICENSE, NOTICE -Destination out
       - name: Upload solution artifact
         if: ${{ hashFiles('src/solutions/CareOpsApprove/Other/Solution.xml') != '' }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
@@ -112,6 +115,8 @@ jobs:
           path: |
             out/CareOpsApprove_unmanaged.zip
             out/CareOpsApprove.spdx.json
+            out/LICENSE
+            out/NOTICE
           if-no-files-found: error
 
   attest-package:
@@ -125,6 +130,10 @@ jobs:
       id-token: write # Federated signing for the exact previously built package.
       attestations: write # Store package provenance and SPDX signatures only.
     steps:
+      - name: Read exact source licence and attribution
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - name: Download the package built once by this run
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
@@ -175,6 +184,8 @@ jobs:
               actual = {entry.filename: hashlib.sha256(archive.read(entry)).hexdigest() for entry in entries}
           declared = {entry['fileName'].removeprefix('./'): next(c['checksumValue'] for c in entry['checksums'] if c['algorithm'] == 'SHA256') for entry in document['files']}
           assert actual and len(declared) == len(document['files']) and actual == declared
+          for name in ('LICENSE', 'NOTICE'):
+              assert Path('candidate', name).read_bytes() == Path(name).read_bytes()
           print('Exact downloaded archive and all file digests match the inventory.')
           PYCODE
       - name: Attest build provenance

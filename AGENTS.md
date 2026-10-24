@@ -43,3 +43,10 @@ Existing runner example (select the actual changed case, not this example blindl
 ```sh
 "$REPO_PYTHON" -m unittest discover -s tests/studio -p test_entrypoint.py -v
 ```
+
+## Project-owned code licensing
+
+Use Apache-2.0 for project-owned source and active package metadata. Include the
+licence and notice in source distributions. Preserve third-party terms, notices
+and attribution, historical evidence and private/external source rights. This
+standard changes no publication, native, access or email authority.

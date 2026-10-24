@@ -90,7 +90,7 @@ repository validation.
 
 ## Licence
 
-Original material in this repository is licensed under the MIT License.
+Original material in this repository is licensed under Apache-2.0.
 Third-party components retain their own terms.
 
 ## Stable CI helper environments
@@ -119,3 +119,5 @@ shell-only failure receipt is retained without executing an unverified binary.
 Candidate locks, all source/coverage/security gates and SDK packaging remain
 unchanged. A canary result is evidence for a candidate, never automatic promotion
 or native acceptance.
+
+Retain [LICENSE](LICENSE) and [NOTICE](NOTICE) with project-owned source distributions.
