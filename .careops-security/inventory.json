@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "purpose": "Tracked-path continuity baseline, not content/privacy approval",
   "files": [
+    ".careops-security/.gitattributes",
     ".careops-security/.gitignore",
     ".careops-security/LICENSE",
     ".careops-security/NOTICE",
